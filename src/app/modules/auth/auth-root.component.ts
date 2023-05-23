@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: styles.scss
- * Last modified: 14/05/2023, 17:07
+ * File name: auth-root.component.ts
+ * Last modified: 23/05/2023, 09:45
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,17 +22,19 @@
  * or other dealings in the software.
  */
 
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+import { Component } from "@angular/core";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-.form-width {
-    width: 100%;
-    &.max {
-        max-width: 850px;
-    }
-    &.min {
-        max-width: 500px;
-    }
+@Component({
+    selector: "app-auth-root",
+    template: `
+        <div class="flex-fill">
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer></app-footer>
+    `,
+    host: { class: "d-flex flex-column h-100" },
+})
+export class AuthRootComponent {
 }

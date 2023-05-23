@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: styles.scss
- * Last modified: 14/05/2023, 17:07
+ * File name: footer.component.spec.ts
+ * Last modified: 23/05/2023, 09:46
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,17 +22,27 @@
  * or other dealings in the software.
  */
 
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { FooterComponent } from "./footer.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-.form-width {
-    width: 100%;
-    &.max {
-        max-width: 850px;
-    }
-    &.min {
-        max-width: 500px;
-    }
-}
+describe("FooterComponent", () => {
+    let component: FooterComponent;
+    let fixture: ComponentFixture<FooterComponent>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ FooterComponent ]
+        })
+            .compileComponents();
+
+        fixture = TestBed.createComponent(FooterComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});

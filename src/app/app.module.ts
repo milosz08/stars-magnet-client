@@ -2,7 +2,7 @@
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
  * File name: app.module.ts
- * Last modified: 14/05/2023, 17:10
+ * Last modified: 23/05/2023, 08:38
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -24,25 +24,27 @@
 
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppRoutingModule } from "./app-routing.module";
-import { AppComponent } from "./app.component";
-import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { CommonsModule } from "./modules/commons/commons.module";
+import { AppRootComponent } from "./app-root.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @NgModule({
     declarations: [
-        AppComponent,
+        AppRootComponent
     ],
     imports: [
         BrowserModule,
         AppRoutingModule,
         NgbModule,
+        CommonsModule,
     ],
     providers: [],
     bootstrap: [
-        AppComponent,
+        AppRootComponent,
     ],
 })
 export class AppModule {

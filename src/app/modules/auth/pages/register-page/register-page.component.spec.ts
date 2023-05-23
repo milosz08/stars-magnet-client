@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: styles.scss
- * Last modified: 14/05/2023, 17:07
+ * File name: register-page.component.spec.ts
+ * Last modified: 23/05/2023, 09:51
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,17 +22,27 @@
  * or other dealings in the software.
  */
 
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { RegisterPageComponent } from "./register-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-.form-width {
-    width: 100%;
-    &.max {
-        max-width: 850px;
-    }
-    &.min {
-        max-width: 500px;
-    }
-}
+describe("RegisterPageComponent", () => {
+    let component: RegisterPageComponent;
+    let fixture: ComponentFixture<RegisterPageComponent>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ RegisterPageComponent ]
+        })
+            .compileComponents();
+
+        fixture = TestBed.createComponent(RegisterPageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});

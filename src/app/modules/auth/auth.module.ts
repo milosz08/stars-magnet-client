@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: styles.scss
- * Last modified: 14/05/2023, 17:07
+ * File name: auth.module.ts
+ * Last modified: 23/05/2023, 09:53
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,17 +22,31 @@
  * or other dealings in the software.
  */
 
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { RouterModule } from "@angular/router";
+
+import { AuthRootComponent } from "./auth-root.component";
+import { AuthRoutingModule } from "./auth-routing.module";
+import { CommonsModule } from "../commons/commons.module";
+
+import { RegisterPageComponent } from "./pages/register-page/register-page.component";
+import { LoginPageComponent } from "./pages/login-page/login-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-.form-width {
-    width: 100%;
-    &.max {
-        max-width: 850px;
-    }
-    &.min {
-        max-width: 500px;
-    }
+@NgModule({
+    declarations: [
+        AuthRootComponent,
+        LoginPageComponent,
+        RegisterPageComponent,
+    ],
+    imports: [
+        CommonModule,
+        RouterModule,
+        CommonsModule,
+        AuthRoutingModule,
+    ],
+})
+export class AuthModule {
 }

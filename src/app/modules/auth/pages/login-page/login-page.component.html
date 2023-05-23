@@ -1,0 +1,55 @@
+<!--
+  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+  ~
+  ~ File name: login-page.component.html
+  ~ Last modified: 23/05/2023, 09:51
+  ~ Project name: stars-magnet-client
+  ~
+  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  ~
+  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
+  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
+  ~
+  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
+  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
+  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
+  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
+  ~ or other dealings in the software.
+  -->
+
+<div class="container d-flex justify-content-center align-items-center h-100">
+    <div class="row form-width min">
+        <div class="card">
+            <form class="card-body" novalidate>
+                <h4 class="text-center mb-3">Login</h4>
+                <hr/>
+                <div class="mb-3">
+                    <label for="loginOrEmail" class="form-label">Login/email address:</label>
+                    <input type="text" class="form-control is-invalid" id="loginOrEmail">
+                </div>
+                <div class="mb-3">
+                    <label for="password" class="form-label">Password:</label>
+                    <div class="input-group">
+                        <input type="password" class="form-control" id="password">
+                        <button class="input-group-text" type="button">
+                            <i class="bi bi-eye"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="col-12 mt-2">
+                    <button class="btn btn-primary w-100">
+                        Login
+                    </button>
+                </div>
+                <div class="col-12 mt-3 text-center">
+                    You don't have account yet? <a routerLink="/auth/register">Register</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

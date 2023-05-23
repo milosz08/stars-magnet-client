@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: styles.scss
- * Last modified: 14/05/2023, 17:07
+ * File name: commons.module.ts
+ * Last modified: 23/05/2023, 09:31
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,17 +22,27 @@
  * or other dealings in the software.
  */
 
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+
+import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
+import { StartPageComponent } from "./pages/start-page/start-page.component";
+import { FooterComponent } from "./components/footer/footer.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-.form-width {
-    width: 100%;
-    &.max {
-        max-width: 850px;
-    }
-    &.min {
-        max-width: 500px;
-    }
+@NgModule({
+    declarations: [
+        NotFoundPageComponent,
+        StartPageComponent,
+        FooterComponent,
+    ],
+    imports: [
+        CommonModule,
+    ],
+    exports: [
+        FooterComponent,
+    ],
+})
+export class CommonsModule {
 }

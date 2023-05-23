@@ -23,11 +23,22 @@
  */
 
 import { NgModule } from "@angular/core";
-import { RouterModule, Routes } from "@angular/router";
+import { RouterModule, Routes, TitleStrategy } from "@angular/router";
+
+import { TemplatePageTitleStrategy } from "./config/template-page-title.strategy";
+
+import { NotFoundPageComponent } from "./modules/commons/pages/not-found-page/not-found-page.component";
+import { StartPageComponent } from "./modules/commons/pages/start-page/start-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const routes: Routes = [];
+const routes: Routes = [
+    { path: "", component: StartPageComponent, title: "Start" },
+    { path: "login", redirectTo: "auth/login", pathMatch: "full" },
+    { path: "register", redirectTo: "auth/register", pathMatch: "full" },
+    { path: "auth", loadChildren: () => import("./modules/auth/auth.module").then(m => m.AuthModule) },
+    { path: "**", component: NotFoundPageComponent, title: "404" },
+];
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,6 +48,9 @@ const routes: Routes = [];
     ],
     exports: [
         RouterModule,
+    ],
+    providers: [
+        { provide: TitleStrategy, useClass: TemplatePageTitleStrategy },
     ],
 })
 export class AppRoutingModule {

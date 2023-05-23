@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: app.component.spec.ts
- * Last modified: 14/05/2023, 17:07
+ * File name: template-page-title.strategy.ts
+ * Last modified: 23/05/2023, 11:25
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,40 +22,33 @@
  * or other dealings in the software.
  */
 
-import { TestBed } from "@angular/core/testing";
-import { RouterTestingModule } from "@angular/router/testing";
-import { AppComponent } from "./app.component";
+import { Injectable } from "@angular/core";
+import { Title } from "@angular/platform-browser";
+import { RouterStateSnapshot, TitleStrategy } from "@angular/router";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("AppComponent", () => {
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            imports: [
-                RouterTestingModule
-            ],
-            declarations: [
-                AppComponent
-            ],
-        }).compileComponents();
-    });
+@Injectable({ providedIn: "root" })
+export class TemplatePageTitleStrategy extends TitleStrategy {
 
-    it("should create the app", () => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.componentInstance;
-        expect(app).toBeTruthy();
-    });
+    private readonly DEF_SUFFIX = "Stars Magnet";
 
-    it(`should have as title "Hello from angular!"`, () => {
-        const fixture = TestBed.createComponent(AppComponent);
-        const app = fixture.componentInstance;
-        expect(app.title).toEqual("Hello from angular!");
-    });
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-    it("should render title", () => {
-        const fixture = TestBed.createComponent(AppComponent);
-        fixture.detectChanges();
-        const compiled = fixture.nativeElement as HTMLElement;
-        expect(compiled.querySelector('.content span')?.textContent).toContain("stars-magnet-client app is running!");
-    });
-});
+    constructor(
+        private readonly _title: Title,
+    ) {
+        super();
+    };
+
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+    updateTitle(snapshot: RouterStateSnapshot): void {
+        const title = this.buildTitle(snapshot);
+        if (title !== undefined) {
+            this._title.setTitle(`${title} | ${this.DEF_SUFFIX}`);
+        } else {
+            this._title.setTitle(this.DEF_SUFFIX);
+        }
+    };
+}
