@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: register-page.component.ts
- * Last modified: 23/05/2023, 09:51
+ * File name: user-root.component.ts
+ * Last modified: 24/05/2023, 13:53
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -27,9 +27,13 @@ import { Component } from "@angular/core";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-register-page",
-    templateUrl: "./register-page.component.html",
-    styleUrls: [ "./register-page.component.scss" ],
+    selector: "app-user-root",
+    template: `
+        <div class="flex-fill">
+            <router-outlet></router-outlet>
+        </div>
+    `,
+    host: { class: "d-flex flex-column h-100" },
 })
-export class RegisterPageComponent {
+export class UserRootComponent {
 }
