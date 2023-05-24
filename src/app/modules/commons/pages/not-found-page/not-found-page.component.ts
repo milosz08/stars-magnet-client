@@ -30,6 +30,7 @@ import { Component } from "@angular/core";
     selector: "app-not-found-page",
     templateUrl: "./not-found-page.component.html",
     styleUrls: [ "./not-found-page.component.scss" ],
+    host: { class: "d-flex justify-content-center align-items-center flex-column h-100" },
 })
 export class NotFoundPageComponent {
 }
