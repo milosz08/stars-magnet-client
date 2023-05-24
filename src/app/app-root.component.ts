@@ -22,16 +22,47 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { first, Subject, takeUntil } from "rxjs";
+
+import { AuthService } from "./modules/commons/services/auth/auth.service";
+import { LazyLoaderService } from "./modules/commons/services/lazy-loader/lazy-loader.service";
+import { AbstractComponentReactiveProvider } from "./modules/commons/utils/abstract-component-reactive-provider";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
     selector: "app-root",
     template: `
-        <router-outlet></router-outlet>
+        <app-lazy-page-loader></app-lazy-page-loader>
+        <app-header></app-header>
+        <div class="d-flex flex-column flex-fill header-top-margin container">
+            <router-outlet></router-outlet>
+        </div>
+        <app-footer></app-footer>
     `,
     host: { class: "d-flex flex-column h-100" },
 })
-export class AppRootComponent {
+export class AppRootComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
+
+    private unsubscribe$: Subject<void> = new Subject<void>();
+
+    constructor(
+        private _router: Router,
+        private _authService: AuthService,
+        private _lazyLoaderService: LazyLoaderService,
+    ) {
+        super();
+    };
+
+    ngOnInit(): void {
+        this._lazyLoaderService.activateLazyLoader();
+        this._authService.refresh().pipe(first(), takeUntil(this.unsubscribe$)).subscribe();
+    };
+
+    ngOnDestroy(): void {
+        this.subjectCleanup();
+    };
 }
