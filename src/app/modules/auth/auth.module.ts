@@ -25,27 +25,33 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterModule } from "@angular/router";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
 
 import { AuthRootComponent } from "./auth-root.component";
 import { AuthRoutingModule } from "./auth-routing.module";
 import { CommonsModule } from "../commons/commons.module";
 
-import { RegisterPageComponent } from "./pages/register-page/register-page.component";
-import { LoginPageComponent } from "./pages/login-page/login-page.component";
+import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
+import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @NgModule({
     declarations: [
         AuthRootComponent,
-        LoginPageComponent,
-        RegisterPageComponent,
+        // pages
+        AuthLoginPageComponent,
+        AuthRegisterPageComponent,
     ],
     imports: [
         CommonModule,
         RouterModule,
         CommonsModule,
         AuthRoutingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbAlert,
     ],
 })
 export class AuthModule {

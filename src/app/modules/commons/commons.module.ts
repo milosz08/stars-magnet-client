@@ -24,24 +24,53 @@
 
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { NgbAlert, NgbCollapse } from "@ng-bootstrap/ng-bootstrap";
+import { RouterLink, RouterLinkActive } from "@angular/router";
+import { HttpClientModule } from "@angular/common/http";
 
 import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
-import { StartPageComponent } from "./pages/start-page/start-page.component";
+
+import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
+import { PasswordTogglerComponent } from "./components/password-toggler/password-toggler.component";
+import { DimissibleAlertComponent } from "./components/dimissible-alert/dimissible-alert.component";
+import { LazyPageLoaderComponent } from "./components/lazy-page-loader/lazy-page-loader.component";
+
+import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @NgModule({
     declarations: [
+        // pages
         NotFoundPageComponent,
-        StartPageComponent,
+        // components
+        HeaderComponent,
         FooterComponent,
+        PasswordTogglerComponent,
+        DimissibleAlertComponent,
+        // pipes
+        OnlyFirstPipe,
+        LazyPageLoaderComponent,
     ],
     imports: [
         CommonModule,
+        FormsModule,
+        ReactiveFormsModule,
+        NgbAlert,
+        RouterLink,
+        HttpClientModule,
+        RouterLinkActive,
+        NgbCollapse,
     ],
     exports: [
         FooterComponent,
+        PasswordTogglerComponent,
+        OnlyFirstPipe,
+        DimissibleAlertComponent,
+        HeaderComponent,
+        LazyPageLoaderComponent,
     ],
 })
 export class CommonsModule {
