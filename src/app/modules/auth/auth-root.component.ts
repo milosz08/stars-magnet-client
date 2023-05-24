@@ -22,7 +22,13 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
+
+import { takeUntil } from "rxjs";
+
+import { AuthService } from "../commons/services/auth/auth.service";
+import { AbstractComponentReactiveProvider } from "../commons/utils/abstract-component-reactive-provider";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -32,9 +38,24 @@ import { Component } from "@angular/core";
         <div class="flex-fill">
             <router-outlet></router-outlet>
         </div>
-        <app-footer></app-footer>
     `,
     host: { class: "d-flex flex-column h-100" },
 })
-export class AuthRootComponent {
+export class AuthRootComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
+
+    constructor(
+        private _router: Router,
+        private _authService: AuthService,
+    ) {
+        super();
+    };
+
+    ngOnInit(): void {
+        this._router.events.pipe(takeUntil(this._unsubscribe))
+            .subscribe(() => this._authService.clearMessages());
+    };
+
+    ngOnDestroy(): void {
+        this.subjectCleanup();
+    };
 }

@@ -32,4 +32,5 @@ import { Component } from "@angular/core";
     styleUrls: [ "./footer.component.scss" ],
 })
 export class FooterComponent {
+    now = new Date();
 }

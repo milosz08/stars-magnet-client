@@ -26,16 +26,18 @@ import { RouterModule, Routes } from "@angular/router";
 import { NgModule } from "@angular/core";
 
 import { AuthRootComponent } from "./auth-root.component";
-import { LoginPageComponent } from "./pages/login-page/login-page.component";
-import { RegisterPageComponent } from "./pages/register-page/register-page.component";
+import { canActivateNonLogged } from "../commons/guards/non-logged.guard";
+
+import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
+import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const routes: Routes = [
     { path: "", component: AuthRootComponent, children: [
         { path: "", redirectTo: "login", pathMatch: "full" },
-        { path: "login", component: LoginPageComponent, title: "Login" },
-        { path: "register", component: RegisterPageComponent, title: "Register" },
+        { path: "login", component: AuthLoginPageComponent, title: "Login", canActivate: [ canActivateNonLogged ] },
+        { path: "register", component: AuthRegisterPageComponent, title: "Register", canActivate: [ canActivateNonLogged ] },
     ]},
 ];
 

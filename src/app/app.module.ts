@@ -25,6 +25,8 @@
 import { NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
+import { HTTP_INTERCEPTORS } from "@angular/common/http";
+import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { CommonsModule } from "./modules/commons/commons.module";
@@ -43,6 +45,7 @@ import { JwtRefreshInterceptor } from "./modules/commons/interceptors/jwt-refres
         AppRoutingModule,
         NgbModule,
         CommonsModule,
+        BrowserAnimationsModule,
     ],
     providers: [
         { provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true },
