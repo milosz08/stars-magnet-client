@@ -50,9 +50,9 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         FooterComponent,
         PasswordTogglerComponent,
         DimissibleAlertComponent,
+        LazyPageLoaderComponent,
         // pipes
         OnlyFirstPipe,
-        LazyPageLoaderComponent,
     ],
     imports: [
         CommonModule,
