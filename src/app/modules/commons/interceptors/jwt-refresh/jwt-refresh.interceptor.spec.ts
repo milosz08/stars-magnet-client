@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: app.module.ts
- * Last modified: 23/05/2023, 08:38
+ * File name: jwt-refresh.interceptor.spec.ts
+ * Last modified: 24/05/2023, 15:19
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,34 +22,20 @@
  * or other dealings in the software.
  */
 
-import { NgModule } from "@angular/core";
-import { BrowserModule } from "@angular/platform-browser";
-import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
-
-import { AppRoutingModule } from "./app-routing.module";
-import { CommonsModule } from "./modules/commons/commons.module";
-import { AppRootComponent } from "./app-root.component";
-
-import { JwtRefreshInterceptor } from "./modules/commons/interceptors/jwt-refresh/jwt-refresh.interceptor";
+import { TestBed } from "@angular/core/testing";
+import { JwtRefreshInterceptor } from "./jwt-refresh.interceptor";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@NgModule({
-    declarations: [
-        AppRootComponent
-    ],
-    imports: [
-        BrowserModule,
-        AppRoutingModule,
-        NgbModule,
-        CommonsModule,
-    ],
-    providers: [
-        { provide: HTTP_INTERCEPTORS, useClass: JwtRefreshInterceptor, multi: true },
-    ],
-    bootstrap: [
-        AppRootComponent,
-    ],
-})
-export class AppModule {
-}
+describe("JwtRefreshInterceptor", () => {
+    beforeEach(() => TestBed.configureTestingModule({
+        providers: [
+            JwtRefreshInterceptor
+        ]
+    }));
+
+    it("should be created", () => {
+        const interceptor: JwtRefreshInterceptor = TestBed.inject(JwtRefreshInterceptor);
+        expect(interceptor).toBeTruthy();
+    });
+});
