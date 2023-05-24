@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: login-page.component.ts
- * Last modified: 23/05/2023, 09:51
+ * File name: public-root.component.ts
+ * Last modified: 24/05/2023, 16:28
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -27,9 +27,13 @@ import { Component } from "@angular/core";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-login-page",
-    templateUrl: "./login-page.component.html",
-    styleUrls: [ "./login-page.component.scss" ],
+    selector: "app-public-root",
+    template: `
+        <div class="flex-fill">
+            <router-outlet></router-outlet>
+        </div>
+    `,
+    host: { class: "d-flex flex-column h-100" },
 })
-export class LoginPageComponent {
+export class PublicRootComponent {
 }
