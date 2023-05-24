@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: login-page.component.spec.ts
+ * File name: auth-login-page.component.spec.ts
  * Last modified: 23/05/2023, 09:51
  * Project name: stars-magnet-client
  *
@@ -23,21 +23,20 @@
  */
 
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { LoginPageComponent } from "./login-page.component";
+import { AuthLoginPageComponent } from "./auth-login-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("LoginPageComponent", () => {
-    let component: LoginPageComponent;
-    let fixture: ComponentFixture<LoginPageComponent>;
+describe("AuthLoginPageComponent", () => {
+    let component: AuthLoginPageComponent;
+    let fixture: ComponentFixture<AuthLoginPageComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ LoginPageComponent ]
-        })
-            .compileComponents();
+            declarations: [ AuthLoginPageComponent ]
+        }).compileComponents();
 
-        fixture = TestBed.createComponent(LoginPageComponent);
+        fixture = TestBed.createComponent(AuthLoginPageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

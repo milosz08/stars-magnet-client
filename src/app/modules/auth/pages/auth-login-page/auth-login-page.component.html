@@ -1,7 +1,7 @@
 <!--
   ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
   ~
-  ~ File name: login-page.component.html
+  ~ File name: auth-login-page.component.html
   ~ Last modified: 23/05/2023, 09:51
   ~ Project name: stars-magnet-client
   ~
@@ -24,25 +24,45 @@
 
 <div class="container d-flex justify-content-center align-items-center h-100">
     <div class="row form-width min">
+        <app-dimissible-alert [model]="(responseAlert$ | async)"></app-dimissible-alert>
         <div class="card">
-            <form class="card-body" novalidate>
+            <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()" class="card-body" novalidate>
                 <h4 class="text-center mb-3">Login</h4>
                 <hr/>
                 <div class="mb-3">
-                    <label for="loginOrEmail" class="form-label">Login/email address:</label>
-                    <input type="text" class="form-control is-invalid" id="loginOrEmail">
-                </div>
-                <div class="mb-3">
-                    <label for="password" class="form-label">Password:</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" id="password">
-                        <button class="input-group-text" type="button">
-                            <i class="bi bi-eye"></i>
-                        </button>
+                    <label for="username" class="form-label">Username/email address:</label>
+                    <input
+                        type="text"
+                        id="username"
+                        formControlName="username"
+                        class="form-control"
+                        [class.is-invalid]="validateField('username')"
+                    />
+                    <div class="invalid-feedback">
+                        <div *ngIf="(loginForm.get('username')!.errors | onlyFirst) === 'required'">
+                            Username/email address field is required.
+                        </div>
                     </div>
                 </div>
+                <div class="mb-3">
+                    <app-password-toggler
+                        elementId="password"
+                        elementTitle="Password"
+                        reactiveControlName="password"
+                        [reactiveFormGroup]="loginForm"
+                        [isInvalid]="validateField('password')"
+                    >
+                        <div *ngIf="(loginForm.get('password')!.errors | onlyFirst) === 'required'">
+                            Password field is required.
+                        </div>
+                    </app-password-toggler>
+                </div>
                 <div class="col-12 mt-2">
-                    <button class="btn btn-primary w-100">
+                    <button
+                        [disabled]="!loginForm.valid"
+                        class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
+                    >
+                        <div *ngIf="suspenseSpinner$ | async" class="spinner-border spinner-border-sm text-light"></div>
                         Login
                     </button>
                 </div>

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: register-page.component.spec.ts
+ * File name: auth-register-page.component.spec.ts
  * Last modified: 23/05/2023, 09:51
  * Project name: stars-magnet-client
  *
@@ -23,21 +23,20 @@
  */
 
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { RegisterPageComponent } from "./register-page.component";
+import { AuthRegisterPageComponent } from "./auth-register-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("RegisterPageComponent", () => {
-    let component: RegisterPageComponent;
-    let fixture: ComponentFixture<RegisterPageComponent>;
+describe("AuthRegisterPageComponent", () => {
+    let component: AuthRegisterPageComponent;
+    let fixture: ComponentFixture<AuthRegisterPageComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ RegisterPageComponent ]
-        })
-            .compileComponents();
+            declarations: [ AuthRegisterPageComponent ]
+        }).compileComponents();
 
-        fixture = TestBed.createComponent(RegisterPageComponent);
+        fixture = TestBed.createComponent(AuthRegisterPageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
