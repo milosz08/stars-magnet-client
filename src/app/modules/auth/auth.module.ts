@@ -32,6 +32,8 @@ import { AuthRootComponent } from "./auth-root.component";
 import { AuthRoutingModule } from "./auth-routing.module";
 import { CommonsModule } from "../commons/commons.module";
 
+import { CompanyUserCommonSignupFormComponent } from "./components/company-user-common-signup-form/company-user-common-signup-form.component";
+
 import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
 import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
 import { AuthAddCompanyPageComponent } from "./pages/auth-add-company-page/auth-add-company-page.component";
@@ -42,6 +44,8 @@ import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-com
 @NgModule({
     declarations: [
         AuthRootComponent,
+        // components
+        CompanyUserCommonSignupFormComponent,
         // pages
         AuthLoginPageComponent,
         AuthRegisterPageComponent,

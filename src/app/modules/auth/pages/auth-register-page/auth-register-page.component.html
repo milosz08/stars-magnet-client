@@ -29,123 +29,58 @@
             <form [formGroup]="registerForm" (ngSubmit)="onRegisterFormSubmit()" class="card-body" novalidate>
                 <h4 class="text-center mb-3">Register</h4>
                 <hr/>
-                <div class="row">
-                    <div class="col-md-6 mb-3">
-                        <label for="firstName" class="form-label">First name:</label>
-                        <div class="input-group has-validation">
-                            <input
-                                type="text" class="form-control" id="firstName" placeholder="John"
-                                formControlName="firstName" maxlength="70"
-                                [class.is-invalid]="validateField('firstName')"
-                            />
-                            <div class="invalid-feedback">
-                                <div *ngIf="(registerForm.get('firstName')!.errors | onlyFirst) === 'required'">
-                                    First name is required.
-                                </div>
-                                <div *ngIf="(registerForm.get('firstName')!.errors | onlyFirst) === 'pattern'">
-                                    First name length must be lower or equal than 70 and greater or equal than 2.
+                <app-company-user-common-signup-form [formGroup]="registerForm">
+                    <ng-container top>
+                        <div class="col-md-6 mb-3">
+                            <label for="firstName" class="form-label">First name:</label>
+                            <div class="input-group has-validation">
+                                <input
+                                    type="text" class="form-control" id="firstName" placeholder="John"
+                                    formControlName="firstName" maxlength="70"
+                                    [class.is-invalid]="validateField('firstName')"
+                                />
+                                <div class="invalid-feedback">
+                                    <div *ngIf="(registerForm.get('firstName')!.errors | onlyFirst) === 'required'">
+                                        First name is required.
+                                    </div>
+                                    <div *ngIf="(registerForm.get('firstName')!.errors | onlyFirst) === 'pattern'">
+                                        First name length must be lower or equal than 70 and greater or equal than 2.
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="lastName" class="form-label">Last name:</label>
-                        <input
-                            type="text" class="form-control" id="lastName" placeholder="Doe"
-                            formControlName="lastName" maxlength="70"
-                            [class.is-invalid]="validateField('lastName')"
-                        >
-                        <div class="invalid-feedback">
-                            <div *ngIf="(registerForm.get('lastName')!.errors | onlyFirst) === 'required'">
-                                Last name is required.
-                            </div>
-                            <div *ngIf="(registerForm.get('lastName')!.errors | onlyFirst) === 'pattern'">
-                                Last name length must be lower or equal than 70 and greater or equal than 2.
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="username" class="form-label">Username:</label>
-                        <div class="input-group has-validation">
+                        <div class="col-md-6 mb-3">
+                            <label for="lastName" class="form-label">Last name:</label>
                             <input
-                                type="text" class="form-control" id="username" placeholder="johndoe123"
-                                formControlName="username" maxlength="30"
-                                [class.is-invalid]="validateField('username')"
+                                type="text" class="form-control" id="lastName" placeholder="Doe"
+                                formControlName="lastName" maxlength="70"
+                                [class.is-invalid]="validateField('lastName')"
                             >
                             <div class="invalid-feedback">
-                                <div *ngIf="(registerForm.get('username')!.errors | onlyFirst) === 'required'">
-                                    Username is required.
+                                <div *ngIf="(registerForm.get('lastName')!.errors | onlyFirst) === 'required'">
+                                    Last name is required.
                                 </div>
-                                <div *ngIf="(registerForm.get('username')!.errors | onlyFirst) === 'pattern'">
-                                    Username can only contains small letters with digits and length must be greater or equal
-                                    than 3 and lower or equal than 30.
+                                <div *ngIf="(registerForm.get('lastName')!.errors | onlyFirst) === 'pattern'">
+                                    Last name length must be lower or equal than 70 and greater or equal than 2.
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <label for="email" class="form-label">Email address:</label>
-                        <input
-                            type="email" class="form-control" id="email" placeholder="johndoe123@example.com"
-                            formControlName="email" maxlength="100"
-                            [class.is-invalid]="validateField('email')"
-                        >
-                        <div class="invalid-feedback">
-                            <div *ngIf="(registerForm.get('email')!.errors | onlyFirst) === 'required'">
-                                Email address is required.
-                            </div>
-                            <div *ngIf="(registerForm.get('email')!.errors | onlyFirst) === 'pattern'">
-                                Email address must be in the format: 'example@example.example'.
-                            </div>
+                    </ng-container>
+                    <ng-container bottom>
+                        <div class="col-12 mt-2">
+                            <button
+                                [disabled]="!registerForm.valid"
+                                class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
+                            >
+                                <div *ngIf="suspenseSpinner$ | async" class="spinner-border spinner-border-sm text-light"></div>
+                                Register
+                            </button>
                         </div>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <app-password-toggler
-                            elementId="password"
-                            elementTitle="Password"
-                            elementPlaceholder="SecretPassword123@"
-                            reactiveControlName="password"
-                            [reactiveFormGroup]="registerForm"
-                            [isInvalid]="validateField('password')"
-                        >
-                            <div *ngIf="(registerForm.get('password')!.errors | onlyFirst) === 'required'">
-                                Password is required.
-                            </div>
-                            <div *ngIf="(registerForm.get('password')!.errors | onlyFirst) === 'pattern'">
-                                Password must contains at least one small, one big letter, one special sign and one digit.
-                            </div>
-                        </app-password-toggler>
-                    </div>
-                    <div class="col-md-6 mb-3">
-                        <app-password-toggler
-                            elementId="confirmPassword"
-                            elementTitle="Confirmed password"
-                            elementPlaceholder="SecretPassword123@"
-                            reactiveControlName="confirmPassword"
-                            [reactiveFormGroup]="registerForm"
-                            [isInvalid]="validateField('confirmPassword')"
-                        >
-                            <div *ngIf="(registerForm.get('confirmPassword')!.errors | onlyFirst) === 'required'">
-                                Confirmed password is required.
-                            </div>
-                            <div *ngIf="(registerForm.get('confirmPassword')!.errors | onlyFirst) === 'passwordMismatch'">
-                                Password and confirmed passwords are not the same.
-                            </div>
-                        </app-password-toggler>
-                    </div>
-                    <div class="col-12 mt-2">
-                        <button
-                            [disabled]="!registerForm.valid"
-                            class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
-                        >
-                            <div *ngIf="suspenseSpinner$ | async" class="spinner-border spinner-border-sm text-light"></div>
-                            Register
-                        </button>
-                    </div>
-                    <div class="col-12 mt-3 text-center">
-                        Already have an account? <a routerLink="/auth/login">Login</a>
-                    </div>
-                </div>
+                        <div class="col-12 mt-3 text-center">
+                            Already have an account? <a routerLink="/auth/login">Login</a>
+                        </div>
+                    </ng-container>
+                </app-company-user-common-signup-form>
             </form>
         </div>
     </div>
