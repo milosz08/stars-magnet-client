@@ -27,15 +27,15 @@ import { inject, Injectable } from "@angular/core";
 
 import { map, Observable } from "rxjs";
 
-import { AuthService } from "../services/auth/auth.service";
+import { LoggedStatusService } from "../services/logged-status/logged-status.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Injectable({ providedIn: "root" })
 export class LoggedGuard {
 
-    canActivate(authService: AuthService, router: Router): Observable<boolean> {
-        return authService.isLogged$.pipe(map(isLogged => {
+    canActivate(loggedStatusService: LoggedStatusService, router: Router): Observable<boolean> {
+        return loggedStatusService.isLogged$.pipe(map(isLogged => {
             if (isLogged) {
                 return true;
             }
@@ -46,5 +46,5 @@ export class LoggedGuard {
 }
 
 export const canActivateLogged: CanActivateFn = () => (
-    inject(LoggedGuard).canActivate(inject(AuthService), inject(Router))
+    inject(LoggedGuard).canActivate(inject(LoggedStatusService), inject(Router))
 );

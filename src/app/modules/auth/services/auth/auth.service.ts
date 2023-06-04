@@ -25,25 +25,24 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { BehaviorSubject, catchError, map, Observable, of, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
 
-import { Utils } from "../../utils/utils";
-import { AlertType } from "../../utils/alert.type";
-import { StorageKeyType } from "../../types/storage-key.type";
-import { IRefreshModelReqDto } from "../../models/refresh.model";
-import { IResponseAlertModel } from "../../models/response-alert.model";
-import { IRegisterFormModel, IRegisterReqDto } from "../../models/register.model";
-import { ILoginFormModel, ILoginResponseDto } from "../../models/login.model";
+import { Utils } from "../../../commons/utils/utils";
+import { AlertType } from "../../../commons/utils/alert.type";
+import { StorageKeyType } from "../../../commons/types/storage-key.type";
+import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
+import { ILoginFormModel } from "../../../commons/models/login.model";
+import { IRegisterFormModel, IRegisterReqDto } from "../../../commons/models/register.model";
 
-import { AuthHttpService } from "../auth-http/auth-http.service";
-import { LocalStorageService } from "../local-storage/local-storage.service";
+import { AuthHttpService } from "../../../commons/http-services/auth-http/auth-http.service";
+import { LocalStorageService } from "../../../commons/services/local-storage/local-storage.service";
+import { LoggedStatusService } from "../../../commons/services/logged-status/logged-status.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Injectable({ providedIn: "root" })
+@Injectable()
 export class AuthService {
 
-    private _isLogged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _suspenseSpinner$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
     private _responseAlert$: BehaviorSubject<IResponseAlertModel> = new BehaviorSubject<IResponseAlertModel>({
         type: AlertType.ERROR, content: "",
@@ -52,6 +51,7 @@ export class AuthService {
     constructor(
         private _router: Router,
         private _authHttpService: AuthHttpService,
+        private _loggedStatusService: LoggedStatusService,
         private _localStorageService: LocalStorageService,
     ) {
     };
@@ -61,7 +61,7 @@ export class AuthService {
         return this._authHttpService.login(formReq).pipe(
             tap(res => {
                 this._localStorageService.save(StorageKeyType.USER_TOKEN, res);
-                this._isLogged$.next(true);
+                this._loggedStatusService.setLoggedStatus(true);
                 this._suspenseSpinner$.next(false);
             }),
             catchError(err => this.onCatchError(err)),
@@ -84,32 +84,6 @@ export class AuthService {
         );
     };
 
-    logout(): void {
-        this._localStorageService.remove(StorageKeyType.USER_TOKEN);
-        this._isLogged$.next(false);
-        this._router.navigate([ "/auth/login" ]).then(r => r);
-    };
-
-    refresh(): Observable<boolean> {
-        const tokenDetails = this._localStorageService.get<ILoginResponseDto>(StorageKeyType.USER_TOKEN);
-        if (!tokenDetails) {
-            return of(false);
-        }
-        const reqData: IRefreshModelReqDto = { token: tokenDetails.access, refresh: tokenDetails.refresh };
-        return this._authHttpService.refresh(reqData).pipe(
-            map(resData => {
-                this._localStorageService.update(StorageKeyType.USER_TOKEN, "access", resData.access);
-                this._isLogged$.next(true);
-                return true;
-            }),
-            catchError(_ => of(false))
-        );
-    };
-
-    clearMessages(): void {
-        this._responseAlert$.next({ type: AlertType.ERROR, content: "" });
-    };
-
     private onCatchError(err: any): Observable<any> {
         this._suspenseSpinner$.next(false);
         const resMessage = Utils.getFirstObjectErrorValue(err.error);
@@ -119,5 +93,4 @@ export class AuthService {
 
     get suspenseSpinner$(): Observable<boolean>                 { return this._suspenseSpinner$.asObservable(); };
     get responseAlert$(): Observable<IResponseAlertModel>       { return this._responseAlert$.asObservable(); };
-    get isLogged$(): Observable<boolean>                        { return this._isLogged$.asObservable(); };
 }

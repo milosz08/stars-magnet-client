@@ -31,9 +31,9 @@ import { ILoginResponseDto } from "../../models/login.model";
 import { IRefreshModelReqDto } from "../../models/refresh.model";
 import { StorageKeyType } from "../../types/storage-key.type";
 
-import { AuthService } from "../../services/auth/auth.service";
-import { AuthHttpService } from "../../services/auth-http/auth-http.service";
+import { AuthHttpService } from "../../http-services/auth-http/auth-http.service";
 import { LocalStorageService } from "../../services/local-storage/local-storage.service";
+import { LoggedStatusService } from "../../services/logged-status/logged-status.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,8 +47,8 @@ export class JwtRefreshInterceptor implements HttpInterceptor {
     private readonly TOKEN_PREFIX = "Bearer";
 
     constructor(
-        private _authService: AuthService,
         private _authHttpService: AuthHttpService,
+        private _loggedStatusService: LoggedStatusService,
         private _localStorageService: LocalStorageService,
     ) {
     };
@@ -83,7 +83,7 @@ export class JwtRefreshInterceptor implements HttpInterceptor {
                 }),
                 catchError((err) => {
                     this._isRefreshing = false;
-                    this._authService.logout();
+                    this._loggedStatusService.logout();
                     return throwError(err);
                 }),
             );

@@ -32,7 +32,7 @@ import { ILoginFormModel } from "../../../commons/models/login.model";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
-import { AuthService } from "../../../commons/services/auth/auth.service";
+import { AuthService } from "../../services/auth/auth.service";
 import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,6 +40,7 @@ import { FormHelperService } from "../../../commons/services/form-helper/form-he
 @Component({
     selector: "app-auth-login-page",
     templateUrl: "./auth-login-page.component.html",
+    providers: [ AuthService ],
 })
 export class AuthLoginPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
 

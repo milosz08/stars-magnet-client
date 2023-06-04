@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: non-logged.guard.ts
- * Last modified: 24/05/2023, 12:07
+ * File name: logged-status.service.spec.ts
+ * Last modified: 6/4/23, 2:38 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,29 +22,20 @@
  * or other dealings in the software.
  */
 
-import { CanActivateFn, Router } from "@angular/router";
-import { inject, Injectable } from "@angular/core";
-
-import { map, Observable } from "rxjs";
-
-import { LoggedStatusService } from "../services/logged-status/logged-status.service";
+import { TestBed } from "@angular/core/testing";
+import { LoggedStatusService } from "./logged-status.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Injectable({ providedIn: "root" })
-export class NonLoggedGuard {
+describe("LoggedStatusService", () => {
+    let service: LoggedStatusService;
 
-    canActivate(loggedStatusService: LoggedStatusService, router: Router): Observable<boolean> {
-        return loggedStatusService.isLogged$.pipe(map(isLogged => {
-            if (!isLogged) {
-                return true;
-            }
-            router.navigate([ "/" ]).then(r => r);
-            return false;
-        }));
-    };
-}
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(LoggedStatusService);
+    });
 
-export const canActivateNonLogged: CanActivateFn = () => (
-    inject(NonLoggedGuard).canActivate(inject(LoggedStatusService), inject(Router))
-);
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
+});

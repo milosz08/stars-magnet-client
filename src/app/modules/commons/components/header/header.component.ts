@@ -27,27 +27,26 @@ import { Router } from "@angular/router";
 
 import { Observable } from "rxjs";
 
-import { AuthService } from "../../services/auth/auth.service";
+import { LoggedStatusService } from "../../services/logged-status/logged-status.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
     selector: "app-header",
     templateUrl: "./header.component.html",
-    styleUrls: [ "./header.component.scss" ],
 })
 export class HeaderComponent {
 
-    isLogged$: Observable<boolean> = this._authService.isLogged$;
+    isLogged$: Observable<boolean> = this._loggedStatusService.isLogged$;
     isNavbarCollapsed = true;
 
     constructor(
         private _router: Router,
-        private _authService: AuthService,
+        private _loggedStatusService: LoggedStatusService,
     ) {
     };
 
     onLogout(): void {
-        this._authService.logout();
+        this._loggedStatusService.logout();
     };
 }

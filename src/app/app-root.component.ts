@@ -27,9 +27,10 @@ import { Router } from "@angular/router";
 
 import { first, Subject, takeUntil } from "rxjs";
 
-import { AuthService } from "./modules/commons/services/auth/auth.service";
-import { LazyLoaderService } from "./modules/commons/services/lazy-loader/lazy-loader.service";
 import { AbstractComponentReactiveProvider } from "./modules/commons/utils/abstract-component-reactive-provider";
+
+import { LazyLoaderService } from "./modules/commons/services/lazy-loader/lazy-loader.service";
+import { LoggedStatusService } from "./modules/commons/services/logged-status/logged-status.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -51,15 +52,15 @@ export class AppRootComponent extends AbstractComponentReactiveProvider implemen
 
     constructor(
         private _router: Router,
-        private _authService: AuthService,
         private _lazyLoaderService: LazyLoaderService,
+        private _loggedStatusService: LoggedStatusService,
     ) {
         super();
     };
 
     ngOnInit(): void {
         this._lazyLoaderService.activateLazyLoader();
-        this._authService.refresh().pipe(first(), takeUntil(this.unsubscribe$)).subscribe();
+        this._loggedStatusService.refresh().pipe(first(), takeUntil(this.unsubscribe$)).subscribe();
     };
 
     ngOnDestroy(): void {

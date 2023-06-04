@@ -32,7 +32,7 @@ import { IResponseAlertModel } from "../../../commons/models/response-alert.mode
 import { passwordMatchValidator } from "../../../commons/validators/password-match.validator";
 import { REGEX_EMAIL, REGEX_LOGIN, REGEX_NAME, REGEX_PASSWORD } from "../../../commons/validators/regex.constant";
 
-import { AuthService } from "../../../commons/services/auth/auth.service";
+import { AuthService } from "../../services/auth/auth.service";
 import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
@@ -41,6 +41,7 @@ import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstra
 @Component({
     selector: "app-auth-register-page",
     templateUrl: "./auth-register-page.component.html",
+    providers: [ AuthService ],
 })
 export class AuthRegisterPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
 
