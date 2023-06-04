@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: regex.constant.ts
- * Last modified: 24/05/2023, 00:07
+ * File name: file-helper.service.ts
+ * Last modified: 6/4/23, 7:59 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,9 +22,21 @@
  * or other dealings in the software.
  */
 
-export const REGEX_NAME = /^.{2,70}$/;
-export const REGEX_LOGIN = /^[a-z\d]{3,30}$/;
-export const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const REGEX_PASSWORD = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,50}$/;
-export const REGEX_COMPANY_NAME = /^.{2,80}$/;
-export const REGEX_LINK = /^https:\/\/[^ "]{7,200}$/;
+import { Injectable } from "@angular/core";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@Injectable({ providedIn: "root" })
+export class FileHelperService {
+
+    saveTextToFile(value: string, filename: string): void {
+        const blob = new Blob([ value ], { type: 'text/plain' });
+
+        const anchorElement = document.createElement('a');
+        anchorElement.href = URL.createObjectURL(blob);
+        anchorElement.download = filename;
+        anchorElement.click();
+
+        URL.revokeObjectURL(anchorElement.href);
+    };
+}

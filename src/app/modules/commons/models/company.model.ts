@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: auth.module.ts
- * Last modified: 23/05/2023, 09:53
+ * File name: company.model.ts
+ * Last modified: 6/4/23, 1:43 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,41 +22,28 @@
  * or other dealings in the software.
  */
 
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
-
-import { AuthRootComponent } from "./auth-root.component";
-import { AuthRoutingModule } from "./auth-routing.module";
-import { CommonsModule } from "../commons/commons.module";
-
-import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
-import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
-import { AuthAddCompanyPageComponent } from "./pages/auth-add-company-page/auth-add-company-page.component";
-import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-company-page/auth-after-added-company-page.component";
+export interface IAddCompanyFormModel {
+    name: string;
+    site: string;
+    username: string;
+    password: string;
+    confirmPassword: string;
+    email: string;
+}
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@NgModule({
-    declarations: [
-        AuthRootComponent,
-        // pages
-        AuthLoginPageComponent,
-        AuthRegisterPageComponent,
-        AuthAddCompanyPageComponent,
-        AuthAfterAddedCompanyPageComponent,
-    ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        CommonsModule,
-        AuthRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgbAlert,
-    ],
-})
-export class AuthModule {
+export interface IAddCompanyReqDto {
+    name: string;
+    site: string;
+    username: string;
+    password: string;
+    confirm_password: string;
+    email: string;
+}
+
+export interface IAddCompanyResDto {
+    token: string;
+    response: string;
+    responseWords: string[];
 }

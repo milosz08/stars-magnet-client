@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: start-page.component.scss
- * Last modified: 23/05/2023, 09:41
+ * File name: company-http.service.spec.ts
+ * Last modified: 6/4/23, 1:37 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -21,3 +21,21 @@
  * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
  * or other dealings in the software.
  */
+
+import { TestBed } from "@angular/core/testing";
+import { CompanyHttpService } from "./company-http.service";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe("AddCompanyHttpService", () => {
+    let service: CompanyHttpService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(CompanyHttpService);
+    });
+
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
+});

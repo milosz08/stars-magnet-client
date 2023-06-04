@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: auth.module.ts
- * Last modified: 23/05/2023, 09:53
+ * File name: after-added-company.guard.ts
+ * Last modified: 6/4/23, 1:59 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,41 +22,29 @@
  * or other dealings in the software.
  */
 
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { RouterModule } from "@angular/router";
-import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbAlert } from "@ng-bootstrap/ng-bootstrap";
+import { inject, Injectable } from "@angular/core";
+import { CanActivateFn, Router } from "@angular/router";
 
-import { AuthRootComponent } from "./auth-root.component";
-import { AuthRoutingModule } from "./auth-routing.module";
-import { CommonsModule } from "../commons/commons.module";
+import { map, Observable } from "rxjs";
 
-import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
-import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
-import { AuthAddCompanyPageComponent } from "./pages/auth-add-company-page/auth-add-company-page.component";
-import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-company-page/auth-after-added-company-page.component";
+import { AddedCompanyCredentialsService } from "../services/added-company-credentials/added-company-credentials.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@NgModule({
-    declarations: [
-        AuthRootComponent,
-        // pages
-        AuthLoginPageComponent,
-        AuthRegisterPageComponent,
-        AuthAddCompanyPageComponent,
-        AuthAfterAddedCompanyPageComponent,
-    ],
-    imports: [
-        CommonModule,
-        RouterModule,
-        CommonsModule,
-        AuthRoutingModule,
-        FormsModule,
-        ReactiveFormsModule,
-        NgbAlert,
-    ],
-})
-export class AuthModule {
+@Injectable({ providedIn: "root" })
+export class AfterAddedCompanyGuard {
+
+    canActivate(addedCompanyCredentialsService: AddedCompanyCredentialsService, router: Router): Observable<boolean> {
+        return addedCompanyCredentialsService.companyAddedCred$.pipe(map(isAdded => {
+            if (isAdded) {
+                return true;
+            }
+            router.navigate([ "/auth/add-company" ]).then(r => r);
+            return false;
+        }));
+    };
 }
+
+export const canActivateAfterAddedCompany: CanActivateFn = () => (
+    inject(AfterAddedCompanyGuard).canActivate(inject(AddedCompanyCredentialsService), inject(Router))
+);
