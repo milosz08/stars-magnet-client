@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: public.module.ts
- * Last modified: 24/05/2023, 16:28
+ * File name: categories-http.service.ts
+ * Last modified: 6/4/23, 1:29 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,37 +22,38 @@
  * or other dealings in the software.
  */
 
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { Injectable } from "@angular/core";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
-import { PublicRootComponent } from "./public-root.component";
-import { PublicRoutingModule } from "./public-routing.module";
-import { CommonsModule } from "../commons/commons.module";
+import { Observable } from "rxjs";
+import { environment } from "../../../../environments/environment";
 
-import { StartPageComponent } from "./pages/start-page/start-page.component";
-import { CategoryPageComponent } from "./pages/category-page/category-page.component";
-
-import { HomeSearchBarComponent } from "./components/home-search-bar/home-search-bar.component";
-import { HomeCategoriesComponent } from "./components/home-categories/home-categories.component";
+import { PageableCategories } from "../../../public/models/category.model";
+import { IPrePageableData } from "../../models/pagination.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@NgModule({
-    declarations: [
-        PublicRootComponent,
-        // pages
-        StartPageComponent,
-        CategoryPageComponent,
-        HomeSearchBarComponent,
-        HomeCategoriesComponent,
-    ],
-    imports: [
-        CommonModule,
-        PublicRoutingModule,
-        FormsModule,
-        CommonsModule,
-    ],
-})
-export class PublicModule {
+@Injectable({ providedIn: "root" })
+export class CategoriesHttpService {
+
+    constructor(
+        private _httpClient: HttpClient,
+    ) {
+    };
+
+    getPageableData(fixedLimit: number): Observable<IPrePageableData> {
+        return this._httpClient.get<IPrePageableData>(
+            `${environment.httpBackendURI}/api/category/pageable/${fixedLimit}`,
+        );
+    };
+
+    getCategories(fixedLimit: number, offset: number): Observable<PageableCategories> {
+        const params = new HttpParams()
+            .set("limit", fixedLimit)
+            .set("offset", offset);
+        return this._httpClient.get<PageableCategories>(
+            `${environment.httpBackendURI}/api/category`,
+            { params },
+        );
+    };
 }

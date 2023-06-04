@@ -1,0 +1,113 @@
+<!--
+  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+  ~
+  ~ File name: home-categories.component.html
+  ~ Last modified: 6/4/23, 11:44 AM
+  ~ Project name: stars-magnet-client
+  ~
+  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  ~
+  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
+  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
+  ~
+  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
+  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
+  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
+  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
+  ~ or other dealings in the software.
+  -->
+
+<ng-template *ngIf="(alertError$ | async)?.content; then showErrorAlert; else showInnerContent"></ng-template>
+<ng-template #showErrorAlert>
+    <app-dimissible-alert [model]="(alertError$ | async)"></app-dimissible-alert>
+</ng-template>
+<ng-template #showInnerContent>
+    <div class="row my-2">
+        <div class="col-md-6">
+            <p class="text-secondary text-center text-md-start m-0">Click on the tile to go to selected category.</p>
+        </div>
+        <div class="col-md-6">
+            <p class="text-secondary text-center text-md-end m-0">
+                Available categories count: <span class="text-dark">{{ pageable?.countAll }}</span>
+            </p>
+        </div>
+    </div>
+    <ng-template *ngIf="(categories$ | async)?.length; then showCategoriesContent; else showNoContent"></ng-template>
+    <ng-template #showNoContent>
+        <div class="alert alert-warning mt-3">
+            Not found any category.
+        </div>
+    </ng-template>
+    <ng-template #showCategoriesContent>
+        <div class="d-flex flex-column flex-sm-row categories-min-height">
+            <div class="d-flex d-sm-none hstack gap-2 px-2 my-3">
+                <button
+                    class="btn btn-outline-primary w-100" title="Prev page"
+                    (click)="onPreviousCategoriesPage()"
+                    [disabled]="isPrevDisabled$ | async"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+                <button
+                    class="btn btn-outline-primary w-100" title="Next page"
+                    (click)="onNextCategoriesPage()"
+                    [disabled]="isNextDisabled$ | async"
+                >
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+            <div class="me-2 d-none d-sm-flex align-items-center order-0 order-sm-0">
+                <button
+                    class="btn btn-outline-primary" title="Prev page"
+                    (click)="onPreviousCategoriesPage()"
+                    [disabled]="isPrevDisabled$ | async"
+                >
+                    <i class="bi bi-arrow-left"></i>
+                </button>
+            </div>
+            <div class="container order-2 order-sm-1">
+                <ng-template *ngIf="(lazyLoader$ | async); then showLazyLoader; else showContent"></ng-template>
+                <ng-template #showLazyLoader>
+                    <div class="d-flex justify-content-center align-items-center h-100">
+                        <div class="spinner-border lazy-spinner-medium" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                    </div>
+                </ng-template>
+                <ng-template #showContent>
+                    <div class="row flex-fill">
+                        <div *ngFor="let category of (categories$ | async)" class="col-lg-4 p-2">
+                            <a
+                                [routerLink]="[ '/category/', category.id ]"
+                                class="bg-light p-4 rounded-2 category-box d-flex align-items-center text-decoration-none text-dark h-100"
+                            >
+                                <i [class]="'bi bi-' + category.icon + ' me-3 fs-4 text-secondary'"></i>
+                                <h5 class="m-0 lh-1">{{ category.name }}</h5>
+                            </a>
+                        </div>
+                    </div>
+                </ng-template>
+            </div>
+            <div class="ms-2 d-none d-sm-flex align-items-center order-1 order-sm-2">
+                <button
+                    class="btn btn-outline-primary" title="Next page"
+                    (click)="onNextCategoriesPage()"
+                    [disabled]="isNextDisabled$ | async"
+                >
+                    <i class="bi bi-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+        <p class="text-secondary text-center mt-3">
+            Page
+            <span class="text-dark">{{ currentPage$ | async }}</span>
+            of
+            <span class="text-dark">{{ pageable?.countAllPages }}</span>
+        </p>
+    </ng-template>
+</ng-template>

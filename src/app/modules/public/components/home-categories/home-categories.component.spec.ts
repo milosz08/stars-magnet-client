@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: public.module.ts
- * Last modified: 24/05/2023, 16:28
+ * File name: home-categories.component.spec.ts
+ * Last modified: 6/4/23, 11:44 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,37 +22,26 @@
  * or other dealings in the software.
  */
 
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
-
-import { PublicRootComponent } from "./public-root.component";
-import { PublicRoutingModule } from "./public-routing.module";
-import { CommonsModule } from "../commons/commons.module";
-
-import { StartPageComponent } from "./pages/start-page/start-page.component";
-import { CategoryPageComponent } from "./pages/category-page/category-page.component";
-
-import { HomeSearchBarComponent } from "./components/home-search-bar/home-search-bar.component";
-import { HomeCategoriesComponent } from "./components/home-categories/home-categories.component";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { HomeCategoriesComponent } from "./home-categories.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@NgModule({
-    declarations: [
-        PublicRootComponent,
-        // pages
-        StartPageComponent,
-        CategoryPageComponent,
-        HomeSearchBarComponent,
-        HomeCategoriesComponent,
-    ],
-    imports: [
-        CommonModule,
-        PublicRoutingModule,
-        FormsModule,
-        CommonsModule,
-    ],
-})
-export class PublicModule {
-}
+describe("HomeCategoriesComponent", () => {
+    let component: HomeCategoriesComponent;
+    let fixture: ComponentFixture<HomeCategoriesComponent>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ HomeCategoriesComponent ]
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(HomeCategoriesComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});

@@ -49,5 +49,13 @@ export class LazyLoaderService {
         })
     };
 
+    forcedActivateLoader(): void {
+        this._isLoading$.next(true);
+    };
+
+    forcedInactivateLoader(): void {
+        this._isLoading$.next(false);
+    };
+
     get isLoading$(): BehaviorSubject<boolean> { return this._isLoading$; };
 }
