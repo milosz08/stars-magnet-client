@@ -39,7 +39,7 @@ import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstra
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-register-page",
+    selector: "app-auth-register-page",
     templateUrl: "./auth-register-page.component.html",
 })
 export class AuthRegisterPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {

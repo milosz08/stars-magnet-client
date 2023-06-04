@@ -33,15 +33,11 @@ export class TemplatePageTitleStrategy extends TitleStrategy {
 
     private readonly DEF_SUFFIX = "Stars Magnet";
 
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
     constructor(
         private readonly _title: Title,
     ) {
         super();
     };
-
-    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     updateTitle(snapshot: RouterStateSnapshot): void {
         const title = this.buildTitle(snapshot);

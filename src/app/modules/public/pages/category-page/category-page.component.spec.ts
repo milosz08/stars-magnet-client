@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: categories-page.component.ts
+ * File name: category-page.component.spec.ts
  * Last modified: 24/05/2023, 16:31
  * Project name: stars-magnet-client
  *
@@ -22,26 +22,26 @@
  * or other dealings in the software.
  */
 
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { CategoryPageComponent } from "./category-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Component({
-    selector: "app-categories-page",
-    templateUrl: "./categories-page.component.html",
-    styleUrls: [ "./categories-page.component.scss" ],
-})
-export class CategoriesPageComponent implements OnInit {
+describe("CategoryPageComponent", () => {
+    let component: CategoryPageComponent;
+    let fixture: ComponentFixture<CategoryPageComponent>;
 
-    testingCategory = "";
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ CategoryPageComponent ]
+        }).compileComponents();
 
-    constructor(
-        private _route: ActivatedRoute,
-    ) {
-    };
+        fixture = TestBed.createComponent(CategoryPageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-    ngOnInit(): void {
-        this.testingCategory = this._route.snapshot.paramMap.get('categoryId') || "";
-    };
-}
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});

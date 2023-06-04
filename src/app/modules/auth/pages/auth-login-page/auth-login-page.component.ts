@@ -38,7 +38,7 @@ import { FormHelperService } from "../../../commons/services/form-helper/form-he
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-login-page",
+    selector: "app-auth-login-page",
     templateUrl: "./auth-login-page.component.html",
 })
 export class AuthLoginPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {

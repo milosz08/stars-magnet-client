@@ -28,14 +28,14 @@ import { NgModule } from "@angular/core";
 import { PublicRootComponent } from "./public-root.component";
 
 import { StartPageComponent } from "./pages/start-page/start-page.component";
-import { CategoriesPageComponent } from "./pages/categories-page/categories-page.component";
+import { CategoryPageComponent } from "./pages/category-page/category-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const routes: Routes = [
     { path: "", component: PublicRootComponent, children: [
-        { path: "", component: StartPageComponent, title: "", pathMatch: "full" },
-        { path: "categories/:categoryId", component: CategoriesPageComponent, title: "Category" },
+        { path: "", component: StartPageComponent, title: "Home", pathMatch: "full" },
+        { path: "category/:categoryId", component: CategoryPageComponent },
     ]},
 ];
 

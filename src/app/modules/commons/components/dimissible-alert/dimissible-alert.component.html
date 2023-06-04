@@ -23,7 +23,7 @@
   -->
 
 <ng-container *ngIf="model && model.content !== ''">
-    <ngb-alert [type]="model.type" (closed)="onClose()">
+    <ngb-alert class="mt-3" [type]="model.type" (closed)="onClose()">
         <div [innerHTML]="model.content"></div>
     </ngb-alert>
 </ng-container>

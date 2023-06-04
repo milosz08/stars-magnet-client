@@ -1,7 +1,7 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: categories-page.component.scss
+ * File name: categories-page.component.ts
  * Last modified: 24/05/2023, 16:31
  * Project name: stars-magnet-client
  *
@@ -21,3 +21,27 @@
  * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
  * or other dealings in the software.
  */
+
+import { Component, OnInit } from "@angular/core";
+import { ActivatedRoute } from "@angular/router";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@Component({
+    selector: "app-category-page",
+    templateUrl: "./category-page.component.html",
+    styleUrls: [ "./category-page.component.scss" ],
+})
+export class CategoryPageComponent implements OnInit {
+
+    testingCategory = "";
+
+    constructor(
+        private _route: ActivatedRoute,
+    ) {
+    };
+
+    ngOnInit(): void {
+        this.testingCategory = this._route.snapshot.paramMap.get('categoryId') || "";
+    };
+}
