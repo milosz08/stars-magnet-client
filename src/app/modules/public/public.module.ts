@@ -32,11 +32,14 @@ import { PublicRootComponent } from "./public-root.component";
 import { PublicRoutingModule } from "./public-routing.module";
 import { CommonsModule } from "../commons/commons.module";
 
-import { StartPageComponent } from "./pages/start-page/start-page.component";
-import { CategoryPageComponent } from "./pages/category-page/category-page.component";
+import { PublicStartPageComponent } from "./pages/public-start-page/public-start-page.component";
+import { PublicCategoryPageComponent } from "./pages/public-category-page/public-category-page.component";
+import { PublicCompanyPageComponent } from "./pages/public-company-page/public-company-page.component";
 
 import { HomeSearchBarComponent } from "./components/home-search-bar/home-search-bar.component";
 import { HomeCategoriesComponent } from "./components/home-categories/home-categories.component";
+import { CategoryCompaniesListComponent } from "./components/category-companies-list/category-companies-list.component";
+import { CategoryCompaniesFilterComponent } from "./components/category-companies-filter/category-companies-filter.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,10 +47,14 @@ import { HomeCategoriesComponent } from "./components/home-categories/home-categ
     declarations: [
         PublicRootComponent,
         // pages
-        StartPageComponent,
-        CategoryPageComponent,
+        PublicStartPageComponent,
+        PublicCategoryPageComponent,
+        PublicCompanyPageComponent,
+        // components
         HomeSearchBarComponent,
         HomeCategoriesComponent,
+        CategoryCompaniesListComponent,
+        CategoryCompaniesFilterComponent,
     ],
     imports: [
         CommonModule,

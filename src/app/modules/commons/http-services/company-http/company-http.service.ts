@@ -23,12 +23,14 @@
  */
 
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpParams } from "@angular/common/http";
 
 import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 
+import { IPrePageableData } from "../../models/pagination.model";
 import { IAddCompanyReqDto, IAddCompanyResDto } from "../../models/company.model";
+import { ICompanysPageableResDtoModel } from "../../../public/models/company.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -44,6 +46,23 @@ export class CompanyHttpService {
         return this._httpClient.post<IAddCompanyResDto>(
             `${environment.httpBackendURI}/api/company`,
             reqDto,
+        );
+    };
+
+    getPageableData(categoryId: number, fixedLimit: number): Observable<IPrePageableData> {
+        return this._httpClient.get<IPrePageableData>(
+            `${environment.httpBackendURI}/api/company/${categoryId}/pageable/${fixedLimit}`,
+        );
+    };
+
+    getAllCompaniesByCategory(categoryId: number, fixedLimit: number, offset: number)
+        : Observable<ICompanysPageableResDtoModel> {
+        const params = new HttpParams()
+            .set("limit", fixedLimit)
+            .set("offset", offset);
+        return this._httpClient.get<ICompanysPageableResDtoModel>(
+            `${environment.httpBackendURI}/api/category/${categoryId}`,
+            { params },
         );
     };
 }
