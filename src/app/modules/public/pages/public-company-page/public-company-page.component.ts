@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: footer.component.scss
- * Last modified: 23/05/2023, 09:46
+ * File name: public-company-page.component.ts
+ * Last modified: 6/5/23, 5:25 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,3 +22,34 @@
  * or other dealings in the software.
  */
 
+import { Component, OnDestroy, OnInit } from "@angular/core";
+
+import { RouterHelperService } from "../../../commons/services/router-helper/router-helper.service";
+import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+@Component({
+    selector: "app-public-company-page",
+    templateUrl: "./public-company-page.component.html",
+    styleUrls: [ "./public-company-page.component.scss" ],
+    providers: [ RouterHelperService ],
+})
+export class PublicCompanyPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
+
+    companyId!: number;
+
+    constructor(
+        private _routerHelperService: RouterHelperService,
+    ) {
+        super();
+    };
+
+    ngOnInit(): void {
+        this.companyId = this._routerHelperService.getIntFromRouteAndParse("companyId", "/companies");
+    };
+
+    ngOnDestroy(): void {
+        this.subjectCleanup();
+    };
+}
