@@ -39,6 +39,7 @@ import { CategoriesService } from "../../services/categories/categories.service"
     selector: "app-home-categories",
     templateUrl: "./home-categories.component.html",
     styleUrls: [ "./home-categories.component.scss" ],
+    providers: [ CategoriesService ],
 })
 export class HomeCategoriesComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 

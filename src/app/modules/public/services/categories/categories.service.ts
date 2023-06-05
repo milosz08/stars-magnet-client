@@ -24,8 +24,9 @@
 
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, catchError, Observable, of, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, of, tap, throwError } from "rxjs";
 
+import { Utils } from "../../../commons/utils/utils";
 import { AlertType } from "../../../commons/utils/alert.type";
 import { ICategoryModel } from "../../models/category.model";
 import { IPrePageableData } from "../../../commons/models/pagination.model";
@@ -36,7 +37,7 @@ import { CategoriesHttpService } from "../../../commons/http-services/categories
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Injectable({ providedIn: "root" })
+@Injectable()
 export class CategoriesService {
 
     private _categories$: BehaviorSubject<ICategoryModel[]> = new BehaviorSubject<ICategoryModel[]>([]);
@@ -53,6 +54,7 @@ export class CategoriesService {
 
     private _currentPage: number = 1;
     private _allPages: number = 1;
+    private _isInitialLoad: boolean = true;
     private readonly _fixedPageableLimit = 6;
 
     constructor(
@@ -67,11 +69,14 @@ export class CategoriesService {
             tap(res => {
                 this._pageable$.next(res);
                 this._allPages = res.countAllPages;
+                this.updatePrevNextDisabledButtons();
                 this._lazyLoaderService.forcedInactivateLoader();
             }),
             catchError(err => {
-                this.populateErrorAlert(err.error);
-                this._lazyLoaderService.forcedInactivateLoader();
+                Utils.populateErrorAlert(err, this._alertError$);
+                if (!this._isInitialLoad) {
+                    this._lazyLoaderService.forcedInactivateLoader();
+                }
                 return throwError(err);
             }),
         );
@@ -81,21 +86,21 @@ export class CategoriesService {
         this._lazyLoader$.next(true);
         const offset = (this._currentPage - 1) * this._fixedPageableLimit;
         return this._categoriesHttpService.getCategories(this._fixedPageableLimit, offset).pipe(
-            tap(res => {
-                this._categories$.next(res.results);
-                this._lazyLoader$.next(false);
-                this._lazyLoaderService.forcedInactivateLoader();
+            map(res => res.results),
+            tap(results => {
+                this._categories$.next(results);
+                this.disableLazyLoading();
             }),
             catchError(err => {
-                this._lazyLoader$.next(false);
-                this.populateErrorAlert(err.error);
+                this.disableLazyLoading();
+                Utils.populateErrorAlert(err, this._alertError$);
                 return throwError(err);
             }),
         );
     };
 
     gotoNextPage(): Observable<ICategoryModel[] | any> {
-        if (this._currentPage++ > (this._allPages - 1)) return of(null);
+        if (this._currentPage++ >= this._allPages) return of(null);
         this.updatePrevNextDisabledButtons();
         return this.loadCategories();
     };
@@ -106,14 +111,16 @@ export class CategoriesService {
         return this.loadCategories();
     };
 
-    private populateErrorAlert(err: any): void {
-        this._alertError$.next({ type: AlertType.ERROR, content: err.error || "Unknow server error" });
+    private disableLazyLoading(): void {
+        this._lazyLoaderService.forcedInactivateLoader();
+        this._isInitialLoad = false;
+        this._lazyLoader$.next(false);
     };
 
     private updatePrevNextDisabledButtons(): void {
         this._currentPage$.next(this._currentPage);
         this._isPrevDisabled$.next(this._currentPage <= 1);
-        this._isNextDisabled$.next(this._currentPage > (this._allPages - 1));
+        this._isNextDisabled$.next(this._currentPage >= this._allPages);
     };
 
     get currentPage$(): Observable<number> { return this._currentPage$; };
