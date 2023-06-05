@@ -23,6 +23,11 @@
  */
 
 import { snakeCase } from "lodash";
+import { AlertType } from "./alert.type";
+
+import { BehaviorSubject } from "rxjs";
+
+import { IResponseAlertModel } from "../models/response-alert.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,5 +59,9 @@ export class Utils {
             return value[0];
         }
         return value;
-    }
+    };
+
+    static populateErrorAlert(err: any, alertError$: BehaviorSubject<IResponseAlertModel>): void {
+        alertError$.next({ type: AlertType.ERROR, content: err.error.message || "Unknow server error." });
+    };
 }

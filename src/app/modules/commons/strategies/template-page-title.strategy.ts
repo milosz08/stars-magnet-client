@@ -47,4 +47,8 @@ export class TemplatePageTitleStrategy extends TitleStrategy {
             this._title.setTitle(this.DEF_SUFFIX);
         }
     };
+
+    createCustomTitle(prefix: string): void {
+        this._title.setTitle(`${prefix} | ${this.DEF_SUFFIX}`);
+    };
 }

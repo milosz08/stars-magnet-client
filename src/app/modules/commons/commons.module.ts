@@ -25,9 +25,10 @@
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
-import { NgbAlert, NgbCollapse } from "@ng-bootstrap/ng-bootstrap";
 import { RouterLink, RouterLinkActive } from "@angular/router";
 import { HttpClientModule } from "@angular/common/http";
+
+import * as NgbBts from "@ng-bootstrap/ng-bootstrap";
 
 import { NotFoundPageComponent } from "./pages/not-found-page/not-found-page.component";
 
@@ -58,11 +59,14 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         CommonModule,
         FormsModule,
         ReactiveFormsModule,
-        NgbAlert,
         RouterLink,
         HttpClientModule,
         RouterLinkActive,
-        NgbCollapse,
+        NgbBts.NgbAlert,
+        NgbBts.NgbCollapse,
+        NgbBts.NgbDropdown,
+        NgbBts.NgbDropdownMenu,
+        NgbBts.NgbDropdownToggle,
     ],
     exports: [
         FooterComponent,

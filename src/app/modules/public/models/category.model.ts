@@ -26,10 +26,13 @@ import { IPageableModel } from "../../commons/models/pagination.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export interface ICategoryModel {
-    id: number;
+export interface ICategoryResDtoModel {
     name: string;
     icon: string;
+}
+
+export interface ICategoryModel extends ICategoryResDtoModel {
+    id: number;
 }
 
 export type PageableCategories = IPageableModel<ICategoryModel>;

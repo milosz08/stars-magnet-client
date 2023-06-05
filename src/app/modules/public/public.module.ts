@@ -26,6 +26,8 @@ import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
 
+import * as NgbBts from "@ng-bootstrap/ng-bootstrap";
+
 import { PublicRootComponent } from "./public-root.component";
 import { PublicRoutingModule } from "./public-routing.module";
 import { CommonsModule } from "../commons/commons.module";
@@ -52,6 +54,15 @@ import { HomeCategoriesComponent } from "./components/home-categories/home-categ
         PublicRoutingModule,
         FormsModule,
         CommonsModule,
+        NgbBts.NgbAccordionDirective,
+        NgbBts.NgbAccordionItem,
+        NgbBts.NgbAccordionHeader,
+        NgbBts.NgbAccordionButton,
+        NgbBts.NgbAccordionCollapse,
+        NgbBts.NgbAccordionBody,
+        NgbBts.NgbDropdown,
+        NgbBts.NgbDropdownToggle,
+        NgbBts.NgbDropdownMenu,
     ],
 })
 export class PublicModule {
