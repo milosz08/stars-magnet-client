@@ -37,6 +37,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { PasswordTogglerComponent } from "./components/password-toggler/password-toggler.component";
 import { DimissibleAlertComponent } from "./components/dimissible-alert/dimissible-alert.component";
 import { LazyPageLoaderComponent } from "./components/lazy-page-loader/lazy-page-loader.component";
+import { PageableComponent } from "./components/pageable/pageable.component";
 
 import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
 
@@ -52,6 +53,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         PasswordTogglerComponent,
         DimissibleAlertComponent,
         LazyPageLoaderComponent,
+        PageableComponent,
         // pipes
         OnlyFirstPipe,
     ],
@@ -75,6 +77,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         DimissibleAlertComponent,
         HeaderComponent,
         LazyPageLoaderComponent,
+        PageableComponent,
     ],
 })
 export class CommonsModule {
