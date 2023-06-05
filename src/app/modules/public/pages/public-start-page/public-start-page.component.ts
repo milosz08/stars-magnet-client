@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: start-page.component.ts
+ * File name: public-start-page.component.ts
  * Last modified: 23/05/2023, 09:41
  * Project name: stars-magnet-client
  *
@@ -27,9 +27,9 @@ import { Component } from "@angular/core";
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-start-page",
-    templateUrl: "./start-page.component.html",
+    selector: "app-public-start-page",
+    templateUrl: "./public-start-page.component.html",
     host: { class: "d-flex flex-column h-100" },
 })
-export class StartPageComponent {
+export class PublicStartPageComponent {
 }

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: category-page.component.spec.ts
- * Last modified: 24/05/2023, 16:31
+ * File name: public-start-page.component.spec.ts
+ * Last modified: 23/05/2023, 09:41
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -23,20 +23,21 @@
  */
 
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { CategoryPageComponent } from "./category-page.component";
+import { PublicStartPageComponent } from "./public-start-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("CategoryPageComponent", () => {
-    let component: CategoryPageComponent;
-    let fixture: ComponentFixture<CategoryPageComponent>;
+describe("StartPageComponent", () => {
+    let component: PublicStartPageComponent;
+    let fixture: ComponentFixture<PublicStartPageComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ CategoryPageComponent ]
-        }).compileComponents();
+            declarations: [ PublicStartPageComponent ]
+        })
+            .compileComponents();
 
-        fixture = TestBed.createComponent(CategoryPageComponent);
+        fixture = TestBed.createComponent(PublicStartPageComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

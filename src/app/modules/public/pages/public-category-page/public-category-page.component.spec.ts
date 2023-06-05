@@ -1,7 +1,7 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: category-page.component.scss
+ * File name: public-category-page.component.spec.ts
  * Last modified: 24/05/2023, 16:31
  * Project name: stars-magnet-client
  *
@@ -21,3 +21,27 @@
  * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
  * or other dealings in the software.
  */
+
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { PublicCategoryPageComponent } from "./public-category-page.component";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe("CategoryPageComponent", () => {
+    let component: PublicCategoryPageComponent;
+    let fixture: ComponentFixture<PublicCategoryPageComponent>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ PublicCategoryPageComponent ]
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(PublicCategoryPageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});
