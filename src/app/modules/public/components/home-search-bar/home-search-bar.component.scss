@@ -1,8 +1,8 @@
-/*
+/*!
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: categories-page.component.ts
- * Last modified: 24/05/2023, 16:31
+ * File name: home-search-bar.component.scss
+ * Last modified: 6/4/23, 11:43 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,26 +22,7 @@
  * or other dealings in the software.
  */
 
-import { Component, OnInit } from "@angular/core";
-import { ActivatedRoute } from "@angular/router";
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-@Component({
-    selector: "app-category-page",
-    templateUrl: "./category-page.component.html",
-    styleUrls: [ "./category-page.component.scss" ],
-})
-export class CategoryPageComponent implements OnInit {
-
-    testingCategory = "";
-
-    constructor(
-        private _route: ActivatedRoute,
-    ) {
-    };
-
-    ngOnInit(): void {
-        this.testingCategory = this._route.snapshot.paramMap.get('categoryId') || "";
-    };
+.search-bar-input {
+    max-width: 500px;
+    width: 100%;
 }
