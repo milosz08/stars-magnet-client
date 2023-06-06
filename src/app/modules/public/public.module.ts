@@ -35,10 +35,11 @@ import { CommonsModule } from "../commons/commons.module";
 import { PublicStartPageComponent } from "./pages/public-start-page/public-start-page.component";
 import { PublicCategoryPageComponent } from "./pages/public-category-page/public-category-page.component";
 import { PublicCompanyPageComponent } from "./pages/public-company-page/public-company-page.component";
+import { PublicFilteredCompaniesPageComponent } from "./pages/public-filtered-companies-page/public-filtered-companies-page.component";
 
-import { HomeSearchBarComponent } from "./components/home-search-bar/home-search-bar.component";
+import { CompaniesListComponent } from "./components/companies-list/companies-list.component";
 import { HomeCategoriesComponent } from "./components/home-categories/home-categories.component";
-import { CategoryCompaniesListComponent } from "./components/category-companies-list/category-companies-list.component";
+import { CompaniesSearchBarComponent } from "./components/companies-search-bar/companies-search-bar.component";
 import { CategoryCompaniesFilterComponent } from "./components/category-companies-filter/category-companies-filter.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -50,10 +51,11 @@ import { CategoryCompaniesFilterComponent } from "./components/category-companie
         PublicStartPageComponent,
         PublicCategoryPageComponent,
         PublicCompanyPageComponent,
+        PublicFilteredCompaniesPageComponent,
         // components
-        HomeSearchBarComponent,
+        CompaniesListComponent,
         HomeCategoriesComponent,
-        CategoryCompaniesListComponent,
+        CompaniesSearchBarComponent,
         CategoryCompaniesFilterComponent,
     ],
     imports: [

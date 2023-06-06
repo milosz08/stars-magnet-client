@@ -55,6 +55,14 @@ export class CompanyHttpService {
         );
     };
 
+    getPageableAllData(query: string, fixedLimit: number): Observable<IPrePageableData> {
+        const params = new HttpParams().set("query", query);
+        return this._httpClient.get<IPrePageableData>(
+            `${environment.httpBackendURI}/api/company/pageable/${fixedLimit}`,
+            { params },
+        );
+    };
+
     getAllCompaniesByCategory(categoryId: number, fixedLimit: number, offset: number)
         : Observable<ICompanysPageableResDtoModel> {
         const params = new HttpParams()
@@ -62,6 +70,17 @@ export class CompanyHttpService {
             .set("offset", offset);
         return this._httpClient.get<ICompanysPageableResDtoModel>(
             `${environment.httpBackendURI}/api/category/${categoryId}`,
+            { params },
+        );
+    };
+
+    getAllCompaniesByQuery(query: string, fixedLimit: number, offset: number): Observable<ICompanysPageableResDtoModel> {
+        const params = new HttpParams()
+            .set("limit", fixedLimit)
+            .set("offset", offset)
+            .set("query", query);
+        return this._httpClient.get<ICompanysPageableResDtoModel>(
+            `${environment.httpBackendURI}/api/search`,
             { params },
         );
     };

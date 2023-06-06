@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: public-routing.module.ts
- * Last modified: 24/05/2023, 16:28
+ * File name: public-filtered-companies-page.component.spec.ts
+ * Last modified: 6/6/23, 3:54 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,36 +22,26 @@
  * or other dealings in the software.
  */
 
-import { RouterModule, Routes } from "@angular/router";
-import { NgModule } from "@angular/core";
-
-import { PublicRootComponent } from "./public-root.component";
-
-import { PublicStartPageComponent } from "./pages/public-start-page/public-start-page.component";
-import { PublicCompanyPageComponent } from "./pages/public-company-page/public-company-page.component";
-import { PublicCategoryPageComponent } from "./pages/public-category-page/public-category-page.component";
-import { PublicFilteredCompaniesPageComponent } from "./pages/public-filtered-companies-page/public-filtered-companies-page.component";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { PublicFilteredCompaniesPageComponent } from "./public-filtered-companies-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-const routes: Routes = [
-    { path: "", component: PublicRootComponent, children: [
-        { path: "", component: PublicStartPageComponent, title: "Home", pathMatch: "full" },
-        { path: "category/:categoryId", component: PublicCategoryPageComponent },
-        { path: "company/:companyId", component: PublicCompanyPageComponent },
-        { path: "companies", component: PublicFilteredCompaniesPageComponent },
-    ]},
-];
+describe("PublicFilteredCompaniesPageComponent", () => {
+    let component: PublicFilteredCompaniesPageComponent;
+    let fixture: ComponentFixture<PublicFilteredCompaniesPageComponent>;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ PublicFilteredCompaniesPageComponent ]
+        }).compileComponents();
 
-@NgModule({
-    imports: [
-        RouterModule.forChild(routes),
-    ],
-    exports: [
-        RouterModule,
-    ],
-})
-export class PublicRoutingModule {
-}
+        fixture = TestBed.createComponent(PublicFilteredCompaniesPageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});
