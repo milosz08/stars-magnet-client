@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: home-search-bar.component.spec.ts
- * Last modified: 6/4/23, 11:43 AM
+ * File name: search-company-box.service.spec.ts
+ * Last modified: 6/6/23, 6:25 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,26 +22,20 @@
  * or other dealings in the software.
  */
 
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { HomeSearchBarComponent } from "./home-search-bar.component";
+import { TestBed } from "@angular/core/testing";
+import { SearchCompanyBoxService } from "./search-company-box.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("HomeSearchBarComponent", () => {
-    let component: HomeSearchBarComponent;
-    let fixture: ComponentFixture<HomeSearchBarComponent>;
+describe("SearchCompanyBoxService", () => {
+    let service: SearchCompanyBoxService;
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            declarations: [ HomeSearchBarComponent ]
-        }).compileComponents();
-
-        fixture = TestBed.createComponent(HomeSearchBarComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(SearchCompanyBoxService);
     });
 
-    it("should create", () => {
-        expect(component).toBeTruthy();
+    it("should be created", () => {
+        expect(service).toBeTruthy();
     });
 });

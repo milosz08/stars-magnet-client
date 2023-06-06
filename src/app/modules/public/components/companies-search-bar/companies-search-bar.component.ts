@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: public-start-page.component.ts
- * Last modified: 23/05/2023, 09:41
+ * File name: companies-search-bar.component.ts
+ * Last modified: 6/4/23, 11:43 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,30 +22,50 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
+import { Component, ElementRef, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
+
+import { Observable, takeUntil } from "rxjs";
+
+import { SearchCompanyService } from "../../services/search-company/search-company.service";
+import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { SearchCompanyBoxService } from "../../services/search-company-box/search-company-box.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-public-start-page",
-    templateUrl: "./public-start-page.component.html",
-    host: { class: "d-flex flex-column h-100" },
+    selector: "app-companies-search-bar",
+    templateUrl: "./companies-search-bar.component.html",
 })
-export class PublicStartPageComponent {
+export class CompaniesSearchBarComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
-    searchParaphrase = "";
+    searchContent = "";
+    searchContent$: Observable<string> = this._searchCompanyBoxService.searchContent$;
+
+    @ViewChild("searchInput") searchInput!: ElementRef;
 
     constructor(
         private _router: Router,
+        private _searchCompanyService: SearchCompanyService,
         private _searchCompanyBoxService: SearchCompanyBoxService,
     ) {
+        super();
     };
 
-    onSearchParaphrase(): void {
-        this._searchCompanyBoxService.pushNewParaphrase(this.searchParaphrase);
-        this._router.navigate([ "/companies" ]).then(r => r);
+    ngOnInit(): void {
+        this._searchCompanyBoxService.getPipedSearchResult(this._unsubscribe).subscribe(phrase => {
+            this.searchContent = phrase;
+            this._searchCompanyService.loadPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
+            this._searchCompanyService.loadFilteredCompanies().pipe(takeUntil(this._unsubscribe)).subscribe();
+        });
+    };
+
+    ngOnDestroy(): void {
+        this.subjectCleanup();
+    };
+
+    onSetNewParaphrase(phrase: string): void {
+        this._searchCompanyService.pushNewParaphrase(phrase);
     };
 }

@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: home-search-bar.component.ts
+ * File name: companies-search-bar.component.spec.ts
  * Last modified: 6/4/23, 11:43 AM
  * Project name: stars-magnet-client
  *
@@ -22,28 +22,26 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { CompaniesSearchBarComponent } from "./companies-search-bar.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Component({
-    selector: "app-home-search-bar",
-    templateUrl: "./home-search-bar.component.html",
-    styleUrls: [ "./home-search-bar.component.scss" ],
-})
-export class HomeSearchBarComponent {
+describe("CompaniesSearchBarComponent", () => {
+    let component: CompaniesSearchBarComponent;
+    let fixture: ComponentFixture<CompaniesSearchBarComponent>;
 
-    searchParaphrase = "";
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ CompaniesSearchBarComponent ]
+        }).compileComponents();
 
-    constructor(
-        private _router: Router,
-    ) {
-    };
+        fixture = TestBed.createComponent(CompaniesSearchBarComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
 
-    onSearchParaphrase(): void {
-        console.log(this.searchParaphrase);
-
-        //this._router.navigate([ "/companies" ]).then(r => r);
-    };
-}
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});

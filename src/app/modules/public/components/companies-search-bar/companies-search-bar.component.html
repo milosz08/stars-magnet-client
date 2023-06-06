@@ -1,7 +1,7 @@
 <!--
   ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
   ~
-  ~ File name: home-search-bar.component.html
+  ~ File name: companies-search-bar.component.html
   ~ Last modified: 6/4/23, 11:43 AM
   ~ Project name: stars-magnet-client
   ~
@@ -22,16 +22,14 @@
   ~ or other dealings in the software.
   -->
 
-<form (ngSubmit)="onSearchParaphrase()" class="d-flex justify-content-center hstack gap-2 mt-3">
+<div class="d-flex justify-content-center hstack gap-2 my-3">
     <input
-        type="search"
+        type="text"
         name="paraphrase"
         #searchInput
-        [(ngModel)]="searchParaphrase"
-        placeholder="Search company..."
-        class="form-control search-bar-input"
-    >
-    <button [disabled]="searchInput.value === ''" class="btn btn-primary">
-        <i class="bi bi-search"></i>
-    </button>
-</form>
+        (input)="onSetNewParaphrase(searchInput.value)"
+        [value]="(searchContent$ | async)"
+        placeholder="Start typing to search company..."
+        class="form-control"
+    />
+</div>

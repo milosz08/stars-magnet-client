@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: styles.scss
- * Last modified: 14/05/2023, 17:07
+ * File name: search-company-box.service.ts
+ * Last modified: 6/6/23, 6:25 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,39 +22,28 @@
  * or other dealings in the software.
  */
 
-@import "bootstrap/scss/bootstrap";
-@import "bootstrap-icons/font/bootstrap-icons.css";
+import { Injectable } from "@angular/core";
+
+import { BehaviorSubject, debounceTime, distinctUntilChanged, Observable, Subject, takeUntil } from "rxjs";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-*, *:not(code) {
-    font-family: Inter, sans-serif;
-}
+@Injectable({ providedIn: "root" })
+export class SearchCompanyBoxService {
 
-.form-width {
-    width: 100%;
-    &.max {
-        max-width: 850px;
-    }
-    &.min {
-        max-width: 500px;
-    }
-}
+    private _searchContent$: BehaviorSubject<string> = new BehaviorSubject<string>("");
 
-.header-top-margin {
-    margin-top: 56px;
-}
+    pushNewParaphrase(paraphrase: string): void {
+        this._searchContent$.next(paraphrase);
+    };
 
-.lazy-spinner-medium {
-    width: 4rem;
-    height: 4rem;
-}
+    getPipedSearchResult(unsubscribe: Subject<void>): Observable<any> {
+        return this._searchContent$.pipe(
+            debounceTime(300),
+            distinctUntilChanged(),
+            takeUntil(unsubscribe),
+        );
+    };
 
-.fs-xsm {
-    font-size: .8rem;
-}
-
-.search-bar-input {
-    max-width: 500px;
-    width: 100%;
+    get searchContent$(): Observable<string> { return this._searchContent$.asObservable() };
 }

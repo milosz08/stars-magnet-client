@@ -24,7 +24,18 @@
 
 <div class="row mt-5">
     <h3 class="text-center">Welcome to <span class="text-primary">Stars Magnet</span>!</h3>
-    <app-home-search-bar></app-home-search-bar>
+    <form (ngSubmit)="onSearchParaphrase()" class="d-flex justify-content-center hstack gap-2 mt-3">
+        <input
+            type="text"
+            name="searchParaphrase"
+            [(ngModel)]="searchParaphrase"
+            placeholder="Search company..."
+            class="form-control search-bar-input search-bar-input"
+        >
+        <button [disabled]="searchParaphrase === ''" class="btn btn-primary">
+            <i class="bi bi-search"></i>
+        </button>
+    </form>
 </div>
 <div class="row mt-5">
     <div class="hstack gap-4">
