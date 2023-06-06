@@ -37,5 +37,5 @@ export interface IPageableModel<T> extends IPaginationModel {
     results: T[];
 }
 
-export const pageableLimits = [ 10, 15, 20, 50, 100 ];
+export const pageableLimits = [ 5, 10, 15, 20, 50, 100 ];
 export type PageableLimitsUnion = typeof pageableLimits[number];

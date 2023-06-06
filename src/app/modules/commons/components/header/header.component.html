@@ -35,15 +35,14 @@
         <div [ngbCollapse]="isNavbarCollapsed" class="navbar-collapse mt-3 mt-md-0" id="navbarSupportedContent">
             <a class="navbar-brand h1 mb-0" routerLink="/">Stars Magnet</a>
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <ng-container *ngIf="(isLogged$ | async); then isLoggedLinks; else isNonLoggedLinks"></ng-container>
-                <ng-template #isLoggedLinks>
+                <ng-container *ngIf="(isLogged$ | async)">
                     <li class="nav-item">
                         <a class="nav-link" routerLink="/user/home" routerLinkActive="active">User home</a>
                     </li>
-                </ng-template>
-                <ng-template #isNonLoggedLinks>
-                    ...
-                </ng-template>
+                </ng-container>
+                <li class="nav-item">
+                    <a class="nav-link" routerLink="/companies" routerLinkActive="active">Companies</a>
+                </li>
             </ul>
             <ul class="navbar-nav align-items-center">
                 <ng-container *ngIf="(isLogged$ | async); then isLoggedAuths; else isNonLoggedAuths"></ng-container>

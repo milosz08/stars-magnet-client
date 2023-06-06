@@ -22,7 +22,7 @@
  * or other dealings in the software.
  */
 
-import { ICategoryResDtoModel } from "./category.model";
+import { ICategoryModel } from "./category.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,5 +40,5 @@ export interface ICompanyResDtoModel {
     site: string;
     avgRatings: number | null | string;
     opinionsCount: number;
-    categories: ICategoryResDtoModel[];
+    categories: ICategoryModel[];
 }

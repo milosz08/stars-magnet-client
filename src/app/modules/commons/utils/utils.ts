@@ -28,6 +28,7 @@ import { AlertType } from "./alert.type";
 import { BehaviorSubject } from "rxjs";
 
 import { IResponseAlertModel } from "../models/response-alert.model";
+import { ICompanyResDtoModel } from "../../public/models/company.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -63,5 +64,12 @@ export class Utils {
 
     static populateErrorAlert(err: any, alertError$: BehaviorSubject<IResponseAlertModel>): void {
         alertError$.next({ type: AlertType.ERROR, content: err.error.message || "Unknow server error." });
+    };
+
+    static convertCompaniesDotsToCommas(result: ICompanyResDtoModel[]): ICompanyResDtoModel[] {
+        return result.map(comp => {
+            comp.avgRatings = comp.avgRatings ? comp.avgRatings.toString().replaceAll(".", ",") : "-"
+            return comp;
+        });
     };
 }

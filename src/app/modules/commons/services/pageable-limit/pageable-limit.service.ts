@@ -25,14 +25,15 @@
 import { Injectable } from "@angular/core";
 
 import { BehaviorSubject, Observable } from "rxjs";
-import { PageableLimitsUnion } from "../../models/pagination.model";
+import { pageableLimits, PageableLimitsUnion } from "../../models/pagination.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Injectable({ providedIn: "root" })
 export class PageableLimitService {
 
-    private _pageableLimit$: BehaviorSubject<PageableLimitsUnion> = new BehaviorSubject<PageableLimitsUnion>(10);
+    private _pageableLimit$: BehaviorSubject<PageableLimitsUnion>
+        = new BehaviorSubject<PageableLimitsUnion>(pageableLimits[0]);
 
     setPageableLimit(limit: PageableLimitsUnion): void {
         this._pageableLimit$.next(limit);
