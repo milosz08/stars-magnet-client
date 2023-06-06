@@ -23,14 +23,16 @@
  */
 
 import { Component, OnDestroy, OnInit } from "@angular/core";
+import { ActivatedRoute, Router } from "@angular/router";
 
-import { takeUntil } from "rxjs";
+import { Observable, takeUntil } from "rxjs";
 
 import { TemplatePageTitleStrategy } from "../../../commons/strategies/template-page-title.strategy";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { RouterHelperService } from "../../../commons/services/router-helper/router-helper.service";
 import { CompaniesCategoryService } from "../../services/companies-category/companies-category.service";
+import { PageableCompaniesService } from "../../services/pageable-companies/pageable-companies.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -38,24 +40,34 @@ import { CompaniesCategoryService } from "../../services/companies-category/comp
     selector: "app-public-category-page",
     templateUrl: "./public-category-page.component.html",
     styleUrls: [ "./public-category-page.component.scss" ],
-    providers: [ CompaniesCategoryService, RouterHelperService ],
+    providers: [ CompaniesCategoryService, PageableCompaniesService, RouterHelperService ],
 })
 export class PublicCategoryPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
-    categoryId!: number | null;
     categoryName = "";
+    totalCount$: Observable<number> = this._pageableCompanyService.totalCount$;
 
     constructor(
+        private _router: Router,
+        private _route: ActivatedRoute,
         private _routerHelperService: RouterHelperService,
+        private _pageableCompanyService: PageableCompaniesService,
         private _companiesCategoryService: CompaniesCategoryService,
-        private _templatePageTitleStrategy: TemplatePageTitleStrategy
+        private _templatePageTitleStrategy: TemplatePageTitleStrategy,
     ) {
         super();
     };
 
     ngOnInit(): void {
-        this.categoryId = this._routerHelperService.getIntFromRouteAndParse("categoryId", "/");
-        this._companiesCategoryService.loadPageable(this.categoryId).pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._routerHelperService.checkAndExtractCategoryId(categoryId => this.loadContent(Number(categoryId)));
+    };
+
+    ngOnDestroy(): void {
+        this.subjectCleanup();
+    };
+
+    private loadContent(categoryId: number): void {
+        this._companiesCategoryService.loadPageable(categoryId).pipe(takeUntil(this._unsubscribe)).subscribe();
         this._companiesCategoryService.loadCompaniesByCategory().pipe(takeUntil(this._unsubscribe))
             .subscribe(categoryName => {
                 this.categoryName = categoryName;
@@ -63,7 +75,12 @@ export class PublicCategoryPageComponent extends AbstractComponentReactiveProvid
             });
     };
 
-    ngOnDestroy(): void {
-        this.subjectCleanup();
+    onChangePage(page: number): void {
+        this._companiesCategoryService.moveToPage(page).pipe(takeUntil(this._unsubscribe)).subscribe();
+    };
+
+    onChangeLimit(): void {
+        this._companiesCategoryService.refreshPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._companiesCategoryService.loadCompaniesByCategory().pipe(takeUntil(this._unsubscribe)).subscribe();
     };
 }

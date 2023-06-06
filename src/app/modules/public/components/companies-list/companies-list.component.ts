@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: category-companies-list.component.ts
+ * File name: companies-list.component.ts
  * Last modified: 6/5/23, 12:04 AM
  * Project name: stars-magnet-client
  *
@@ -22,40 +22,44 @@
  * or other dealings in the software.
  */
 
-import { Component, Input, OnDestroy } from "@angular/core";
+import { Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
 
-import { Observable, takeUntil } from "rxjs";
+import { Observable } from "rxjs";
 
+import { ICategoryModel } from "../../models/category.model";
 import { ICompanyResDtoModel } from "../../models/company.model";
 import { IPrePageableData } from "../../../commons/models/pagination.model";
-import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
-import { CompaniesCategoryService } from "../../services/companies-category/companies-category.service";
+import { RouterHelperService } from "../../../commons/services/router-helper/router-helper.service";
 import { PageableLimitService } from "../../../commons/services/pageable-limit/pageable-limit.service";
+import { PageableCompaniesService } from "../../services/pageable-companies/pageable-companies.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-category-companies-list",
-    templateUrl: "./category-companies-list.component.html",
-    styleUrls: [ "./category-companies-list.component.scss" ],
+    selector: "app-companies-list",
+    templateUrl: "./companies-list.component.html",
+    styleUrls: [ "./companies-list.component.scss" ],
+    providers: [ RouterHelperService ],
 })
-export class CategoryCompaniesListComponent extends AbstractComponentReactiveProvider implements OnDestroy {
-
-    lazyLoader$: Observable<boolean> = this._companiesCategoryService.lazyLoader$;
-    alertErrors$: Observable<IResponseAlertModel> = this._companiesCategoryService.alertError$;
-    companies$: Observable<ICompanyResDtoModel[]> = this._companiesCategoryService.companies$;
-    totalCount$: Observable<number> = this._companiesCategoryService.totalCount$;
-
-    currentPage$: Observable<number> = this._companiesCategoryService.currentPage$;
-    pageable$: Observable<IPrePageableData | null> = this._companiesCategoryService.pageable$;
+export class CompaniesListComponent extends AbstractComponentReactiveProvider implements OnDestroy {
 
     @Input() categoryName = "";
+    @Input() categoriesAreFullVisibled = false;
+
+    @Output() onChangePageEmitter: EventEmitter<number> = new EventEmitter<number>();
+    @Output() onChangeLimit: EventEmitter<void> = new EventEmitter<void>();
+
+    lazyLoader$: Observable<boolean> = this._pageableCompanyService.lazyLoader$;
+    companies$: Observable<ICompanyResDtoModel[]> = this._pageableCompanyService.companies$;
+    currentPage$: Observable<number> = this._pageableCompanyService.currentPage$;
+    pageable$: Observable<IPrePageableData | null> = this._pageableCompanyService.pageable$;
 
     constructor(
+        private _routerHelperService: RouterHelperService,
         private _pageableLimitService: PageableLimitService,
-        private _companiesCategoryService: CompaniesCategoryService,
+        private _pageableCompanyService: PageableCompaniesService,
     ) {
         super();
     };
@@ -64,12 +68,7 @@ export class CategoryCompaniesListComponent extends AbstractComponentReactivePro
         this.subjectCleanup();
     };
 
-    onChangePage(page: number): void {
-        this._companiesCategoryService.moveToPage(page).pipe(takeUntil(this._unsubscribe)).subscribe();
-    };
-
-    onChangeLimit(): void {
-        this._companiesCategoryService.refreshPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._companiesCategoryService.loadCompaniesByCategory().pipe(takeUntil(this._unsubscribe)).subscribe();
+    identifyCategory(_: number, category: ICategoryModel): number {
+        return category.id;
     };
 }

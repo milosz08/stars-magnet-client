@@ -51,6 +51,20 @@
         </div>
     </div>
     <div class="col-lg-8 mt-4">
-        <app-category-companies-list [categoryName]="categoryName"></app-category-companies-list>
+        <app-companies-list
+            [categoryName]="categoryName"
+            (onChangePageEmitter)="onChangePage($event)"
+            (onChangeLimit)="onChangeLimit()"
+        >
+            <p class="text-secondary text-center" top>
+                Show all companies from category:
+                <span class="text-dark">{{ categoryName }}</span>
+                ({{ totalCount$ | async }} positions)
+            </p>
+            <ng-container alert>
+                Not found any company matching to selected category:
+                <strong class="alert-link">{{ categoryName }}</strong>.
+            </ng-container>
+        </app-companies-list>
     </div>
 </div>

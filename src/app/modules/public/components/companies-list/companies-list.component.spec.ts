@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: category-companies-list.component.spec.ts
+ * File name: companies-list.component.spec.ts
  * Last modified: 6/5/23, 12:04 AM
  * Project name: stars-magnet-client
  *
@@ -23,20 +23,20 @@
  */
 
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { CategoryCompaniesListComponent } from "./category-companies-list.component";
+import { CompaniesListComponent } from "./companies-list.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("CategoryCompaniesListComponent", () => {
-    let component: CategoryCompaniesListComponent;
-    let fixture: ComponentFixture<CategoryCompaniesListComponent>;
+describe("CompaniesListComponent", () => {
+    let component: CompaniesListComponent;
+    let fixture: ComponentFixture<CompaniesListComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ CategoryCompaniesListComponent ]
+            declarations: [ CompaniesListComponent ]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(CategoryCompaniesListComponent);
+        fixture = TestBed.createComponent(CompaniesListComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

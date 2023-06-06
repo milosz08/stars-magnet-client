@@ -1,0 +1,91 @@
+<!--
+  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+  ~
+  ~ File name: companies-list.component.html
+  ~ Last modified: 6/5/23, 12:04 AM
+  ~ Project name: stars-magnet-client
+  ~
+  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  ~
+  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
+  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
+  ~
+  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
+  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
+  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
+  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
+  ~ or other dealings in the software.
+  -->
+
+<ng-template *ngIf="(lazyLoader$ | async); then showLazyLoader; else showLoadableContent"></ng-template>
+<ng-template #showLazyLoader>
+    <div class="d-flex justify-content-center mt-5">
+        <div class="spinner-border lazy-spinner-medium" role="status">
+            <span class="visually-hidden">Loading...</span>
+        </div>
+    </div>
+</ng-template>
+<ng-template #showLoadableContent>
+    <ng-template *ngIf="(companies$ | async)?.length; then showActualContent; else notFoundAnyContent"></ng-template>
+    <ng-template #showActualContent>
+        <ng-content select="[top]"></ng-content>
+        <app-pageable
+            [currentPage]="(currentPage$ | async)!"
+            [pageable]="(pageable$ | async)!"
+            (changePageEmitter)="onChangePageEmitter.emit($event)"
+            (changeLimitEmitter)="onChangeLimit.emit()"
+        ></app-pageable>
+        <ul class="list-unstyled pe-0">
+            <li *ngFor="let company of (companies$ | async)" class="card border-0 shadow-sm mb-3 p-4">
+                <div class="card-title mb-0 d-flex justify-content-between">
+                    <div class="hstack gap-3 align-items-center">
+                        <h4 class="fw-normal mb-0">{{ company.name }}</h4>
+                        <span class="text-warning">
+                            <i class="bi bi-star-fill"></i>
+                            {{ company.avgRatings }}
+                            <span class="text-secondary">({{ company.opinionsCount }})</span>
+                        </span>
+                    </div>
+                    <a href="{{ company.site }}" target="_blank" class="text-decoration-none fs-6 text-secondary">
+                        Website <i class="bi bi-box-arrow-up-right ms-2"></i>
+                    </a>
+                </div>
+                <div class="card-body p-0 mt-3">
+                    <div class="d-block d-sm-flex justify-content-between align-items-center">
+                        <ul class="d-flex flex-wrap list-unstyled">
+                            <li *ngFor="let category of company.categories; trackBy: identifyCategory">
+                                <a
+                                    [routerLink]="[ '/category', category.id ]"
+                                    [class.not-relevant]="category.name !== categoryName && !categoriesAreFullVisibled"
+                                    class="text-decoration-none bg-secondary py-1 px-2 rounded-3 text-light me-2 mb-2 lh-sm fs-xsm"
+                                >
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                        </ul>
+                        <a class="btn btn-primary btn-sm" [routerLink]="[ '/company/', company.id ]">
+                            View ratings
+                            <i class="bi bi-arrow-right ms-2"></i>
+                        </a>
+                    </div>
+                </div>
+            </li>
+        </ul>
+        <app-pageable
+            [currentPage]="(currentPage$ | async)!"
+            [pageable]="(pageable$ | async)!"
+            (changePageEmitter)="onChangePageEmitter.emit($event)"
+            (changeLimitEmitter)="onChangeLimit.emit()"
+        ></app-pageable>
+    </ng-template>
+    <ng-template #notFoundAnyContent>
+        <div class="alert alert-warning mt-3">
+            <ng-content select="[alert]"></ng-content>
+        </div>
+    </ng-template>
+</ng-template>

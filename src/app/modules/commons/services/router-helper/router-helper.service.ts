@@ -22,18 +22,23 @@
  * or other dealings in the software.
  */
 
-import { Injectable } from "@angular/core";
+import { Injectable, OnDestroy } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
+
+import { takeUntil } from "rxjs";
+
+import { AbstractComponentReactiveProvider } from "../../utils/abstract-component-reactive-provider";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Injectable()
-export class RouterHelperService {
+export class RouterHelperService extends AbstractComponentReactiveProvider implements OnDestroy {
 
     constructor(
         private _router: Router,
         private _route: ActivatedRoute,
     ) {
+        super();
     };
 
     getIntFromRouteAndParse(paramName: string, redirectTo: string): number {
@@ -43,5 +48,20 @@ export class RouterHelperService {
             return 0;
         }
         return Number(paramValue);
+    };
+
+    checkAndExtractCategoryId(callback: (categoryId: number) => void): void {
+        this._route.paramMap.pipe(takeUntil(this._unsubscribe)).subscribe((params: any) => {
+            const categoryId = params.get("categoryId");
+            if (!categoryId) {
+                this._router.navigate([ "/" ]).then(r => r);
+                return;
+            }
+            callback(categoryId);
+        });
+    };
+
+    ngOnDestroy(): void {
+        this.subjectCleanup();
     };
 }

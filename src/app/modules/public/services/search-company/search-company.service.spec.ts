@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: category-companies-list.component.scss
- * Last modified: 6/5/23, 12:04 AM
+ * File name: search-company.service.spec.ts
+ * Last modified: 6/6/23, 4:11 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,6 +22,20 @@
  * or other dealings in the software.
  */
 
-.not-relevant {
-    opacity: .6;
-}
+import { TestBed } from "@angular/core/testing";
+import { SearchCompanyService } from "./search-company.service";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe("SearchCompanyService", () => {
+    let service: SearchCompanyService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(SearchCompanyService);
+    });
+
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
+});

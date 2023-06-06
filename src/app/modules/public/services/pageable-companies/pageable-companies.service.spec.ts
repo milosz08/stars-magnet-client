@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: home-search-bar.component.scss
- * Last modified: 6/4/23, 11:43 AM
+ * File name: pageable-companies.service.spec.ts
+ * Last modified: 6/6/23, 7:59 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,7 +22,20 @@
  * or other dealings in the software.
  */
 
-.search-bar-input {
-    max-width: 500px;
-    width: 100%;
-}
+import { TestBed } from "@angular/core/testing";
+import { PageableCompaniesService } from "./pageable-companies.service";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe("PageableCompaniesService", () => {
+    let service: PageableCompaniesService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(PageableCompaniesService);
+    });
+
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
+});

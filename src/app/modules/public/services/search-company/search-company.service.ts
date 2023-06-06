@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: companies-category.service.ts
- * Last modified: 6/4/23, 10:54 PM
+ * File name: search-company.service.ts
+ * Last modified: 6/6/23, 4:11 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -25,13 +25,14 @@
 import { Injectable, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { catchError, mergeMap, Observable, of, takeUntil, tap, throwError } from "rxjs";
+import { catchError, Observable, of, takeUntil, tap, throwError } from "rxjs";
 
 import { Utils } from "../../../commons/utils/utils";
 import { ICompanyResDtoModel } from "../../models/company.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 import { IPrePageableData, pageableLimits, PageableLimitsUnion } from "../../../commons/models/pagination.model";
 
+import { SearchCompanyBoxService } from "../search-company-box/search-company-box.service";
 import { PageableCompaniesService } from "../pageable-companies/pageable-companies.service";
 import { LazyLoaderService } from "../../../commons/services/lazy-loader/lazy-loader.service";
 import { CompanyHttpService } from "../../../commons/http-services/company-http/company-http.service";
@@ -40,11 +41,11 @@ import { PageableLimitService } from "../../../commons/services/pageable-limit/p
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Injectable()
-export class CompaniesCategoryService extends AbstractComponentReactiveProvider implements OnDestroy {
+export class SearchCompanyService extends AbstractComponentReactiveProvider implements OnDestroy {
 
     private _allPages = 1;
     private _currentPage = 1;
-    private _categoryId!: number;
+    private _searchQuery = "";
     private _pageableLimit: PageableLimitsUnion = pageableLimits[0];
 
     constructor(
@@ -52,24 +53,30 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         private _lazyLoaderService: LazyLoaderService,
         private _companyHttpService: CompanyHttpService,
         private _pageableLimitService: PageableLimitService,
+        private _searchCompanyBoxSerivce: SearchCompanyBoxService,
         private _pageableCompaniesService: PageableCompaniesService,
     ) {
         super();
         this._pageableLimitService.pageableLimit$.pipe(takeUntil(this._unsubscribe))
             .subscribe(data => this._pageableLimit = data);
+        this._searchCompanyBoxSerivce.searchContent$.pipe(takeUntil(this._unsubscribe))
+            .subscribe(searchQuery => this._searchQuery = searchQuery);
     };
 
     ngOnDestroy(): void {
         this.subjectCleanup();
     };
 
-    loadPageable(categoryId: number): Observable<any> {
-        this._lazyLoaderService.forcedActivateLoader();
-        this._categoryId = categoryId;
-        return this._companyHttpService.getPageableData(categoryId, this._pageableLimit).pipe(
+    pushNewParaphrase(paraphrase: string): void {
+        this._pageableCompaniesService.toggleLazyLoader(true);
+        this._searchCompanyBoxSerivce.pushNewParaphrase(paraphrase);
+    };
+
+    loadPageable(): Observable<any> {
+        this._pageableCompaniesService.toggleLazyLoader(true);
+        return this._companyHttpService.getPageableAllData(this._searchQuery, this._pageableLimit).pipe(
             tap(res => {
                 this.updateCountOfPages(res);
-                this._lazyLoaderService.forcedInactivateLoader();
             }),
             catchError(err => this.onThrowError(err)),
         );
@@ -79,24 +86,22 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         this._pageableCompaniesService.toggleLazyLoader(true);
         this._currentPage = 1;
         this._pageableCompaniesService.setCurrentPage(0);
-        return this._companyHttpService.getPageableData(this._categoryId, this._pageableLimit).pipe(
+        return this._companyHttpService.getPageableAllData(this._searchQuery, this._pageableLimit).pipe(
             tap(res => this.updateCountOfPages(res)),
             catchError(err => this.onThrowError(err)),
         );
     };
 
-    loadCompaniesByCategory(): Observable<string | any> {
+    loadFilteredCompanies(): Observable<any> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         const offset = (this._currentPage - 1) * this._pageableLimit;
-        return this._companyHttpService
-            .getAllCompaniesByCategory(this._categoryId, this._pageableLimit, offset).pipe(
-                mergeMap(res => {
-                    this._pageableCompaniesService.setCompanies(Utils.convertCompaniesDotsToCommas(res.results));
-                    this._pageableCompaniesService.setTotalCount(res.count);
-                    this._pageableCompaniesService.toggleLazyLoader(false);
-                    return of(res.category);
-                }),
-                catchError(err => this.onThrowError(err)),
+        return this._companyHttpService.getAllCompaniesByQuery(this._searchQuery, this._pageableLimit, offset).pipe(
+            tap(res => {
+                this._pageableCompaniesService.setCompanies(Utils.convertCompaniesDotsToCommas(res.results));
+                this._pageableCompaniesService.setTotalCount(res.count);
+                this._pageableCompaniesService.toggleLazyLoader(false);
+            }),
+            catchError(err => this.onThrowError(err)),
         );
     };
 
@@ -106,16 +111,17 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         }
         this._currentPage = pageNumber + 1;
         this._pageableCompaniesService.setCurrentPage(pageNumber);
-        return this.loadCompaniesByCategory();
-    };
-
-    private onThrowError(err: any): Observable<any> {
-        this._router.navigate([ "/" ]).then(r => r);
-        return throwError(err);
+        return this.loadFilteredCompanies();
     };
 
     private updateCountOfPages(res: IPrePageableData): void {
         this._pageableCompaniesService.setPageable(res);
         this._allPages = res.countAllPages;
+    };
+
+    private onThrowError(err: any): Observable<any> {
+        this._router.navigate([ "/" ]).then(r => r);
+        this._pageableCompaniesService.toggleLazyLoader(false);
+        return throwError(err);
     };
 }
