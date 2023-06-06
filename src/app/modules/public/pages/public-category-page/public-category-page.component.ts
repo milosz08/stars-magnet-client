@@ -39,7 +39,6 @@ import { PageableCompaniesService } from "../../services/pageable-companies/page
 @Component({
     selector: "app-public-category-page",
     templateUrl: "./public-category-page.component.html",
-    styleUrls: [ "./public-category-page.component.scss" ],
     providers: [ CompaniesCategoryService, PageableCompaniesService, RouterHelperService ],
 })
 export class PublicCategoryPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
