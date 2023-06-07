@@ -29,8 +29,8 @@ import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 
 import { IRegisterReqDto } from "../../models/register.model";
-import { ILoginFormModel, ILoginResponseDto } from "../../models/login.model";
 import { IRefreshModelReqDto, IRefreshModelResDto } from "../../models/refresh.model";
+import { IAutoLoginResponseDto, ICompanyLoginFormModel, ILoginFormModel, ILoginResponseDto } from "../../models/login.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -49,7 +49,14 @@ export class AuthHttpService {
         );
     };
 
-    register(reqDto: IRegisterReqDto): Observable<any> {
+    companyLogin$(reqDto: ICompanyLoginFormModel): Observable<ILoginResponseDto> {
+        return this._httpClient.post<ILoginResponseDto>(
+            `${environment.httpBackendURI}/api/company/login`,
+            reqDto,
+        );
+    };
+
+    register$(reqDto: IRegisterReqDto): Observable<any> {
         return this._httpClient.post<any>(
             `${environment.httpBackendURI}/api/register`,
             reqDto,

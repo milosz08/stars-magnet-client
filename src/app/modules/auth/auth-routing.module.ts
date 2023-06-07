@@ -31,6 +31,7 @@ import { canActivateNonLogged } from "../commons/guards/non-logged.guard";
 import { canActivateAfterAddedCompany } from "./guards/after-added-company.guard";
 
 import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
+import { AuthCompanyLoginPageComponent } from "./pages/auth-company-login-page/auth-company-login-page.component";
 import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
 import { AuthAddCompanyPageComponent } from "./pages/auth-add-company-page/auth-add-company-page.component";
 import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-company-page/auth-after-added-company-page.component";
@@ -41,6 +42,7 @@ const routes: Routes = [
     { path: "", component: AuthRootComponent, children: [
         { path: "", redirectTo: "login", pathMatch: "full" },
         { path: "login", component: AuthLoginPageComponent, title: "Login", canActivate: [ canActivateNonLogged ] },
+        { path: "company-login", component: AuthCompanyLoginPageComponent, title: "Company login", canActivate: [ canActivateNonLogged ] },
         { path: "register", component: AuthRegisterPageComponent, title: "Register", canActivate: [ canActivateNonLogged ] },
         { path: "add-company", component: AuthAddCompanyPageComponent, title: "Add company", canActivate: [ canActivateNonLogged ] },
         { path: "after-added-company", component: AuthAfterAddedCompanyPageComponent, title: "Added company", canActivate: [ canActivateAfterAddedCompany ] },

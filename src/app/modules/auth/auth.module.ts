@@ -33,8 +33,10 @@ import { AuthRoutingModule } from "./auth-routing.module";
 import { CommonsModule } from "../commons/commons.module";
 
 import { CompanyUserCommonSignupFormComponent } from "./components/company-user-common-signup-form/company-user-common-signup-form.component";
+import { CompanyUserCommonLoginFormComponent } from "./components/company-user-common-login-form/company-user-common-login-form.component";
 
 import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
+import { AuthCompanyLoginPageComponent } from "./pages/auth-company-login-page/auth-company-login-page.component";
 import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
 import { AuthAddCompanyPageComponent } from "./pages/auth-add-company-page/auth-add-company-page.component";
 import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-company-page/auth-after-added-company-page.component";
@@ -46,8 +48,10 @@ import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-com
         AuthRootComponent,
         // components
         CompanyUserCommonSignupFormComponent,
+        CompanyUserCommonLoginFormComponent,
         // pages
         AuthLoginPageComponent,
+        AuthCompanyLoginPageComponent,
         AuthRegisterPageComponent,
         AuthAddCompanyPageComponent,
         AuthAfterAddedCompanyPageComponent,

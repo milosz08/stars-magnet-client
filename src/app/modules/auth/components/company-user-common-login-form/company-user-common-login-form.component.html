@@ -1,0 +1,56 @@
+<!--
+  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+  ~
+  ~ File name: company-user-common-login-form.component.html
+  ~ Last modified: 6/7/23, 9:01 PM
+  ~ Project name: stars-magnet-client
+  ~
+  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  ~
+  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
+  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
+  ~
+  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
+  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
+  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
+  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
+  ~ or other dealings in the software.
+  -->
+
+<ng-container [formGroup]="formGroup">
+    <ng-content select="[top]"></ng-content>
+    <div class="mb-3">
+        <label for="username" class="form-label">Username/email address:</label>
+        <input
+            type="text"
+            id="username"
+            formControlName="username"
+            class="form-control"
+            [class.is-invalid]="validateField('username')"
+        />
+        <div class="invalid-feedback">
+            <div *ngIf="(formGroup.get('username')!.errors | onlyFirst) === 'required'">
+                Username/email address field is required.
+            </div>
+        </div>
+    </div>
+    <div class="mb-3">
+        <app-password-toggler
+            elementId="password"
+            elementTitle="Password"
+            reactiveControlName="password"
+            [reactiveFormGroup]="formGroup"
+            [isInvalid]="validateField('password')"
+        >
+            <div *ngIf="(formGroup.get('password')!.errors | onlyFirst) === 'required'">
+                Password field is required.
+            </div>
+        </app-password-toggler>
+    </div>
+    <ng-content select="[bottom]"></ng-content>
+</ng-container>

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: auth-login-page.component.ts
- * Last modified: 23/05/2023, 09:51
+ * File name: auth-company-login-page.component.ts
+ * Last modified: 6/7/23, 9:02 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -29,38 +29,41 @@ import { Router } from "@angular/router";
 import { first, Observable, takeUntil } from "rxjs";
 
 import { ToastType } from "../../../commons/models/toast.model";
-import { ILoginFormModel } from "../../../commons/models/login.model";
+import { ICompanyLoginFormModel } from "../../../commons/models/login.model";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
-import { AuthService } from "../../services/auth/auth.service";
 import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
+import { AuthCompanyService } from "../../services/auth-company/auth-company.service";
+import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
 import { ToastMessageService } from "../../../commons/services/toast-message/toast-message.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-auth-login-page",
-    templateUrl: "./auth-login-page.component.html",
-    providers: [ AuthService, LazyCommonsService ],
+    selector: "app-auth-company-login-page",
+    templateUrl: "./auth-company-login-page.component.html",
+    providers: [ AuthCompanyService, LazyCommonsService ],
 })
-export class AuthLoginPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
+export class AuthCompanyLoginPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
 
-    loginForm: FormGroup;
+    companyLoginForm: FormGroup;
 
     suspenseSpinner$: Observable<boolean> = this._authCommonsService.lazyLoader$;
     responseAlert$: Observable<IResponseAlertModel> = this._authCommonsService.responseAlert$;
 
     constructor(
         private _router: Router,
-        private _authService: AuthService,
+        private _authCompanyService: AuthCompanyService,
         private _authCommonsService: LazyCommonsService,
+        private _formHelperService: FormHelperService,
         private _toastMessageService: ToastMessageService,
     ) {
         super();
-        this.loginForm = new FormGroup({
+        this.companyLoginForm = new FormGroup({
             username: new FormControl("", [ Validators.required ]),
             password: new FormControl("", [ Validators.required ]),
+            token: new FormControl("", [ Validators.required ]),
         });
     };
 
@@ -68,15 +71,22 @@ export class AuthLoginPageComponent extends AbstractComponentReactiveProvider im
         this.subjectCleanup();
     };
 
-    onLoginFormSubmit(): void {
-        const data: ILoginFormModel = this.loginForm.getRawValue();
-        this._authService.login$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
+    onLoginCompanyFormSubmit(): void {
+        const data: ICompanyLoginFormModel = this.companyLoginForm.getRawValue();
+        this._authCompanyService.login$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
             next: () => {
-                this._router.navigate([ "/" ]).then(() => {
+                this._router.navigate([ "/" ]).then(r => {
                     this._toastMessageService.showToast("You has been successfully logged.", ToastType.INFO);
                 });
             },
-            error: () => this.loginForm.get("password")?.reset(),
+            error: () => {
+                this.companyLoginForm.get("password")?.reset();
+                this.companyLoginForm.get("token")?.reset();
+            },
         });
+    };
+
+    validateField(fieldName: string): boolean {
+        return this._formHelperService.validateField(this.companyLoginForm, fieldName);
     };
 }
