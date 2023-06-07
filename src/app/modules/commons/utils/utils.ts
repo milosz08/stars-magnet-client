@@ -75,5 +75,5 @@ export class Utils {
 
     static getGenericErr(err: any): string {
         return err.message || "Unknow server error.";
-    }
+    };
 }
