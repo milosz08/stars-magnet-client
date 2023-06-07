@@ -34,14 +34,20 @@ import { GradeType, IGradeModel } from "../../models/grade.model";
 export class GradeStarsService {
 
     private _lockedAtPosition!: number | null;
-    private _stars = Array.from({ length: 10 }).map((_, i): IGradeModel => ({ id: i, mode: GradeType.HOLLOW }));
+    private _stars = Array.from({ length: 10 }).map((_, i): IGradeModel => ({ id: i + 1, mode: GradeType.HOLLOW }));
 
     private _stars$: BehaviorSubject<IGradeModel[]> = new BehaviorSubject<IGradeModel[]>(this._stars);
     private _currentSelectedStars$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
     private _selectedStars$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
 
     setLockedAtPosition(selectedStars: number): void {
+        if (selectedStars < 1) return;
         this._lockedAtPosition = selectedStars;
+        for (const star of this._stars) {
+            if (star.id > this._lockedAtPosition) continue;
+            star.mode = GradeType.FILL;
+        }
+        this._stars$.next(this._stars);
     };
 
     handleFillStarOnEntryPointer(idx: number): void {
@@ -54,7 +60,7 @@ export class GradeStarsService {
                 star.mode = GradeType.HOLLOW;
             } else {
                 star.mode = GradeType.FILL;
-                this._currentSelectedStars$.next(idx + 1);
+                this._currentSelectedStars$.next(idx);
             }
         }
         this._stars$.next(this._stars);
@@ -76,8 +82,8 @@ export class GradeStarsService {
         } else {
             this._lockedAtPosition = idx;
             this._stars.forEach(s => s.id > idx ?  s.mode = GradeType.HOLLOW : s.mode = GradeType.FILL);
-            this._selectedStars$.next(idx + 1);
-            this._currentSelectedStars$.next(idx + 1);
+            this._selectedStars$.next(idx);
+            this._currentSelectedStars$.next(idx);
         }
     };
 
