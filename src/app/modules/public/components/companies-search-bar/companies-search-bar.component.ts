@@ -43,8 +43,6 @@ export class CompaniesSearchBarComponent extends AbstractComponentReactiveProvid
     searchContent = "";
     searchContent$: Observable<string> = this._searchCompanyBoxService.searchContent$;
 
-    @ViewChild("searchInput") searchInput!: ElementRef;
-
     constructor(
         private _router: Router,
         private _searchCompanyService: SearchCompanyService,
