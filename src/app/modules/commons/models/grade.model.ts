@@ -1,8 +1,8 @@
-/*!
+/*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: category-companies-filter.component.scss
- * Last modified: 6/5/23, 12:03 AM
+ * File name: grade.model.ts
+ * Last modified: 6/7/23, 12:10 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,3 +22,12 @@
  * or other dealings in the software.
  */
 
+export interface IGradeModel {
+    id: number;
+    mode: GradeType;
+}
+
+export enum GradeType {
+    HOLLOW,
+    FILL
+}
