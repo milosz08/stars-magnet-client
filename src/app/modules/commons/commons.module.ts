@@ -37,6 +37,7 @@ import { FooterComponent } from "./components/footer/footer.component";
 import { PasswordTogglerComponent } from "./components/password-toggler/password-toggler.component";
 import { DimissibleAlertComponent } from "./components/dimissible-alert/dimissible-alert.component";
 import { LazyPageLoaderComponent } from "./components/lazy-page-loader/lazy-page-loader.component";
+import { ToastMessageComponent } from "./components/toast-message/toast-message.component";
 import { PageableComponent } from "./components/pageable/pageable.component";
 
 import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
@@ -53,6 +54,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         PasswordTogglerComponent,
         DimissibleAlertComponent,
         LazyPageLoaderComponent,
+        ToastMessageComponent,
         PageableComponent,
         // pipes
         OnlyFirstPipe,
@@ -69,6 +71,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         NgbBts.NgbDropdown,
         NgbBts.NgbDropdownMenu,
         NgbBts.NgbDropdownToggle,
+        NgbBts.NgbToast,
     ],
     exports: [
         FooterComponent,
@@ -77,6 +80,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         DimissibleAlertComponent,
         HeaderComponent,
         LazyPageLoaderComponent,
+        ToastMessageComponent,
         PageableComponent,
     ],
 })

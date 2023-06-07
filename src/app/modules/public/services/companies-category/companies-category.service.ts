@@ -28,12 +28,14 @@ import { Router } from "@angular/router";
 import { catchError, mergeMap, Observable, of, takeUntil, tap, throwError } from "rxjs";
 
 import { Utils } from "../../../commons/utils/utils";
+import { ToastType } from "../../../commons/models/toast.model";
 import { ICompanyResDtoModel } from "../../models/company.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 import { IPrePageableData, pageableLimits, PageableLimitsUnion } from "../../../commons/models/pagination.model";
 
 import { PageableCompaniesService } from "../pageable-companies/pageable-companies.service";
 import { LazyLoaderService } from "../../../commons/services/lazy-loader/lazy-loader.service";
+import { ToastMessageService } from "../../../commons/services/toast-message/toast-message.service";
 import { CompanyHttpService } from "../../../commons/http-services/company-http/company-http.service";
 import { PageableLimitService } from "../../../commons/services/pageable-limit/pageable-limit.service";
 
@@ -51,6 +53,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         private _router: Router,
         private _lazyLoaderService: LazyLoaderService,
         private _companyHttpService: CompanyHttpService,
+        private _toastMessageService: ToastMessageService,
         private _pageableLimitService: PageableLimitService,
         private _pageableCompaniesService: PageableCompaniesService,
     ) {
@@ -111,6 +114,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
 
     private onThrowError(err: any): Observable<any> {
         this._router.navigate([ "/" ]).then(r => r);
+        this._toastMessageService.showToast(err.message ||  "Unexpected server error!", ToastType.DANGER);
         return throwError(err);
     };
 

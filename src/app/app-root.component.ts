@@ -38,6 +38,7 @@ import { LoggedStatusService } from "./modules/commons/services/logged-status/lo
     selector: "app-root",
     template: `
         <app-lazy-page-loader></app-lazy-page-loader>
+        <app-toast-message aria-live="polite" aria-atomic="true" style="z-index: 9999999;"></app-toast-message>
         <app-header></app-header>
         <div class="d-flex flex-column flex-fill header-top-margin container">
             <router-outlet></router-outlet>
