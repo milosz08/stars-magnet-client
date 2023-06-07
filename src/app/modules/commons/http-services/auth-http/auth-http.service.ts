@@ -62,4 +62,11 @@ export class AuthHttpService {
             reqDto,
         );
     };
+
+    autoLogin$(reqDto: IRefreshModelReqDto): Observable<IAutoLoginResponseDto> {
+        return this._httpClient.post<IAutoLoginResponseDto>(
+            `${environment.httpBackendURI}/api/login/auto`,
+            reqDto,
+        );
+    };
 }

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: header.component.ts
- * Last modified: 24/05/2023, 04:16
+ * File name: account-role.type.ts
+ * Last modified: 6/7/23, 10:16 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,37 +22,7 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
-import { Router } from "@angular/router";
-
-import { Observable } from "rxjs";
-
-import { AccountRole } from "../../types/account-role.type";
-import { ILoginDetailsModel } from "../../models/login.model";
-
-import { LoggedStatusService } from "../../services/logged-status/logged-status.service";
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-@Component({
-    selector: "app-header",
-    templateUrl: "./header.component.html",
-})
-export class HeaderComponent {
-
-    isNavbarCollapsed = true;
-
-    isLogged$: Observable<boolean> = this._loggedStatusService.isLogged$;
-    loggedRole$: Observable<AccountRole> = this._loggedStatusService.loggedRole$;
-    loggedDetails$: Observable<ILoginDetailsModel | null> = this._loggedStatusService.loggedDetails$;
-
-    constructor(
-        private _router: Router,
-        private _loggedStatusService: LoggedStatusService,
-    ) {
-    };
-
-    onLogout(): void {
-        this._loggedStatusService.logout();
-    };
+export enum AccountRole {
+    USER = "user",
+    COMPANY = "company"
 }

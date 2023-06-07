@@ -22,14 +22,33 @@
  * or other dealings in the software.
  */
 
+import { AccountRole } from "../types/account-role.type";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 export interface ILoginFormModel {
     username: string;
     password: string;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export interface ICompanyLoginFormModel extends ILoginFormModel {
+    token: string;
+}
+
+export interface ILoginDetailsModel {
+    id: number;
+    username: string;
+    name: string;
+}
 
 export interface ILoginResponseDto {
+    id: number;
+    username: string;
+    name: string;
     refresh: string;
     access: string;
+}
+
+export interface IAutoLoginResponseDto extends ILoginResponseDto {
+    role: AccountRole;
 }

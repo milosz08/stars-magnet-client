@@ -25,14 +25,17 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { BehaviorSubject, catchError, map, Observable, of } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, of, throwError } from "rxjs";
 
-import { ILoginResponseDto } from "../../models/login.model";
+import { ToastType } from "../../models/toast.model";
+import { AccountRole } from "../../types/account-role.type";
 import { StorageKeyType } from "../../types/storage-key.type";
 import { IRefreshModelReqDto } from "../../models/refresh.model";
+import { ILoginDetailsModel, ILoginResponseDto } from "../../models/login.model";
 
-import { AuthHttpService } from "../../http-services/auth-http/auth-http.service";
 import { LocalStorageService } from "../local-storage/local-storage.service";
+import { AuthHttpService } from "../../http-services/auth-http/auth-http.service";
+import { ToastMessageService } from "../toast-message/toast-message.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -40,16 +43,21 @@ import { LocalStorageService } from "../local-storage/local-storage.service";
 export class LoggedStatusService {
 
     private _isLogged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
+    private _loggedRole$: BehaviorSubject<AccountRole> = new BehaviorSubject<AccountRole>(AccountRole.USER);
+    private _loggedDetails$: BehaviorSubject<ILoginDetailsModel | null> = new BehaviorSubject<ILoginDetailsModel | null>(null);
 
     constructor(
         private _router: Router,
         private _authHttpService: AuthHttpService,
+        private _toastMessageService: ToastMessageService,
         private _localStorageService: LocalStorageService,
     ) {
     };
 
-    setLoggedStatus(isLogged: boolean): void {
+    setLoggedUserData(isLogged: boolean, role: AccountRole, loggedDetails: ILoginDetailsModel): void {
         this._isLogged$.next(isLogged);
+        this._loggedRole$.next(role);
+        this._loggedDetails$.next(loggedDetails);
     };
 
     refresh$(): Observable<boolean> {
@@ -58,21 +66,32 @@ export class LoggedStatusService {
             return of(false);
         }
         const reqData: IRefreshModelReqDto = { token: tokenDetails.access, refresh: tokenDetails.refresh };
-        return this._authHttpService.refresh(reqData).pipe(
-            map(resData => {
-                this._localStorageService.update(StorageKeyType.USER_TOKEN, "access", resData.access);
-                this._isLogged$.next(true);
+        return this._authHttpService.autoLogin$(reqData).pipe(
+            map(({ id, username, name, role, access }) => {
+                this._localStorageService.update(StorageKeyType.USER_TOKEN, "access", access);
+                this.setLoggedUserData(true, role, { id, name, username });
+                this._toastMessageService.showToast("You has been successfully logged.", ToastType.INFO);
                 return true;
             }),
-            catchError(_ => of(false))
+            catchError(err => {
+                this.logout();
+                this._toastMessageService.showToast("Your session has been expired.", ToastType.DANGER);
+                return throwError(err);
+            }),
         );
     };
 
     logout(): void {
         this._localStorageService.remove(StorageKeyType.USER_TOKEN);
         this._isLogged$.next(false);
-        this._router.navigate([ "/auth/login" ]).then(r => r);
+        this._loggedRole$.next(AccountRole.USER);
+        this._loggedDetails$.next(null);
+        this._router.navigate([ "/auth/login" ]).then(() => {
+            this._toastMessageService.showToast("You has been successfully logout.", ToastType.INFO);
+        });
     };
 
     get isLogged$(): Observable<boolean> { return this._isLogged$.asObservable(); };
+    get loggedRole$(): Observable<AccountRole> { return this._loggedRole$.asObservable(); };
+    get loggedDetails$(): Observable<ILoginDetailsModel | null> { return this._loggedDetails$.asObservable(); };
 }

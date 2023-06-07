@@ -54,12 +54,12 @@ export class AuthService {
     };
 
     login$(formReq: ILoginFormModel): Observable<any> {
-        this._suspenseSpinner$.next(true);
-        return this._authHttpService.login(formReq).pipe(
-            tap(res => {
-                this._localStorageService.save(StorageKeyType.USER_TOKEN, res);
-                this._loggedStatusService.setLoggedStatus(true);
-                this._suspenseSpinner$.next(false);
+        this._authCommonsService.setLazyLoader(true);
+        return this._authHttpService.login$(formReq).pipe(
+            tap(({ id, username, name, access, refresh }) => {
+                this._localStorageService.save(StorageKeyType.USER_TOKEN, { access, refresh });
+                this._loggedStatusService.setLoggedUserData(true, AccountRole.USER, { id, name, username });
+                this._authCommonsService.setLazyLoader(false);
             }),
             catchError(err => this.onCatchError$(err)),
         );

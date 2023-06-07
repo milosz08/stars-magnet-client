@@ -33,32 +33,43 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         <div [ngbCollapse]="isNavbarCollapsed" class="navbar-collapse mt-3 mt-md-0" id="navbarSupportedContent">
-            <a class="navbar-brand h1 mb-0" routerLink="/">Stars Magnet</a>
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <ng-container *ngIf="(isLogged$ | async)">
-                    <li class="nav-item">
-                        <a class="nav-link" routerLink="/user/home" routerLinkActive="active">User home</a>
-                    </li>
-                </ng-container>
-                <li class="nav-item">
+            <a class="navbar-brand h1 mb-0 text-center d-block" routerLink="/">Stars Magnet</a>
+            <ul class="navbar-nav me-auto mb-2 mb-md-0">
+                <li class="nav-item text-center">
                     <a class="nav-link" routerLink="/companies" routerLinkActive="active">Companies</a>
                 </li>
+                <ng-container *ngIf="(isLogged$ | async)">
+                    <li class="nav-item text-center">
+                        <a class="nav-link" routerLink="/user/home" routerLinkActive="active">My account</a>
+                    </li>
+                </ng-container>
             </ul>
             <ul class="navbar-nav align-items-center">
-                <ng-container *ngIf="(isLogged$ | async); then isLoggedAuths; else isNonLoggedAuths"></ng-container>
+                <ng-container
+                    *ngIf="(isLogged$ | async) && (loggedDetails$ | async); then isLoggedAuths; else isNonLoggedAuths"
+                ></ng-container>
                 <ng-template #isLoggedAuths>
-                    <li class="nav-item">
-                        <button (click)="onLogout()" class="nav-link active border-0 bg-transparent">Logout</button>
+                    <li ngbDropdown class="nav-item">
+                        <button type="button" class="nav-link border-0 bg-transparent" id="userDropdown" ngbDropdownToggle>
+                            {{ (loggedDetails$ | async)?.name }}
+                            ({{ (loggedRole$ | async) }})
+                        </button>
+                        <div ngbDropdownMenu aria-labelledby="userDropdown">
+                            <div class="px-3 mt-1">{{ (loggedDetails$ | async)?.username }}</div>
+                            <hr/>
+                            <a routerLink="/user/home" ngbDropdownItem>My account</a>
+                            <button (click)="onLogout()" ngbDropdownItem>Logout</button>
+                        </div>
                     </li>
                 </ng-template>
                 <ng-template #isNonLoggedAuths>
-                    <li class="nav-item">
+                    <li class="nav-item text-center">
                         <a routerLink="/auth/login" class="nav-link" routerLinkActive="active">Login</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item text-center">
                         <a routerLink="/auth/register" class="nav-link" routerLinkActive="active">Register</a>
                     </li>
-                    <li class="nav-item">
+                    <li class="nav-item text-center">
                         <a class="btn btn-primary btn-sm ms-2" routerLink="/auth/add-company">Add company</a>
                     </li>
                 </ng-template>
