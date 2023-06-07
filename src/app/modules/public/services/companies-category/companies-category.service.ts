@@ -114,7 +114,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
 
     private onThrowError$(err: any): Observable<any> {
         this._router.navigate([ "/" ]).then(r => r);
-        this._toastMessageService.showToast(err.message ||  "Unexpected server error!", ToastType.DANGER);
+        this._toastMessageService.showToast(Utils.getGenericErr(err), ToastType.DANGER);
         return throwError(err);
     };
 

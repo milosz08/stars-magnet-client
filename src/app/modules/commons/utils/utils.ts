@@ -63,7 +63,7 @@ export class Utils {
     };
 
     static populateErrorAlert(err: any, alertError$: BehaviorSubject<IResponseAlertModel>): void {
-        alertError$.next({ type: AlertType.ERROR, content: err.error.message || "Unknow server error." });
+        alertError$.next({ type: AlertType.ERROR, content: this.getGenericErr(err) });
     };
 
     static convertCompaniesDotsToCommas(result: ICompanyResDtoModel[]): ICompanyResDtoModel[] {
@@ -72,4 +72,8 @@ export class Utils {
             return comp;
         });
     };
+
+    static getGenericErr(err: any): string {
+        return err.message || "Unknow server error.";
+    }
 }
