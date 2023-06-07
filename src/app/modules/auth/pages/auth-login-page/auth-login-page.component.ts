@@ -28,6 +28,7 @@ import { Router } from "@angular/router";
 
 import { first, Observable, takeUntil } from "rxjs";
 
+import { ToastType } from "../../../commons/models/toast.model";
 import { ILoginFormModel } from "../../../commons/models/login.model";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
@@ -70,7 +71,11 @@ export class AuthLoginPageComponent extends AbstractComponentReactiveProvider im
     onLoginFormSubmit(): void {
         const data: ILoginFormModel = this.loginForm.getRawValue();
         this._authService.login$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
-            next: () => this._router.navigate([ "/" ]),
+            next: () => {
+                this._router.navigate([ "/" ]).then(() => {
+                    this._toastMessageService.showToast("You has been successfully logged.", ToastType.INFO);
+                });
+            },
             error: () => this.loginForm.get("password")?.reset(),
         });
     };

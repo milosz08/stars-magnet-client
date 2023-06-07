@@ -57,7 +57,7 @@ export class CompanyHttpService {
         return this._httpClient.post<IPrePageableData>(
             `${environment.httpBackendURI}/api/category/company/pageable`,
             filter,
-            { params }
+            { params },
         );
     };
 
