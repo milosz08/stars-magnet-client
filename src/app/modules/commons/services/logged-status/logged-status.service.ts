@@ -52,7 +52,7 @@ export class LoggedStatusService {
         this._isLogged$.next(isLogged);
     };
 
-    refresh(): Observable<boolean> {
+    refresh$(): Observable<boolean> {
         const tokenDetails = this._localStorageService.get<ILoginResponseDto>(StorageKeyType.USER_TOKEN);
         if (!tokenDetails) {
             return of(false);

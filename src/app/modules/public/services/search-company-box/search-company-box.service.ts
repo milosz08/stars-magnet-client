@@ -37,7 +37,7 @@ export class SearchCompanyBoxService {
         this._searchContent$.next(paraphrase);
     };
 
-    getPipedSearchResult(unsubscribe: Subject<void>): Observable<any> {
+    getDebouncedSearchResult$(unsubscribe: Subject<void>): Observable<any> {
         return this._searchContent$.pipe(
             debounceTime(300),
             distinctUntilChanged(),

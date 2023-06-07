@@ -59,8 +59,8 @@ export class HomeCategoriesComponent extends AbstractComponentReactiveProvider i
     };
 
     ngOnInit(): void {
-        this._categoriesService.loadPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._categoriesService.loadCategories().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._categoriesService.loadPageable$().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._categoriesService.loadCategories$().pipe(takeUntil(this._unsubscribe)).subscribe();
         this._categoriesService.pageable$.pipe(takeUntil(this._unsubscribe))
             .subscribe(data => this.pageable = data);
     };
@@ -70,10 +70,10 @@ export class HomeCategoriesComponent extends AbstractComponentReactiveProvider i
     };
 
     onPreviousCategoriesPage(): void {
-        this._categoriesService.gotoPreviousPage().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._categoriesService.gotoPreviousPage$().pipe(takeUntil(this._unsubscribe)).subscribe();
     };
 
     onNextCategoriesPage(): void {
-        this._categoriesService.gotoNextPage().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._categoriesService.gotoNextPage$().pipe(takeUntil(this._unsubscribe)).subscribe();
     };
 }

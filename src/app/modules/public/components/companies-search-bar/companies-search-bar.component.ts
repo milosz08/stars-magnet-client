@@ -52,10 +52,10 @@ export class CompaniesSearchBarComponent extends AbstractComponentReactiveProvid
     };
 
     ngOnInit(): void {
-        this._searchCompanyBoxService.getPipedSearchResult(this._unsubscribe).subscribe(phrase => {
+        this._searchCompanyBoxService.getDebouncedSearchResult$(this._unsubscribe).subscribe(phrase => {
             this.searchContent = phrase;
-            this._searchCompanyService.loadPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
-            this._searchCompanyService.loadFilteredCompanies().pipe(takeUntil(this._unsubscribe)).subscribe();
+            this._searchCompanyService.loadPageable$().pipe(takeUntil(this._unsubscribe)).subscribe();
+            this._searchCompanyService.loadFilteredCompanies$().pipe(takeUntil(this._unsubscribe)).subscribe();
         });
     };
 

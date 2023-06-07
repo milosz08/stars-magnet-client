@@ -51,8 +51,7 @@ export class PublicFilteredCompaniesPageComponent extends AbstractComponentReact
     };
 
     ngOnInit(): void {
-        this._searchCompanyService.loadPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._searchCompanyService.loadFilteredCompanies().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this.refreshCompanies(false);
     };
 
     ngOnDestroy(): void {
@@ -60,11 +59,11 @@ export class PublicFilteredCompaniesPageComponent extends AbstractComponentReact
     };
 
     onChangePage(page: number): void {
-        this._searchCompanyService.moveToPage(page).pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._searchCompanyService.moveToPage$(page).pipe(takeUntil(this._unsubscribe)).subscribe();
     };
 
-    onChangeLimit(): void {
-        this._searchCompanyService.refreshPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._searchCompanyService.loadFilteredCompanies().pipe(takeUntil(this._unsubscribe)).subscribe();
+    refreshCompanies(isRefresh = true): void {
+        this._searchCompanyService.loadPageable$(isRefresh).pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._searchCompanyService.loadFilteredCompanies$().pipe(takeUntil(this._unsubscribe)).subscribe();
     };
 }

@@ -56,7 +56,7 @@ export class AuthService {
     ) {
     };
 
-    login(formReq: ILoginFormModel): Observable<any> {
+    login$(formReq: ILoginFormModel): Observable<any> {
         this._suspenseSpinner$.next(true);
         return this._authHttpService.login(formReq).pipe(
             tap(res => {
@@ -64,11 +64,11 @@ export class AuthService {
                 this._loggedStatusService.setLoggedStatus(true);
                 this._suspenseSpinner$.next(false);
             }),
-            catchError(err => this.onCatchError(err)),
+            catchError(err => this.onCatchError$(err)),
         );
     };
 
-    register(formReq: IRegisterFormModel): Observable<any> {
+    register$(formReq: IRegisterFormModel): Observable<any> {
         this._suspenseSpinner$.next(true);
         const reqData: IRegisterReqDto = Utils.convertCamelToSnake(formReq);
         return this._authHttpService.register(reqData).pipe(
@@ -80,11 +80,11 @@ export class AuthService {
                 });
                 this._suspenseSpinner$.next(false);
             }),
-            catchError(err => this.onCatchError(err)),
+            catchError(err => this.onCatchError$(err)),
         );
     };
 
-    private onCatchError(err: any): Observable<any> {
+    private onCatchError$(err: any): Observable<any> {
         this._suspenseSpinner$.next(false);
         const resMessage = Utils.getFirstObjectErrorValue(err.error);
         this._responseAlert$.next({ type: AlertType.ERROR, content: `${resMessage || "Unknow server error"}.` });

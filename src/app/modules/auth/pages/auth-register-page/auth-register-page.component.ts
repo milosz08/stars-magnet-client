@@ -71,7 +71,7 @@ export class AuthRegisterPageComponent extends AbstractComponentReactiveProvider
 
     onRegisterFormSubmit(): void {
         const data: IRegisterFormModel = this.registerForm.getRawValue();
-        this._authService.register(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
+        this._authService.register$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
             next: () => this.registerForm.reset(),
             error: () => {
                 this.registerForm.get("password")?.reset();

@@ -67,7 +67,7 @@ export class AuthLoginPageComponent extends AbstractComponentReactiveProvider im
 
     onLoginFormSubmit(): void {
         const data: ILoginFormModel = this.loginForm.getRawValue();
-        this._authService.login(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
+        this._authService.login$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
             next: () => this._router.navigate([ "/" ]),
             error: () => this.loginForm.get("password")?.reset(),
         });

@@ -91,11 +91,11 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         this._pageableCompaniesService.setCurrentPage(0);
         return this._companyHttpService.getPageableAllData(this._searchQuery, this._pageableLimit).pipe(
             tap(res => this.updateCountOfPages(res)),
-            catchError(err => this.onThrowError(err)),
+            catchError(err => this.onThrowError$(err)),
         );
     };
 
-    loadFilteredCompanies(): Observable<any> {
+    loadFilteredCompanies$(): Observable<any> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         const offset = (this._currentPage - 1) * this._pageableLimit;
         return this._companyHttpService.getAllCompaniesByQuery(this._searchQuery, this._pageableLimit, offset).pipe(
@@ -108,13 +108,13 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         );
     };
 
-    moveToPage(pageNumber: number | undefined): Observable<ICompanyResDtoModel[] | any> {
+    moveToPage$(pageNumber: number | undefined): Observable<ICompanyResDtoModel[] | any> {
         if (pageNumber === undefined || pageNumber < 0 || pageNumber >= this._allPages) {
             return of(null);
         }
         this._currentPage = pageNumber + 1;
         this._pageableCompaniesService.setCurrentPage(pageNumber);
-        return this.loadFilteredCompanies();
+        return this.loadFilteredCompanies$();
     };
 
     private updateCountOfPages(res: IPrePageableData): void {
@@ -122,10 +122,10 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         this._allPages = res.countAllPages;
     };
 
-    private onThrowError(err: any): Observable<any> {
+    private onThrowError$(err: any): Observable<any> {
         this._router.navigate([ "/" ]).then(r => r);
         this._pageableCompaniesService.toggleLazyLoader(false);
-        this._toastMessageService.showToast(err.message ||  "Unexpected server error!", ToastType.DANGER);
+        this._toastMessageService.showToast(Utils.getGenericErr(err), ToastType.DANGER);
         return throwError(err);
     };
 }

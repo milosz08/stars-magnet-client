@@ -66,7 +66,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         this.subjectCleanup();
     };
 
-    loadPageable(categoryId: number): Observable<any> {
+    loadPageable$(categoryId: number): Observable<any> {
         this._lazyLoaderService.forcedActivateLoader();
         this._categoryId = categoryId;
         return this._companyHttpService.getPageableData(categoryId, this._pageableLimit).pipe(
@@ -74,21 +74,21 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
                 this.updateCountOfPages(res);
                 this._lazyLoaderService.forcedInactivateLoader();
             }),
-            catchError(err => this.onThrowError(err)),
+            catchError(err => this.onThrowError$(err)),
         );
     };
 
-    refreshPageable(): Observable<any> {
+    refreshPageable$(): Observable<any> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         this._currentPage = 1;
         this._pageableCompaniesService.setCurrentPage(0);
         return this._companyHttpService.getPageableData(this._categoryId, this._pageableLimit).pipe(
             tap(res => this.updateCountOfPages(res)),
-            catchError(err => this.onThrowError(err)),
+            catchError(err => this.onThrowError$(err)),
         );
     };
 
-    loadCompaniesByCategory(): Observable<string | any> {
+    loadCompaniesByCategory$(): Observable<string | any> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         const offset = (this._currentPage - 1) * this._pageableLimit;
         return this._companyHttpService
@@ -99,20 +99,20 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
                     this._pageableCompaniesService.toggleLazyLoader(false);
                     return of(res.category);
                 }),
-                catchError(err => this.onThrowError(err)),
+                catchError(err => this.onThrowError$(err)),
         );
     };
 
-    moveToPage(pageNumber: number | undefined): Observable<ICompanyResDtoModel[] | any> {
+    moveToPage$(pageNumber: number | undefined): Observable<ICompanyResDtoModel[] | any> {
         if (pageNumber === undefined || pageNumber < 0 || pageNumber >= this._allPages) {
             return of(null);
         }
         this._currentPage = pageNumber + 1;
         this._pageableCompaniesService.setCurrentPage(pageNumber);
-        return this.loadCompaniesByCategory();
+        return this.loadCompaniesByCategory$();
     };
 
-    private onThrowError(err: any): Observable<any> {
+    private onThrowError$(err: any): Observable<any> {
         this._router.navigate([ "/" ]).then(r => r);
         this._toastMessageService.showToast(err.message ||  "Unexpected server error!", ToastType.DANGER);
         return throwError(err);

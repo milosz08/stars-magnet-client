@@ -66,8 +66,8 @@ export class PublicCategoryPageComponent extends AbstractComponentReactiveProvid
     };
 
     private loadContent(categoryId: number): void {
-        this._companiesCategoryService.loadPageable(categoryId).pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._companiesCategoryService.loadCompaniesByCategory().pipe(takeUntil(this._unsubscribe))
+        this._companiesCategoryService.loadPageable$(categoryId).pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._companiesCategoryService.loadCompaniesByCategory$().pipe(takeUntil(this._unsubscribe))
             .subscribe(categoryName => {
                 this.categoryName = categoryName;
                 this._templatePageTitleStrategy.createCustomTitle(categoryName);
@@ -75,11 +75,11 @@ export class PublicCategoryPageComponent extends AbstractComponentReactiveProvid
     };
 
     onChangePage(page: number): void {
-        this._companiesCategoryService.moveToPage(page).pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._companiesCategoryService.moveToPage$(page).pipe(takeUntil(this._unsubscribe)).subscribe();
     };
 
-    onChangeLimit(): void {
-        this._companiesCategoryService.refreshPageable().pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._companiesCategoryService.loadCompaniesByCategory().pipe(takeUntil(this._unsubscribe)).subscribe();
+    refreshCompanies(): void {
+        this._companiesCategoryService.refreshPageable$().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._companiesCategoryService.loadCompaniesByCategory$().pipe(takeUntil(this._unsubscribe)).subscribe();
     };
 }

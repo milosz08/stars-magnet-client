@@ -71,7 +71,7 @@ export class AuthAddCompanyPageComponent extends AbstractComponentReactiveProvid
 
     onAddCompanySubmitForm(): void {
         const data: IAddCompanyFormModel = this.addCompanyForm.getRawValue();
-        this._addCompanyService.addCompany(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
+        this._addCompanyService.addCompany$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
             next: () => this.addCompanyForm.reset(),
             error: () => {
                 this.addCompanyForm.get("password")?.reset();

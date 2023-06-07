@@ -52,7 +52,7 @@ export class AddCompanyService {
     ) {
     };
 
-    addCompany(formReq: IAddCompanyFormModel): Observable<IAddCompanyResDto> {
+    addCompany$(formReq: IAddCompanyFormModel): Observable<IAddCompanyResDto> {
         this._suspenseSpinner$.next(true);
         const reqData: IAddCompanyReqDto = Utils.convertCamelToSnake(formReq);
         return this._addCompanyHttpService.addCompany(reqData).pipe(

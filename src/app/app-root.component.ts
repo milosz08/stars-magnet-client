@@ -61,7 +61,7 @@ export class AppRootComponent extends AbstractComponentReactiveProvider implemen
 
     ngOnInit(): void {
         this._lazyLoaderService.activateLazyLoader();
-        this._loggedStatusService.refresh().pipe(first(), takeUntil(this.unsubscribe$)).subscribe();
+        this._loggedStatusService.refresh$().pipe(first(), takeUntil(this.unsubscribe$)).subscribe();
     };
 
     ngOnDestroy(): void {
