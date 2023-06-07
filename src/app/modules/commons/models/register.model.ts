@@ -31,8 +31,6 @@ export interface IRegisterFormModel {
     confirmPassword: string;
 }
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 export interface IRegisterReqDto {
     first_name: string;
     last_name: string;
