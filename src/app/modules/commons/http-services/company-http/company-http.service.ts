@@ -29,6 +29,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 
 import { IPrePageableData } from "../../models/pagination.model";
+import { ICompanyFilterModel } from "../../models/company-filter.model";
 import { IAddCompanyReqDto, IAddCompanyResDto } from "../../models/company.model";
 import { ICompanysPageableResDtoModel } from "../../../public/models/company.model";
 
@@ -49,38 +50,50 @@ export class CompanyHttpService {
         );
     };
 
-    getPageableData(categoryId: number, fixedLimit: number): Observable<IPrePageableData> {
-        return this._httpClient.get<IPrePageableData>(
-            `${environment.httpBackendURI}/api/company/${categoryId}/pageable/${fixedLimit}`,
+    getPageableData(categoryId: number, fixedLimit: number, filter: ICompanyFilterModel): Observable<IPrePageableData> {
+        const params = new HttpParams()
+            .set("category", categoryId)
+            .set("fixedLimit", fixedLimit);
+        return this._httpClient.post<IPrePageableData>(
+            `${environment.httpBackendURI}/api/category/company/pageable`,
+            filter,
+            { params }
         );
     };
 
-    getPageableAllData(query: string, fixedLimit: number): Observable<IPrePageableData> {
-        const params = new HttpParams().set("query", query);
-        return this._httpClient.get<IPrePageableData>(
-            `${environment.httpBackendURI}/api/company/pageable/${fixedLimit}`,
+    getPageableAllData(query: string, fixedLimit: number, filter: ICompanyFilterModel): Observable<IPrePageableData> {
+        const params = new HttpParams()
+            .set("query", query)
+            .set("fixedLimit", fixedLimit);
+        return this._httpClient.post<IPrePageableData>(
+            `${environment.httpBackendURI}/api/company/pageable`,
+            filter,
             { params },
         );
     };
 
-    getAllCompaniesByCategory(categoryId: number, fixedLimit: number, offset: number)
+    getAllCompaniesByCategory(categoryId: number, fixedLimit: number, offset: number, filter: ICompanyFilterModel)
         : Observable<ICompanysPageableResDtoModel> {
         const params = new HttpParams()
             .set("limit", fixedLimit)
-            .set("offset", offset);
-        return this._httpClient.get<ICompanysPageableResDtoModel>(
-            `${environment.httpBackendURI}/api/category/${categoryId}`,
+            .set("offset", offset)
+            .set("category", categoryId);
+        return this._httpClient.post<ICompanysPageableResDtoModel>(
+            `${environment.httpBackendURI}/api/category/company`,
+            filter,
             { params },
         );
     };
 
-    getAllCompaniesByQuery(query: string, fixedLimit: number, offset: number): Observable<ICompanysPageableResDtoModel> {
+    getAllCompaniesByQuery(query: string, fixedLimit: number, offset: number, filter: ICompanyFilterModel)
+        : Observable<ICompanysPageableResDtoModel> {
         const params = new HttpParams()
             .set("limit", fixedLimit)
             .set("offset", offset)
             .set("query", query);
-        return this._httpClient.get<ICompanysPageableResDtoModel>(
+        return this._httpClient.post<ICompanysPageableResDtoModel>(
             `${environment.httpBackendURI}/api/search`,
+            filter,
             { params },
         );
     };

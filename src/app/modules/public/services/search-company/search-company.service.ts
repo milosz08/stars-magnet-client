@@ -30,9 +30,11 @@ import { catchError, Observable, of, takeUntil, tap, throwError } from "rxjs";
 import { Utils } from "../../../commons/utils/utils";
 import { ToastType } from "../../../commons/models/toast.model";
 import { ICompanyResDtoModel } from "../../models/company.model";
+import { DEF_FILTER, ICompanyFilterModel } from "../../../commons/models/company-filter.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 import { IPrePageableData, pageableLimits, PageableLimitsUnion } from "../../../commons/models/pagination.model";
 
+import { CompanyFilterService } from "../company-filter/company-filter.service";
 import { SearchCompanyBoxService } from "../search-company-box/search-company-box.service";
 import { PageableCompaniesService } from "../pageable-companies/pageable-companies.service";
 import { LazyLoaderService } from "../../../commons/services/lazy-loader/lazy-loader.service";
@@ -48,6 +50,7 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
     private _allPages = 1;
     private _currentPage = 1;
     private _searchQuery = "";
+    private _filter: ICompanyFilterModel = DEF_FILTER;
     private _pageableLimit: PageableLimitsUnion = pageableLimits[0];
 
     constructor(
@@ -55,15 +58,15 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         private _lazyLoaderService: LazyLoaderService,
         private _companyHttpService: CompanyHttpService,
         private _toastMessageService: ToastMessageService,
+        private _companyFilterService: CompanyFilterService,
         private _pageableLimitService: PageableLimitService,
         private _searchCompanyBoxSerivce: SearchCompanyBoxService,
         private _pageableCompaniesService: PageableCompaniesService,
     ) {
         super();
-        this._pageableLimitService.pageableLimit$.pipe(takeUntil(this._unsubscribe))
-            .subscribe(data => this._pageableLimit = data);
-        this._searchCompanyBoxSerivce.searchContent$.pipe(takeUntil(this._unsubscribe))
-            .subscribe(searchQuery => this._searchQuery = searchQuery);
+        this._pageableLimitService.pageableLimit$.pipe(takeUntil(this._unsubscribe)).subscribe(l => this._pageableLimit = l);
+        this._searchCompanyBoxSerivce.searchContent$.pipe(takeUntil(this._unsubscribe)).subscribe(s => this._searchQuery = s);
+        this._companyFilterService.filter$.pipe(takeUntil(this._unsubscribe)).subscribe(f => this._filter = f);
     };
 
     ngOnDestroy(): void {
@@ -75,21 +78,13 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         this._searchCompanyBoxSerivce.pushNewParaphrase(paraphrase);
     };
 
-    loadPageable(): Observable<any> {
+    loadPageable$(isRefresh = false): Observable<any> {
         this._pageableCompaniesService.toggleLazyLoader(true);
-        return this._companyHttpService.getPageableAllData(this._searchQuery, this._pageableLimit).pipe(
-            tap(res => {
-                this.updateCountOfPages(res);
-            }),
-            catchError(err => this.onThrowError(err)),
-        );
-    };
-
-    refreshPageable(): Observable<any> {
-        this._pageableCompaniesService.toggleLazyLoader(true);
-        this._currentPage = 1;
-        this._pageableCompaniesService.setCurrentPage(0);
-        return this._companyHttpService.getPageableAllData(this._searchQuery, this._pageableLimit).pipe(
+        if (isRefresh) {
+            this._currentPage = 1;
+            this._pageableCompaniesService.setCurrentPage(0);
+        }
+        return this._companyHttpService.getPageableAllData(this._searchQuery, this._pageableLimit, this._filter).pipe(
             tap(res => this.updateCountOfPages(res)),
             catchError(err => this.onThrowError$(err)),
         );
@@ -98,13 +93,14 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
     loadFilteredCompanies$(): Observable<any> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         const offset = (this._currentPage - 1) * this._pageableLimit;
-        return this._companyHttpService.getAllCompaniesByQuery(this._searchQuery, this._pageableLimit, offset).pipe(
-            tap(res => {
-                this._pageableCompaniesService.setCompanies(Utils.convertCompaniesDotsToCommas(res.results));
-                this._pageableCompaniesService.setTotalCount(res.count);
-                this._pageableCompaniesService.toggleLazyLoader(false);
-            }),
-            catchError(err => this.onThrowError(err)),
+        return this._companyHttpService
+            .getAllCompaniesByQuery(this._searchQuery, this._pageableLimit, offset, this._filter).pipe(
+                tap(res => {
+                    this._pageableCompaniesService.setCompanies(Utils.convertCompaniesDotsToCommas(res.results));
+                    this._pageableCompaniesService.setTotalCount(res.count);
+                    this._pageableCompaniesService.toggleLazyLoader(false);
+                }),
+                catchError(err => this.onThrowError$(err)),
         );
     };
 

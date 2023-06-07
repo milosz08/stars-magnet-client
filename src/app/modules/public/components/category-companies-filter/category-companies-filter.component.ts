@@ -22,15 +22,62 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
+import { Component, EventEmitter, OnDestroy, OnInit, Output } from "@angular/core";
+
+import { takeUntil } from "rxjs";
+
+import { DEF_FILTER, ICompanyFilterModel } from "../../../commons/models/company-filter.model";
+import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
+
+import { CompanyFilterService } from "../../services/company-filter/company-filter.service";
+import { GradeStarsService } from "../../../commons/services/grade-stars/grade-stars.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
     selector: "app-category-companies-filter",
     templateUrl: "./category-companies-filter.component.html",
-    styleUrls: [ "./category-companies-filter.component.scss" ],
+    providers: [ GradeStarsService ],
 })
-export class CategoryCompaniesFilterComponent {
+export class CategoryCompaniesFilterComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
+    filter!: ICompanyFilterModel;
+    selectedStars = 0;
+
+    @Output() refrehDataEmit: EventEmitter<void> = new EventEmitter<void>();
+
+    constructor(
+        private _gradeStarsSerice: GradeStarsService,
+        private _companyFilterService: CompanyFilterService,
+    ) {
+        super();
+    };
+
+    ngOnInit(): void {
+        this._companyFilterService.filter$.pipe(takeUntil(this._unsubscribe)).subscribe(f => this.filter = { ...f });
+    };
+
+    ngOnDestroy(): void {
+        this.subjectCleanup();
+    };
+
+    handleChangeStar(selectedIdx: number): void {
+        this.filter.avgGrade = selectedIdx;
+    };
+
+    handleCurrentSelectedStars(selectedNumber: number): void {
+        this.selectedStars = selectedNumber;
+    };
+
+    handleFilterCompanies(): void {
+        this._companyFilterService.setFilter(this.filter);
+        this.refrehDataEmit.emit();
+    };
+
+    handleClearFilters(): void {
+        this.selectedStars = 0;
+        this._gradeStarsSerice.forcedClearAllStars();
+        this._companyFilterService.setFilter(DEF_FILTER);
+        this.refrehDataEmit.emit();
+    };
 }

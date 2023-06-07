@@ -33,7 +33,9 @@
                     </a>
                 </div>
                 <div class="d-none d-lg-block card border-0 shadow-sm mt-3 p-3">
-                    <app-category-companies-filter></app-category-companies-filter>
+                    <app-category-companies-filter
+                        (refrehDataEmit)="refreshCompanies()"
+                    ></app-category-companies-filter>
                 </div>
                 <div ngbAccordion class="mt-3 d-block d-lg-none">
                     <div ngbAccordionItem>
@@ -42,7 +44,9 @@
                         </h2>
                         <div ngbAccordionCollapse>
                             <div ngbAccordionBody>
-                                <app-category-companies-filter></app-category-companies-filter>
+                                <app-category-companies-filter
+                                    (refrehDataEmit)="refreshCompanies()"
+                                ></app-category-companies-filter>
                             </div>
                         </div>
                     </div>
@@ -55,7 +59,7 @@
         <app-companies-list
             [categoriesAreFullVisibled]="true"
             (onChangePageEmitter)="onChangePage($event)"
-            (onChangeLimit)="onChangeLimit()"
+            (onChangeLimit)="refreshCompanies()"
         >
             <ng-container alert>
                 Not found any company matching to selected query: <strong>{{ searchContent$ | async }}</strong>.
