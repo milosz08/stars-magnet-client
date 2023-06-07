@@ -39,6 +39,7 @@ import { DimissibleAlertComponent } from "./components/dimissible-alert/dimissib
 import { LazyPageLoaderComponent } from "./components/lazy-page-loader/lazy-page-loader.component";
 import { ToastMessageComponent } from "./components/toast-message/toast-message.component";
 import { PageableComponent } from "./components/pageable/pageable.component";
+import { GradeStarsComponent } from "./components/grade-stars/grade-stars.component";
 
 import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
 
@@ -56,6 +57,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         LazyPageLoaderComponent,
         ToastMessageComponent,
         PageableComponent,
+        GradeStarsComponent,
         // pipes
         OnlyFirstPipe,
     ],
@@ -82,6 +84,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         LazyPageLoaderComponent,
         ToastMessageComponent,
         PageableComponent,
+        GradeStarsComponent,
     ],
 })
 export class CommonsModule {
