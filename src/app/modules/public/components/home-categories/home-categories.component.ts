@@ -32,6 +32,7 @@ import { IResponseAlertModel } from "../../../commons/models/response-alert.mode
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { CategoriesService } from "../../services/categories/categories.service";
+import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -39,30 +40,30 @@ import { CategoriesService } from "../../services/categories/categories.service"
     selector: "app-home-categories",
     templateUrl: "./home-categories.component.html",
     styleUrls: [ "./home-categories.component.scss" ],
-    providers: [ CategoriesService ],
+    providers: [ CategoriesService, LazyCommonsService ],
 })
 export class HomeCategoriesComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
+    categories: ICategoryModel[] = [];
     pageable: IPrePageableData | null = null;
 
+    lazyLoader$: Observable<boolean> = this._lazyCommonsService.lazyLoader$;
+    alertError$: Observable<IResponseAlertModel> = this._lazyCommonsService.responseAlert$;
+
     currentPage$: Observable<number> = this._categoriesService.currentPage$;
-    lazyLoader$: Observable<boolean> = this._categoriesService.lazyLoader$;
     isPrevDisabled$: Observable<boolean> = this._categoriesService.isPrevDisabled$;
     isNextDisabled$: Observable<boolean> = this._categoriesService.isNextDisabled$;
-    categories$: Observable<ICategoryModel[]> = this._categoriesService.categories$;
-    alertError$: Observable<IResponseAlertModel> = this._categoriesService.alertError$;
 
     constructor(
         private _categoriesService: CategoriesService,
+        private _lazyCommonsService: LazyCommonsService,
     ) {
         super();
     };
 
     ngOnInit(): void {
-        this._categoriesService.loadPageable$().pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._categoriesService.loadCategories$().pipe(takeUntil(this._unsubscribe)).subscribe();
-        this._categoriesService.pageable$.pipe(takeUntil(this._unsubscribe))
-            .subscribe(data => this.pageable = data);
+        this._categoriesService.loadPageable$().pipe(takeUntil(this._unsubscribe)).subscribe(p => this.pageable = p);
+        this._categoriesService.loadCategories$().pipe(takeUntil(this._unsubscribe)).subscribe(c => this.categories = c);
     };
 
     ngOnDestroy(): void {
@@ -70,10 +71,10 @@ export class HomeCategoriesComponent extends AbstractComponentReactiveProvider i
     };
 
     onPreviousCategoriesPage(): void {
-        this._categoriesService.gotoPreviousPage$().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._categoriesService.gotoPreviousPage$().pipe(takeUntil(this._unsubscribe)).subscribe(c => this.categories = c);
     };
 
     onNextCategoriesPage(): void {
-        this._categoriesService.gotoNextPage$().pipe(takeUntil(this._unsubscribe)).subscribe();
+        this._categoriesService.gotoNextPage$().pipe(takeUntil(this._unsubscribe)).subscribe(c => this.categories = c);
     };
 }

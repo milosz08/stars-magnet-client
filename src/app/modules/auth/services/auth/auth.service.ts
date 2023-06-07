@@ -25,16 +25,17 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
+import { catchError, Observable, tap, throwError } from "rxjs";
 
 import { Utils } from "../../../commons/utils/utils";
 import { AlertType } from "../../../commons/utils/alert.type";
-import { StorageKeyType } from "../../../commons/types/storage-key.type";
-import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 import { ILoginFormModel } from "../../../commons/models/login.model";
+import { AccountRole } from "../../../commons/types/account-role.type";
+import { StorageKeyType } from "../../../commons/types/storage-key.type";
 import { IRegisterFormModel, IRegisterReqDto } from "../../../commons/models/register.model";
 
 import { AuthHttpService } from "../../../commons/http-services/auth-http/auth-http.service";
+import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
 import { LocalStorageService } from "../../../commons/services/local-storage/local-storage.service";
 import { LoggedStatusService } from "../../../commons/services/logged-status/logged-status.service";
 
@@ -43,14 +44,10 @@ import { LoggedStatusService } from "../../../commons/services/logged-status/log
 @Injectable()
 export class AuthService {
 
-    private _suspenseSpinner$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
-    private _responseAlert$: BehaviorSubject<IResponseAlertModel> = new BehaviorSubject<IResponseAlertModel>({
-        type: AlertType.ERROR, content: "",
-    });
-
     constructor(
         private _router: Router,
         private _authHttpService: AuthHttpService,
+        private _authCommonsService: LazyCommonsService,
         private _loggedStatusService: LoggedStatusService,
         private _localStorageService: LocalStorageService,
     ) {
@@ -69,28 +66,27 @@ export class AuthService {
     };
 
     register$(formReq: IRegisterFormModel): Observable<any> {
-        this._suspenseSpinner$.next(true);
+        this._authCommonsService.setLazyLoader(true);
         const reqData: IRegisterReqDto = Utils.convertCamelToSnake(formReq);
-        return this._authHttpService.register(reqData).pipe(
+        return this._authHttpService.register$(reqData).pipe(
             tap(() => {
-                this._responseAlert$.next({
+                this._authCommonsService.setResponseAlert({
                     type: AlertType.INFO,
                     content: `Your account was successfully created. Go to <strong>login page</strong> to
                         login on your account.`,
                 });
-                this._suspenseSpinner$.next(false);
+                this._authCommonsService.setLazyLoader(false);
             }),
             catchError(err => this.onCatchError$(err)),
         );
     };
 
     private onCatchError$(err: any): Observable<any> {
-        this._suspenseSpinner$.next(false);
+        this._authCommonsService.setLazyLoader(false);
         const resMessage = Utils.getFirstObjectErrorValue(err.error);
-        this._responseAlert$.next({ type: AlertType.ERROR, content: `${resMessage || "Unknow server error"}.` });
+        this._authCommonsService.setResponseAlert({
+            type: AlertType.ERROR, content: `${resMessage || "Unknow server error"}.`
+        });
         return throwError(err);
     };
-
-    get suspenseSpinner$(): Observable<boolean>                 { return this._suspenseSpinner$.asObservable(); };
-    get responseAlert$(): Observable<IResponseAlertModel>       { return this._responseAlert$.asObservable(); };
 }

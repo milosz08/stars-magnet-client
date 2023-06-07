@@ -34,6 +34,7 @@ import { REGEX_EMAIL, REGEX_LOGIN, REGEX_NAME, REGEX_PASSWORD } from "../../../c
 
 import { AuthService } from "../../services/auth/auth.service";
 import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
+import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -41,18 +42,19 @@ import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstra
 @Component({
     selector: "app-auth-register-page",
     templateUrl: "./auth-register-page.component.html",
-    providers: [ AuthService ],
+    providers: [ AuthService, LazyCommonsService ],
 })
 export class AuthRegisterPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
 
     registerForm: FormGroup;
 
-    suspenseSpinner$: Observable<boolean> = this._authService.suspenseSpinner$;
-    responseAlert$: Observable<IResponseAlertModel> = this._authService.responseAlert$;
+    suspenseSpinner$: Observable<boolean> = this._authCommonsService.lazyLoader$;
+    responseAlert$: Observable<IResponseAlertModel> = this._authCommonsService.responseAlert$;
 
     constructor(
         private _authService: AuthService,
         private _formHelperService: FormHelperService,
+        private _authCommonsService: LazyCommonsService,
     ) {
         super();
         this.registerForm = new FormGroup({

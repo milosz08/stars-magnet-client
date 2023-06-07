@@ -37,7 +37,7 @@
             </p>
         </div>
     </div>
-    <ng-template *ngIf="(categories$ | async)?.length; then showCategoriesContent; else showNoContent"></ng-template>
+    <ng-template *ngIf="categories.length; then showCategoriesContent; else showNoContent"></ng-template>
     <ng-template #showNoContent>
         <div class="alert alert-warning mt-3">
             Not found any category.
@@ -81,7 +81,7 @@
                 </ng-template>
                 <ng-template #showContent>
                     <div class="row flex-fill">
-                        <div *ngFor="let category of (categories$ | async)" class="col-lg-4 p-2">
+                        <div *ngFor="let category of categories" class="col-lg-4 p-2">
                             <a
                                 [routerLink]="[ '/category/', category.id ]"
                                 class="bg-white shadow-sm p-4 rounded-2 category-box d-flex align-items-center text-decoration-none text-dark h-100"

@@ -24,15 +24,12 @@
 
 import { Injectable } from "@angular/core";
 
-import { BehaviorSubject, catchError, map, Observable, of, tap, throwError } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, of, throwError } from "rxjs";
 
-import { Utils } from "../../../commons/utils/utils";
-import { AlertType } from "../../../commons/utils/alert.type";
 import { ICategoryModel } from "../../models/category.model";
-import { IPrePageableData } from "../../../commons/models/pagination.model";
-import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 
 import { LazyLoaderService } from "../../../commons/services/lazy-loader/lazy-loader.service";
+import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
 import { CategoriesHttpService } from "../../../commons/http-services/categories-http/categories-http.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -40,14 +37,6 @@ import { CategoriesHttpService } from "../../../commons/http-services/categories
 @Injectable()
 export class CategoriesService {
 
-    private _categories$: BehaviorSubject<ICategoryModel[]> = new BehaviorSubject<ICategoryModel[]>([]);
-    private _pageable$: BehaviorSubject<IPrePageableData | null> = new BehaviorSubject<IPrePageableData | null>(null);
-
-    private _alertError$: BehaviorSubject<IResponseAlertModel> = new BehaviorSubject<IResponseAlertModel>({
-        type: AlertType.ERROR, content: ""
-    });
-
-    private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private _currentPage$: BehaviorSubject<number> = new BehaviorSubject(1);
     private _isPrevDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(true);
     private _isNextDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(false);
@@ -59,21 +48,22 @@ export class CategoriesService {
 
     constructor(
         private _lazyLoaderService: LazyLoaderService,
+        private _lazyCommonsService: LazyCommonsService,
         private _categoriesHttpService: CategoriesHttpService,
     ) {
     };
 
     loadPageable$(): Observable<any> {
         this._lazyLoaderService.forcedActivateLoader();
-        return this._categoriesHttpService.getPageableData(this._fixedPageableLimit).pipe(
-            tap(res => {
-                this._pageable$.next(res);
+        return this._categoriesHttpService.getPageableData$(this._fixedPageableLimit).pipe(
+            map(res => {
                 this._allPages = res.countAllPages;
                 this.updatePrevNextDisabledButtons();
                 this._lazyLoaderService.forcedInactivateLoader();
+                return res;
             }),
             catchError(err => {
-                Utils.populateErrorAlert(err, this._alertError$);
+                this._lazyCommonsService.populateErrorAlert(err)
                 if (!this._isInitialLoad) {
                     this._lazyLoaderService.forcedInactivateLoader();
                 }
@@ -83,17 +73,17 @@ export class CategoriesService {
     };
 
     loadCategories$(): Observable<ICategoryModel[] | any> {
-        this._lazyLoader$.next(true);
+        this._lazyCommonsService.setLazyLoader(true);
         const offset = (this._currentPage - 1) * this._fixedPageableLimit;
-        return this._categoriesHttpService.getCategories(this._fixedPageableLimit, offset).pipe(
+        return this._categoriesHttpService.getCategories$(this._fixedPageableLimit, offset).pipe(
             map(res => res.results),
-            tap(results => {
-                this._categories$.next(results);
+            map(results => {
                 this.disableLazyLoading();
+                return results;
             }),
             catchError(err => {
                 this.disableLazyLoading();
-                Utils.populateErrorAlert(err, this._alertError$);
+                this._lazyCommonsService.populateErrorAlert(err);
                 return throwError(err);
             }),
         );
@@ -114,7 +104,7 @@ export class CategoriesService {
     private disableLazyLoading(): void {
         this._lazyLoaderService.forcedInactivateLoader();
         this._isInitialLoad = false;
-        this._lazyLoader$.next(false);
+        this._lazyCommonsService.setLazyLoader(false);
     };
 
     private updatePrevNextDisabledButtons(): void {
@@ -126,9 +116,4 @@ export class CategoriesService {
     get currentPage$(): Observable<number> { return this._currentPage$; };
     get isPrevDisabled$(): Observable<boolean> { return this._isPrevDisabled$ };
     get isNextDisabled$(): Observable<boolean> { return this._isNextDisabled$ };
-
-    get categories$(): Observable<ICategoryModel[]> { return this._categories$.asObservable() };
-    get alertError$(): Observable<IResponseAlertModel> { return this._alertError$.asObservable(); };
-    get lazyLoader$(): Observable<boolean> { return this._lazyLoader$.asObservable(); };
-    get pageable$(): Observable<IPrePageableData | null> { return this._pageable$.asObservable(); };
 }

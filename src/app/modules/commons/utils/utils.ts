@@ -62,10 +62,6 @@ export class Utils {
         return value;
     };
 
-    static populateErrorAlert(err: any, alertError$: BehaviorSubject<IResponseAlertModel>): void {
-        alertError$.next({ type: AlertType.ERROR, content: this.getGenericErr(err) });
-    };
-
     static convertCompaniesDotsToCommas(result: ICompanyResDtoModel[]): ICompanyResDtoModel[] {
         return result.map(comp => {
             comp.avgRatings = comp.avgRatings ? comp.avgRatings.toString().replaceAll(".", ",") : "-"

@@ -33,26 +33,28 @@ import { IResponseAlertModel } from "../../../commons/models/response-alert.mode
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { AuthService } from "../../services/auth/auth.service";
-import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
+import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
+import { ToastMessageService } from "../../../commons/services/toast-message/toast-message.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
     selector: "app-auth-login-page",
     templateUrl: "./auth-login-page.component.html",
-    providers: [ AuthService ],
+    providers: [ AuthService, LazyCommonsService ],
 })
 export class AuthLoginPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
 
     loginForm: FormGroup;
 
-    suspenseSpinner$: Observable<boolean> = this._authService.suspenseSpinner$;
-    responseAlert$: Observable<IResponseAlertModel> = this._authService.responseAlert$;
+    suspenseSpinner$: Observable<boolean> = this._authCommonsService.lazyLoader$;
+    responseAlert$: Observable<IResponseAlertModel> = this._authCommonsService.responseAlert$;
 
     constructor(
         private _router: Router,
         private _authService: AuthService,
-        private _formHelperService: FormHelperService,
+        private _authCommonsService: LazyCommonsService,
+        private _toastMessageService: ToastMessageService,
     ) {
         super();
         this.loginForm = new FormGroup({
