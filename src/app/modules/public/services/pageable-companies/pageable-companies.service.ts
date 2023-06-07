@@ -67,5 +67,4 @@ export class PageableCompaniesService {
     get totalCount$(): Observable<number> { return this._totalCount$.asObservable(); };
     get pageable$(): Observable<IPrePageableData | null> { return this._pageable$.asObservable(); };
     get currentPage$(): Observable<number> { return this._currentPage$.asObservable(); };
-
 }

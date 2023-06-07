@@ -34,7 +34,7 @@ import { ICompanyResDtoModel } from "../../public/models/company.model";
 
 export class Utils {
 
-    static convertCamelToSnake(convertedObj: any) {
+    static convertCamelToSnake(convertedObj: any): any {
         if (convertedObj === null || typeof convertedObj !== 'object') {
             return convertedObj;
         }
@@ -48,7 +48,7 @@ export class Utils {
         return result;
     };
 
-    static getFirstObjectErrorValue(variable: any) {
+    static getFirstObjectErrorValue(variable: any): any {
         if (typeof variable !== 'object' || variable === null) {
             return String(variable);
         }
