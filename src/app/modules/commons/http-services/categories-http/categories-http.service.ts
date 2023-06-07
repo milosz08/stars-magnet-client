@@ -41,13 +41,13 @@ export class CategoriesHttpService {
     ) {
     };
 
-    getPageableData(fixedLimit: number): Observable<IPrePageableData> {
+    getPageableData$(fixedLimit: number): Observable<IPrePageableData> {
         return this._httpClient.get<IPrePageableData>(
             `${environment.httpBackendURI}/api/category/pageable/${fixedLimit}`,
         );
     };
 
-    getCategories(fixedLimit: number, offset: number): Observable<PageableCategories> {
+    getCategories$(fixedLimit: number, offset: number): Observable<PageableCategories> {
         const params = new HttpParams()
             .set("limit", fixedLimit)
             .set("offset", offset);

@@ -84,7 +84,7 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
             this._currentPage = 1;
             this._pageableCompaniesService.setCurrentPage(0);
         }
-        return this._companyHttpService.getPageableAllData(this._searchQuery, this._pageableLimit, this._filter).pipe(
+        return this._companyHttpService.getPageableAllData$(this._searchQuery, this._pageableLimit, this._filter).pipe(
             tap(res => this.updateCountOfPages(res)),
             catchError(err => this.onThrowError$(err)),
         );
@@ -94,7 +94,7 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         this._pageableCompaniesService.toggleLazyLoader(true);
         const offset = (this._currentPage - 1) * this._pageableLimit;
         return this._companyHttpService
-            .getAllCompaniesByQuery(this._searchQuery, this._pageableLimit, offset, this._filter).pipe(
+            .getAllCompaniesByQuery$(this._searchQuery, this._pageableLimit, offset, this._filter).pipe(
                 tap(res => {
                     this._pageableCompaniesService.setCompanies(Utils.convertCompaniesDotsToCommas(res.results));
                     this._pageableCompaniesService.setTotalCount(res.count);

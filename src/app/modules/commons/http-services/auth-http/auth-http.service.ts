@@ -42,7 +42,7 @@ export class AuthHttpService {
     ) {
     };
 
-    login(reqDto: ILoginFormModel): Observable<ILoginResponseDto> {
+    login$(reqDto: ILoginFormModel): Observable<ILoginResponseDto> {
         return this._httpClient.post<ILoginResponseDto>(
             `${environment.httpBackendURI}/api/login`,
             reqDto,
@@ -56,7 +56,7 @@ export class AuthHttpService {
         );
     };
 
-    refresh(reqDto: IRefreshModelReqDto): Observable<IRefreshModelResDto> {
+    refresh$(reqDto: IRefreshModelReqDto): Observable<IRefreshModelResDto> {
         return this._httpClient.post<IRefreshModelResDto>(
             `${environment.httpBackendURI}/api/token/refresh`,
             reqDto,

@@ -43,14 +43,14 @@ export class CompanyHttpService {
     ) {
     };
 
-    addCompany(reqDto: IAddCompanyReqDto): Observable<IAddCompanyResDto> {
+    addCompany$(reqDto: IAddCompanyReqDto): Observable<IAddCompanyResDto> {
         return this._httpClient.post<IAddCompanyResDto>(
             `${environment.httpBackendURI}/api/company`,
             reqDto,
         );
     };
 
-    getPageableData(categoryId: number, fixedLimit: number, filter: ICompanyFilterModel): Observable<IPrePageableData> {
+    getPageableData$(categoryId: number, fixedLimit: number, filter: ICompanyFilterModel): Observable<IPrePageableData> {
         const params = new HttpParams()
             .set("category", categoryId)
             .set("fixedLimit", fixedLimit);
@@ -61,7 +61,7 @@ export class CompanyHttpService {
         );
     };
 
-    getPageableAllData(query: string, fixedLimit: number, filter: ICompanyFilterModel): Observable<IPrePageableData> {
+    getPageableAllData$(query: string, fixedLimit: number, filter: ICompanyFilterModel): Observable<IPrePageableData> {
         const params = new HttpParams()
             .set("query", query)
             .set("fixedLimit", fixedLimit);
@@ -72,7 +72,7 @@ export class CompanyHttpService {
         );
     };
 
-    getAllCompaniesByCategory(categoryId: number, fixedLimit: number, offset: number, filter: ICompanyFilterModel)
+    getAllCompaniesByCategory$(categoryId: number, fixedLimit: number, offset: number, filter: ICompanyFilterModel)
         : Observable<ICompanysPageableResDtoModel> {
         const params = new HttpParams()
             .set("limit", fixedLimit)
@@ -85,7 +85,7 @@ export class CompanyHttpService {
         );
     };
 
-    getAllCompaniesByQuery(query: string, fixedLimit: number, offset: number, filter: ICompanyFilterModel)
+    getAllCompaniesByQuery$(query: string, fixedLimit: number, offset: number, filter: ICompanyFilterModel)
         : Observable<ICompanysPageableResDtoModel> {
         const params = new HttpParams()
             .set("limit", fixedLimit)

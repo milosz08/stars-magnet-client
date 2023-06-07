@@ -73,7 +73,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
     loadPageable$(categoryId: number): Observable<any> {
         this._lazyLoaderService.forcedActivateLoader();
         this._categoryId = categoryId;
-        return this._companyHttpService.getPageableData(categoryId, this._pageableLimit, this._filter).pipe(
+        return this._companyHttpService.getPageableData$(categoryId, this._pageableLimit, this._filter).pipe(
             tap(res => {
                 this.updateCountOfPages(res);
                 this._lazyLoaderService.forcedInactivateLoader();
@@ -86,7 +86,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         this._pageableCompaniesService.toggleLazyLoader(true);
         this._currentPage = 1;
         this._pageableCompaniesService.setCurrentPage(0);
-        return this._companyHttpService.getPageableData(this._categoryId, this._pageableLimit, this._filter).pipe(
+        return this._companyHttpService.getPageableData$(this._categoryId, this._pageableLimit, this._filter).pipe(
             tap(res => this.updateCountOfPages(res)),
             catchError(err => this.onThrowError$(err)),
         );
@@ -96,7 +96,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         this._pageableCompaniesService.toggleLazyLoader(true);
         const offset = (this._currentPage - 1) * this._pageableLimit;
         return this._companyHttpService
-            .getAllCompaniesByCategory(this._categoryId, this._pageableLimit, offset, this._filter).pipe(
+            .getAllCompaniesByCategory$(this._categoryId, this._pageableLimit, offset, this._filter).pipe(
                 mergeMap(res => {
                     this._pageableCompaniesService.setCompanies(Utils.convertCompaniesDotsToCommas(res.results));
                     this._pageableCompaniesService.setTotalCount(res.count);

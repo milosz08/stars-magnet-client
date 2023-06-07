@@ -55,7 +55,7 @@ export class AddCompanyService {
     addCompany$(formReq: IAddCompanyFormModel): Observable<IAddCompanyResDto> {
         this._suspenseSpinner$.next(true);
         const reqData: IAddCompanyReqDto = Utils.convertCamelToSnake(formReq);
-        return this._addCompanyHttpService.addCompany(reqData).pipe(
+        return this._addCompanyHttpService.addCompany$(reqData).pipe(
             tap(res => {
                 this._addedCompanyCredentialsService.assignCredentials(res);
                 this._router.navigate([ "/auth/after-added-company" ]).then(r => r);

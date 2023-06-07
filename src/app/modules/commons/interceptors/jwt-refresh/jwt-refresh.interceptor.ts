@@ -74,7 +74,7 @@ export class JwtRefreshInterceptor implements HttpInterceptor {
         }
         if (tokenData && tokenData.refresh) {
             const refreshReqDto: IRefreshModelReqDto = { token: tokenData.access, refresh: tokenData.refresh };
-            return this._authHttpService.refresh(refreshReqDto).pipe(
+            return this._authHttpService.refresh$(refreshReqDto).pipe(
                 switchMap(res => {
                     this._isRefreshing = false;
                     this._localStorageService.update(StorageKeyType.USER_TOKEN, "access", res.access);
