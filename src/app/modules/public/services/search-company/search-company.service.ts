@@ -47,7 +47,7 @@ import { PageableLimitService } from "../../../commons/services/pageable-limit/p
 @Injectable()
 export class SearchCompanyService extends AbstractComponentReactiveProvider implements OnDestroy {
 
-    private _allPages = 1;
+    private _allPages = 0;
     private _currentPage = 1;
     private _searchQuery = "";
     private _filter: ICompanyFilterModel = DEF_FILTER;
@@ -82,7 +82,7 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         this._pageableCompaniesService.toggleLazyLoader(true);
         if (isRefresh) {
             this._currentPage = 1;
-            this._pageableCompaniesService.setCurrentPage(0);
+            this._pageableCompaniesService.setCurrentPage(1);
         }
         return this._companyHttpService.getPageableAllData$(this._searchQuery, this._pageableLimit, this._filter).pipe(
             tap(res => this.updateCountOfPages(res)),
@@ -104,11 +104,11 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         );
     };
 
-    moveToPage$(pageNumber: number | undefined): Observable<ICompanyResDtoModel[] | any> {
-        if (pageNumber === undefined || pageNumber < 0 || pageNumber >= this._allPages) {
+    moveToPage$(pageNumber: number): Observable<ICompanyResDtoModel[] | any> {
+        if (pageNumber < 0 || pageNumber > this._allPages) {
             return of(null);
         }
-        this._currentPage = pageNumber + 1;
+        this._currentPage = pageNumber;
         this._pageableCompaniesService.setCurrentPage(pageNumber);
         return this.loadFilteredCompanies$();
     };

@@ -56,16 +56,8 @@ export class PageableComponent {
         return Array.from({ length: count }).map((_, i) => i);
     };
 
-    increasePageNumber(): void {
-        this.changePageEmitter.emit(++this.currentPage);
-    };
-
-    decreasePageNumber(): void {
-        this.changePageEmitter.emit(--this.currentPage);
-    };
-
-    onChangePageNumber(pageNumber: number | undefined): void {
-        this.changePageEmitter.emit(pageNumber);
+    onChangePageNumber(selectedPage: number): void {
+        this.changePageEmitter.emit(selectedPage);
     };
 
     onChangePaginationLimit(limit: number): void {

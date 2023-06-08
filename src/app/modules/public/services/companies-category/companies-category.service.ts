@@ -46,7 +46,7 @@ import { PageableLimitService } from "../../../commons/services/pageable-limit/p
 @Injectable()
 export class CompaniesCategoryService extends AbstractComponentReactiveProvider implements OnDestroy {
 
-    private _allPages = 1;
+    private _allPages = 0;
     private _currentPage = 1;
     private _categoryId!: number;
     private _filter: ICompanyFilterModel = DEF_FILTER;
@@ -85,7 +85,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
     refreshPageable$(): Observable<any> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         this._currentPage = 1;
-        this._pageableCompaniesService.setCurrentPage(0);
+        this._pageableCompaniesService.setCurrentPage(1);
         return this._companyHttpService.getPageableData$(this._categoryId, this._pageableLimit, this._filter).pipe(
             tap(res => this.updateCountOfPages(res)),
             catchError(err => this.onThrowError$(err)),
@@ -107,11 +107,11 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         );
     };
 
-    moveToPage$(pageNumber: number | undefined): Observable<ICompanyResDtoModel[] | any> {
-        if (pageNumber === undefined || pageNumber < 0 || pageNumber >= this._allPages) {
+    moveToPage$(pageNumber: number): Observable<ICompanyResDtoModel[] | any> {
+        if (pageNumber < 1 || pageNumber > this._allPages) {
             return of(null);
         }
-        this._currentPage = pageNumber + 1;
+        this._currentPage = pageNumber;
         this._pageableCompaniesService.setCurrentPage(pageNumber);
         return this.loadCompaniesByCategory$();
     };

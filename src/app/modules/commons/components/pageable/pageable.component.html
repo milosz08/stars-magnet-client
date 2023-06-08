@@ -38,41 +38,21 @@
     <div class="col-md-4 d-flex justify-content-center">
         <p class="text-secondary mb-3">
             Page
-            <span class="fw-bold text-dark">{{ currentPage + 1 }}</span>
+            <span class="fw-bold text-dark">{{ currentPage }}</span>
             of
             <span class="fw-bold text-dark">{{ pageable!.countAllPages }}</span>
         </p>
     </div>
-    <nav class="col-md-4 d-flex justify-content-center justify-content-md-end">
-        <ul class="pagination pagination-sm">
-            <li class="page-item">
-                <button
-                    class="page-link"
-                    (click)="decreasePageNumber()"
-                    [class.disabled]="currentPage === 0"
-                >
-                    <i class="bi bi-chevron-left"></i>
-                </button>
-            </li>
-            <li *ngFor="let page of range(pageable?.countAllPages)" class="page-item">
-                <button
-                    class="page-link"
-                    [class.active]="page === currentPage"
-                    [disabled]="page === currentPage"
-                    (click)="onChangePageNumber(page)"
-                >
-                    {{ page + 1 }}
-                </button>
-            </li>
-            <li class="page-item">
-                <button
-                    class="page-link"
-                    (click)="increasePageNumber()"
-                    [class.disabled]="currentPage === pageable.countAllPages! - 1"
-                >
-                    <i class="bi bi-chevron-right"></i>
-                </button>
-            </li>
-        </ul>
-    </nav>
+    <div class="col-md-4 d-flex justify-content-center justify-content-md-end align-items-center">
+        <ngb-pagination
+            [collectionSize]="pageable.countAll"
+            [pageSize]="(selectedLimit$ | async)!"
+            [page]="currentPage"
+            (pageChange)="onChangePageNumber($event)"
+            [maxSize]="2"
+            [rotate]="true"
+            [boundaryLinks]="true"
+            size="sm"
+        ></ngb-pagination>
+    </div>
 </div>

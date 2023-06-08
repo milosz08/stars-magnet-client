@@ -39,7 +39,7 @@ export class PageableCompaniesService {
 
     private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject(false);
     private _totalCount$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
-    private _currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(0);
+    private _currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(1);
 
     toggleLazyLoader(value: boolean): void {
         this._lazyLoader$.next(value);

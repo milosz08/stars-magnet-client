@@ -75,6 +75,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         NgbBts.NgbDropdownToggle,
         NgbBts.NgbToast,
         NgbBts.NgbDropdownItem,
+        NgbBts.NgbPagination,
     ],
     exports: [
         FooterComponent,
