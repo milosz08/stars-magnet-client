@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: added-company-credentials.service.ts
+ * File name: company-credentials.service.ts
  * Last modified: 6/4/23, 2:56 PM
  * Project name: stars-magnet-client
  *
@@ -26,22 +26,22 @@ import { Injectable } from "@angular/core";
 
 import { BehaviorSubject, Observable, Subject } from "rxjs";
 
-import { IAddCompanyResDto } from "../../../commons/models/company.model";
+import { IPassCompanyResDto } from "../../../commons/models/company.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Injectable({ providedIn: "root" })
-export class AddedCompanyCredentialsService {
+@Injectable()
+export class CompanyCredentialsService {
 
-    private _companyAddedCred$: Subject<IAddCompanyResDto | null> = new BehaviorSubject<IAddCompanyResDto | null>(null);
+    private _companyCredentials$: Subject<IPassCompanyResDto | null> = new BehaviorSubject<IPassCompanyResDto | null>(null);
 
-    assignCredentials(resDto: IAddCompanyResDto): void {
-        this._companyAddedCred$.next(resDto);
+    assignCredentials(resDto: IPassCompanyResDto): void {
+        this._companyCredentials$.next(resDto);
     };
 
     resetCredentials(): void {
-        this._companyAddedCred$.next(null);
+        this._companyCredentials$.next(null);
     };
 
-    get companyAddedCred$(): Observable<IAddCompanyResDto | null> { return this._companyAddedCred$.asObservable(); };
+    get companyCredentials$(): Observable<IPassCompanyResDto | null> { return this._companyCredentials$.asObservable(); };
 }

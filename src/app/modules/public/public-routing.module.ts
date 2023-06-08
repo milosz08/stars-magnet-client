@@ -37,9 +37,9 @@ import { PublicFilteredCompaniesPageComponent } from "./pages/public-filtered-co
 const routes: Routes = [
     { path: "", component: PublicRootComponent, children: [
         { path: "", component: PublicStartPageComponent, title: "Home", pathMatch: "full" },
-        { path: "category/:categoryId", component: PublicCategoryPageComponent },
-        { path: "company/:companyId", component: PublicCompanyPageComponent },
-        { path: "companies", component: PublicFilteredCompaniesPageComponent },
+        { path: "category/:categoryId",     component: PublicCategoryPageComponent },
+        { path: "company/:companyId",       component: PublicCompanyPageComponent },
+        { path: "companies",                component: PublicFilteredCompaniesPageComponent },
     ]},
 ];
 

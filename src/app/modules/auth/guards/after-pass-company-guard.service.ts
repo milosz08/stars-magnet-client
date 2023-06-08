@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: after-added-company.guard.ts
+ * File name: after-pass-company.guard.ts
  * Last modified: 6/4/23, 1:59 PM
  * Project name: stars-magnet-client
  *
@@ -27,24 +27,24 @@ import { CanActivateFn, Router } from "@angular/router";
 
 import { map, Observable } from "rxjs";
 
-import { AddedCompanyCredentialsService } from "../services/added-company-credentials/added-company-credentials.service";
+import { CompanyCredentialsService } from "../services/company-credentials/company-credentials.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Injectable({ providedIn: "root" })
-export class AfterAddedCompanyGuard {
+@Injectable()
+export class CompanyCredentialsGuard {
 
-    canActivate(addedCompanyCredentialsService: AddedCompanyCredentialsService, router: Router): Observable<boolean> {
-        return addedCompanyCredentialsService.companyAddedCred$.pipe(map(isAdded => {
+    canActivate(companyCredentialsService: CompanyCredentialsService, router: Router): Observable<boolean> {
+        return companyCredentialsService.companyCredentials$.pipe(map(isAdded => {
             if (isAdded) {
                 return true;
             }
-            router.navigate([ "/auth/add-company" ]).then(r => r);
+            router.navigate([ "/auth/company-login" ]).then(r => r);
             return false;
         }));
     };
 }
 
-export const canActivateAfterAddedCompany: CanActivateFn = () => (
-    inject(AfterAddedCompanyGuard).canActivate(inject(AddedCompanyCredentialsService), inject(Router))
+export const canActivateCompanyCredentials: CanActivateFn = () => (
+    inject(CompanyCredentialsGuard).canActivate(inject(CompanyCredentialsService), inject(Router))
 );

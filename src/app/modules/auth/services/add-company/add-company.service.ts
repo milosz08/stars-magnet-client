@@ -30,10 +30,9 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
 import { Utils } from "../../../commons/utils/utils";
 import { AlertType } from "../../../commons/utils/alert.type";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
-import { IAddCompanyFormModel, IAddCompanyReqDto, IAddCompanyResDto } from "../../../commons/models/company.model";
+import { IAddCompanyFormModel, IAddCompanyReqDto, IPassCompanyResDto } from "../../../commons/models/company.model";
 
 import { CompanyHttpService } from "../../../commons/http-services/company-http/company-http.service";
-import { AddedCompanyCredentialsService } from "../added-company-credentials/added-company-credentials.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -48,11 +47,11 @@ export class AddCompanyService {
     constructor(
         private _router: Router,
         private _addCompanyHttpService: CompanyHttpService,
-        private _addedCompanyCredentialsService: AddedCompanyCredentialsService,
+        private _addedCompanyCredentialsService: CompanyCredentialsService,
     ) {
     };
 
-    addCompany$(formReq: IAddCompanyFormModel): Observable<IAddCompanyResDto> {
+    addCompany$(formReq: IAddCompanyFormModel): Observable<IPassCompanyResDto> {
         this._suspenseSpinner$.next(true);
         const reqData: IAddCompanyReqDto = Utils.convertCamelToSnake(formReq);
         return this._addCompanyHttpService.addCompany$(reqData).pipe(

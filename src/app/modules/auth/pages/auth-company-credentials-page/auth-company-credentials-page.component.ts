@@ -1,7 +1,7 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: auth-after-added-company-page.component.ts
+ * File name: auth-company-credentials-page.component.ts
  * Last modified: 6/4/23, 1:57 PM
  * Project name: stars-magnet-client
  *
@@ -26,43 +26,43 @@ import { Component, OnDestroy, OnInit } from "@angular/core";
 
 import { takeUntil } from "rxjs";
 
-import { IAddCompanyResDto } from "../../../commons/models/company.model";
+import { IPassCompanyResDto } from "../../../commons/models/company.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { FileHelperService } from "../../../commons/services/file-helper/file-helper.service";
-import { AddedCompanyCredentialsService } from "../../services/added-company-credentials/added-company-credentials.service";
+import { CompanyCredentialsService } from "../../services/company-credentials/company-credentials.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-auth-after-added-company-page",
-    templateUrl: "./auth-after-added-company-page.component.html",
+    selector: "app-auth-company-credentials-page",
+    templateUrl: "./auth-company-credentials-page.component.html",
 })
-export class AuthAfterAddedCompanyPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
+export class AuthCompanyCredentialsPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
-    companyAddedCred: IAddCompanyResDto | null = null;
+    companyCred: IPassCompanyResDto | null = null;
 
     constructor(
         private _fileHelperService: FileHelperService,
-        private _addedCompanyCredentialsService: AddedCompanyCredentialsService,
+        private _companyCredentialsService: CompanyCredentialsService,
     ) {
         super();
     };
 
     ngOnInit(): void {
-        this._addedCompanyCredentialsService.companyAddedCred$
+        this._companyCredentialsService.companyCredentials$
             .pipe(takeUntil(this._unsubscribe))
-            .subscribe(data => this.companyAddedCred = data);
+            .subscribe(data => this.companyCred = data);
     };
 
     ngOnDestroy(): void {
-        this._addedCompanyCredentialsService.resetCredentials();
+        this._companyCredentialsService.resetCredentials();
         this.subjectCleanup();
     };
 
     saveToFile(): void {
-        if (!this.companyAddedCred) return;
-        const { token, responseWords } = this.companyAddedCred;
+        if (!this.companyCred) return;
+        const { token, responseWords } = this.companyCred;
         const formattedData = "Token:\n" + token + "\n\nResponse words:\n" + responseWords.join("\n");
         this._fileHelperService.saveTextToFile(formattedData, "secure-data.txt");
     };

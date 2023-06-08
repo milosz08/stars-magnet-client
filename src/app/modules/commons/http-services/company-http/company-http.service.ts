@@ -30,7 +30,7 @@ import { environment } from "../../../../environments/environment";
 
 import { IPrePageableData } from "../../models/pagination.model";
 import { ICompanyFilterModel } from "../../models/company-filter.model";
-import { IAddCompanyReqDto, IAddCompanyResDto } from "../../models/company.model";
+import { IAddCompanyReqDto, IPassCompanyResDto } from "../../models/company.model";
 import { ICompanysPageableResDtoModel } from "../../../public/models/company.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -43,8 +43,8 @@ export class CompanyHttpService {
     ) {
     };
 
-    addCompany$(reqDto: IAddCompanyReqDto): Observable<IAddCompanyResDto> {
-        return this._httpClient.post<IAddCompanyResDto>(
+    addCompany$(reqDto: IAddCompanyReqDto): Observable<IPassCompanyResDto> {
+        return this._httpClient.post<IPassCompanyResDto>(
             `${environment.httpBackendURI}/api/company`,
             reqDto,
         );

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: added-company-credentials.service.spec.ts
- * Last modified: 6/4/23, 2:56 PM
+ * File name: auth-company-credentials-page.component.spec.ts
+ * Last modified: 6/4/23, 1:57 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,20 +22,27 @@
  * or other dealings in the software.
  */
 
-import { TestBed } from "@angular/core/testing";
-import { AddedCompanyCredentialsService } from "./added-company-credentials.service";
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { AuthCompanyCredentialsPageComponent } from "./auth-company-credentials-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("AddedCompanyCredentialsService", () => {
-    let service: AddedCompanyCredentialsService;
+describe("AuthAfterAddedCompanyPageComponent", () => {
+    let component: AuthCompanyCredentialsPageComponent;
+    let fixture: ComponentFixture<AuthCompanyCredentialsPageComponent>;
 
-    beforeEach(() => {
-        TestBed.configureTestingModule({});
-        service = TestBed.inject(AddedCompanyCredentialsService);
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ AuthCompanyCredentialsPageComponent ]
+        })
+            .compileComponents();
+
+        fixture = TestBed.createComponent(AuthCompanyCredentialsPageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
     });
 
-    it("should be created", () => {
-        expect(service).toBeTruthy();
+    it("should create", () => {
+        expect(component).toBeTruthy();
     });
 });

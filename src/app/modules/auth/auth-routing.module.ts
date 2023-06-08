@@ -28,7 +28,7 @@ import { NgModule } from "@angular/core";
 import { AuthRootComponent } from "./auth-root.component";
 
 import { canActivateNonLogged } from "../commons/guards/non-logged.guard";
-import { canActivateAfterAddedCompany } from "./guards/after-added-company.guard";
+import { canActivateCompanyCredentials } from "./guards/after-pass-company-guard.service";
 
 import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
 import { AuthCompanyLoginPageComponent } from "./pages/auth-company-login-page/auth-company-login-page.component";

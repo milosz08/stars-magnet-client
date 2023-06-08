@@ -23,7 +23,7 @@
   -->
 
 <div class="container d-flex justify-content-center align-items-center h-100">
-    <div class="row form-width min">
+    <div class="row form-width min mb-4">
         <app-dimissible-alert [model]="(responseAlert$ | async)"></app-dimissible-alert>
         <div class="card">
             <form [formGroup]="companyLoginForm" (ngSubmit)="onLoginCompanyFormSubmit()" class="card-body" novalidate>
@@ -37,7 +37,7 @@
                                 elementTitle="Token"
                                 reactiveControlName="token"
                                 [reactiveFormGroup]="companyLoginForm"
-                                [isInvalid]="validateField('password')"
+                                [isInvalid]="validateField('token')"
                             >
                                 <div *ngIf="(companyLoginForm.get('token')!.errors | onlyFirst) === 'required'">
                                     Token field is required.

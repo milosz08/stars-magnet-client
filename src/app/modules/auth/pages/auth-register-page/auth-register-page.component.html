@@ -23,7 +23,7 @@
   -->
 
 <div class="container d-flex justify-content-center align-items-center h-100">
-    <div class="row form-width max">
+    <div class="row form-width max mb-4">
         <app-dimissible-alert [model]="(responseAlert$ | async)"></app-dimissible-alert>
         <div class="card">
             <form [formGroup]="registerForm" (ngSubmit)="onRegisterFormSubmit()" class="card-body" novalidate>
