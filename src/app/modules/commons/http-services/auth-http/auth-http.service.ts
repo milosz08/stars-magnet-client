@@ -29,6 +29,7 @@ import { Observable } from "rxjs";
 import { environment } from "../../../../environments/environment";
 
 import { IRegisterReqDto } from "../../models/register.model";
+import { IPassCompanyResDto, IResetTokenReqDto } from "../../models/company.model";
 import { IRefreshModelReqDto, IRefreshModelResDto } from "../../models/refresh.model";
 import { IAutoLoginResponseDto, ICompanyLoginFormModel, ILoginFormModel, ILoginResponseDto } from "../../models/login.model";
 
@@ -52,6 +53,13 @@ export class AuthHttpService {
     companyLogin$(reqDto: ICompanyLoginFormModel): Observable<ILoginResponseDto> {
         return this._httpClient.post<ILoginResponseDto>(
             `${environment.httpBackendURI}/api/company/login`,
+            reqDto,
+        );
+    };
+
+    companyResetToken$(reqDto: IResetTokenReqDto): Observable<IPassCompanyResDto> {
+        return this._httpClient.post<IPassCompanyResDto>(
+            `${environment.httpBackendURI}/api/token/reset`,
             reqDto,
         );
     };

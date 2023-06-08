@@ -34,18 +34,20 @@ import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.
 import { AuthCompanyLoginPageComponent } from "./pages/auth-company-login-page/auth-company-login-page.component";
 import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
 import { AuthAddCompanyPageComponent } from "./pages/auth-add-company-page/auth-add-company-page.component";
-import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-company-page/auth-after-added-company-page.component";
+import { AuthResetTokenPageComponent } from "./pages/auth-reset-token-page/auth-reset-token-page.component";
+import { AuthCompanyCredentialsPageComponent } from "./pages/auth-company-credentials-page/auth-company-credentials-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 const routes: Routes = [
-    { path: "", component: AuthRootComponent, children: [
+    { path: "", component: AuthRootComponent, canActivate: [ canActivateNonLogged ], children: [
         { path: "", redirectTo: "login", pathMatch: "full" },
-        { path: "login", component: AuthLoginPageComponent, title: "Login", canActivate: [ canActivateNonLogged ] },
-        { path: "company-login", component: AuthCompanyLoginPageComponent, title: "Company login", canActivate: [ canActivateNonLogged ] },
-        { path: "register", component: AuthRegisterPageComponent, title: "Register", canActivate: [ canActivateNonLogged ] },
-        { path: "add-company", component: AuthAddCompanyPageComponent, title: "Add company", canActivate: [ canActivateNonLogged ] },
-        { path: "after-added-company", component: AuthAfterAddedCompanyPageComponent, title: "Added company", canActivate: [ canActivateAfterAddedCompany ] },
+        { path: "login",                component: AuthLoginPageComponent,                  title: "Login" },
+        { path: "company-login",        component: AuthCompanyLoginPageComponent,           title: "Company login" },
+        { path: "register",             component: AuthRegisterPageComponent,               title: "Register" },
+        { path: "add-company",          component: AuthAddCompanyPageComponent,             title: "Add company" },
+        { path: "reset-token",          component: AuthResetTokenPageComponent,             title: "Reset token" },
+        { path: "company-credentials",  component: AuthCompanyCredentialsPageComponent,     title: "Credentials", canActivate: [ canActivateCompanyCredentials ] },
     ]},
 ];
 

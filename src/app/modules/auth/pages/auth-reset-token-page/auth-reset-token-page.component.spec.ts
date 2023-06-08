@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: company.model.ts
- * Last modified: 6/4/23, 1:43 PM
+ * File name: auth-reset-token-page.component.spec.ts
+ * Last modified: 6/8/23, 12:57 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,31 +22,26 @@
  * or other dealings in the software.
  */
 
-export interface IAddCompanyFormModel {
-    name: string;
-    site: string;
-    username: string;
-    password: string;
-    confirmPassword: string;
-    email: string;
-}
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { AuthResetTokenPageComponent } from "./auth-reset-token-page.component";
 
-export interface IAddCompanyReqDto {
-    name: string;
-    site: string;
-    username: string;
-    password: string;
-    confirm_password: string;
-    email: string;
-}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-export interface IResetTokenReqDto {
-    user: string;
-    words: string[];
-}
+describe("AuthResetTokenPageComponent", () => {
+    let component: AuthResetTokenPageComponent;
+    let fixture: ComponentFixture<AuthResetTokenPageComponent>;
 
-export interface IPassCompanyResDto {
-    token: string;
-    response: string;
-    responseWords: string[];
-}
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ AuthResetTokenPageComponent ]
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(AuthResetTokenPageComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});

@@ -26,17 +26,20 @@ import { Injectable } from "@angular/core";
 
 import { catchError, Observable, tap, throwError } from "rxjs";
 
-import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
-import { ICompanyLoginFormModel } from "../../../commons/models/login.model";
-
 import { Utils } from "../../../commons/utils/utils";
 import { AlertType } from "../../../commons/utils/alert.type";
+import { ToastType } from "../../../commons/models/toast.model";
 import { AccountRole } from "../../../commons/types/account-role.type";
 import { StorageKeyType } from "../../../commons/types/storage-key.type";
+import { IResetTokenReqDto } from "../../../commons/models/company.model";
+import { ICompanyLoginFormModel } from "../../../commons/models/login.model";
 
 import { AuthHttpService } from "../../../commons/http-services/auth-http/auth-http.service";
+import { CompanyCredentialsService } from "../company-credentials/company-credentials.service";
+import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
 import { LocalStorageService } from "../../../commons/services/local-storage/local-storage.service";
 import { LoggedStatusService } from "../../../commons/services/logged-status/logged-status.service";
+import { ToastMessageService } from "../../../commons/services/toast-message/toast-message.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +50,9 @@ export class AuthCompanyService {
         private _authHttpService: AuthHttpService,
         private _authCommonsService: LazyCommonsService,
         private _loggedStatusService: LoggedStatusService,
+        private _toastMessageService: ToastMessageService,
         private _localStorageService: LocalStorageService,
+        private _companyCredentialsService: CompanyCredentialsService,
     ) {
     };
 
@@ -59,14 +64,28 @@ export class AuthCompanyService {
                 this._loggedStatusService.setLoggedUserData(true, AccountRole.COMPANY, { id, username, name });
                 this._authCommonsService.setLazyLoader(false);
             }),
-            catchError(err => {
-                this._authCommonsService.setLazyLoader(false);
-                const resMessage = Utils.getFirstObjectErrorValue(err.error);
-                this._authCommonsService.setResponseAlert({
-                    type: AlertType.ERROR, content: `${resMessage || "Unknow server error"}.`
-                });
-                return throwError(err);
-            }),
+            catchError(err => this.onCatchError$(err)),
         );
+    };
+
+    resetToken$(formReq: IResetTokenReqDto): Observable<any> {
+        this._authCommonsService.setLazyLoader(true);
+        return this._authHttpService.companyResetToken$(formReq).pipe(
+            tap(res => {
+                this._companyCredentialsService.assignCredentials(res);
+                this._authCommonsService.setLazyLoader(false);
+                this._router.navigate([ "/auth/company-credentials" ]).then(r => r);
+            }),
+            catchError(err => this.onCatchError$(err)),
+        );
+    };
+
+    private onCatchError$(err: any): Observable<any> {
+        this._authCommonsService.setLazyLoader(false);
+        const resMessage = Utils.getFirstObjectErrorValue(err.error);
+        this._authCommonsService.setResponseAlert({
+            type: AlertType.ERROR, content: `${resMessage || "Unknow server error"}.`
+        });
+        return throwError(err);
     };
 }

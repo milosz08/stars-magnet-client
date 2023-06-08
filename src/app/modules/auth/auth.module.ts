@@ -32,14 +32,18 @@ import { AuthRootComponent } from "./auth-root.component";
 import { AuthRoutingModule } from "./auth-routing.module";
 import { CommonsModule } from "../commons/commons.module";
 
-import { CompanyUserCommonSignupFormComponent } from "./components/company-user-common-signup-form/company-user-common-signup-form.component";
+import { CompanyCredentialsGuard } from "./guards/after-pass-company-guard.service";
+import { CompanyCredentialsService } from "./services/company-credentials/company-credentials.service";
+
 import { CompanyUserCommonLoginFormComponent } from "./components/company-user-common-login-form/company-user-common-login-form.component";
+import { CompanyUserCommonSignupFormComponent } from "./components/company-user-common-signup-form/company-user-common-signup-form.component";
 
 import { AuthLoginPageComponent } from "./pages/auth-login-page/auth-login-page.component";
 import { AuthCompanyLoginPageComponent } from "./pages/auth-company-login-page/auth-company-login-page.component";
 import { AuthRegisterPageComponent } from "./pages/auth-register-page/auth-register-page.component";
+import { AuthResetTokenPageComponent } from "./pages/auth-reset-token-page/auth-reset-token-page.component";
 import { AuthAddCompanyPageComponent } from "./pages/auth-add-company-page/auth-add-company-page.component";
-import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-company-page/auth-after-added-company-page.component";
+import { AuthCompanyCredentialsPageComponent } from "./pages/auth-company-credentials-page/auth-company-credentials-page.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,8 +57,9 @@ import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-com
         AuthLoginPageComponent,
         AuthCompanyLoginPageComponent,
         AuthRegisterPageComponent,
+        AuthResetTokenPageComponent,
         AuthAddCompanyPageComponent,
-        AuthAfterAddedCompanyPageComponent,
+        AuthCompanyCredentialsPageComponent,
     ],
     imports: [
         CommonModule,
@@ -64,6 +69,10 @@ import { AuthAfterAddedCompanyPageComponent } from "./pages/auth-after-added-com
         FormsModule,
         ReactiveFormsModule,
         NgbAlert,
+    ],
+    providers: [
+        CompanyCredentialsGuard,
+        CompanyCredentialsService,
     ],
 })
 export class AuthModule {
