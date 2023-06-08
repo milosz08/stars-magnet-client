@@ -39,6 +39,7 @@ export class PasswordTogglerComponent {
     @Input() elementTitle = "";
     @Input() elementPlaceholder = "";
     @Input() isInvalid = false;
+    @Input() maxLength = 50;
 
     isVisible = false;
 

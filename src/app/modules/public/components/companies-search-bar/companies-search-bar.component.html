@@ -26,6 +26,7 @@
     <input
         type="text"
         name="paraphrase"
+        maxlength="200"
         #searchInput
         (input)="onSetNewParaphrase(searchInput.value)"
         [value]="(searchContent$ | async)"
