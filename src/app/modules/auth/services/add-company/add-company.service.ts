@@ -32,6 +32,7 @@ import { AlertType } from "../../../commons/utils/alert.type";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 import { IAddCompanyFormModel, IAddCompanyReqDto, IPassCompanyResDto } from "../../../commons/models/company.model";
 
+import { CompanyCredentialsService } from "../company-credentials/company-credentials.service";
 import { CompanyHttpService } from "../../../commons/http-services/company-http/company-http.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -57,7 +58,8 @@ export class AddCompanyService {
         return this._addCompanyHttpService.addCompany$(reqData).pipe(
             tap(res => {
                 this._addedCompanyCredentialsService.assignCredentials(res);
-                this._router.navigate([ "/auth/after-added-company" ]).then(r => r);
+                this._suspenseSpinner$.next(false);
+                this._router.navigate([ "/auth/company-credentials" ]).then(r => r);
             }),
             catchError(err => {
                 this._suspenseSpinner$.next(false);

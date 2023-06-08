@@ -24,11 +24,9 @@
 
 import { Component, OnDestroy } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
-import { Router } from "@angular/router";
 
 import { first, Observable, takeUntil } from "rxjs";
 
-import { ToastType } from "../../../commons/models/toast.model";
 import { ICompanyLoginFormModel } from "../../../commons/models/login.model";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
@@ -36,7 +34,6 @@ import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstra
 import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
 import { AuthCompanyService } from "../../services/auth-company/auth-company.service";
 import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
-import { ToastMessageService } from "../../../commons/services/toast-message/toast-message.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -53,11 +50,9 @@ export class AuthCompanyLoginPageComponent extends AbstractComponentReactiveProv
     responseAlert$: Observable<IResponseAlertModel> = this._authCommonsService.responseAlert$;
 
     constructor(
-        private _router: Router,
+        private _formHelperService: FormHelperService,
         private _authCompanyService: AuthCompanyService,
         private _authCommonsService: LazyCommonsService,
-        private _formHelperService: FormHelperService,
-        private _toastMessageService: ToastMessageService,
     ) {
         super();
         this.companyLoginForm = new FormGroup({
@@ -74,11 +69,7 @@ export class AuthCompanyLoginPageComponent extends AbstractComponentReactiveProv
     onLoginCompanyFormSubmit(): void {
         const data: ICompanyLoginFormModel = this.companyLoginForm.getRawValue();
         this._authCompanyService.login$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
-            next: () => {
-                this._router.navigate([ "/" ]).then(r => {
-                    this._toastMessageService.showToast("You has been successfully logged.", ToastType.INFO);
-                });
-            },
+            next: () => this.companyLoginForm.reset(),
             error: () => {
                 this.companyLoginForm.get("password")?.reset();
                 this.companyLoginForm.get("token")?.reset();

@@ -23,6 +23,7 @@
  */
 
 import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
 
 import { catchError, Observable, tap, throwError } from "rxjs";
 
@@ -47,6 +48,7 @@ import { ToastMessageService } from "../../../commons/services/toast-message/toa
 export class AuthCompanyService {
 
     constructor(
+        private _router: Router,
         private _authHttpService: AuthHttpService,
         private _authCommonsService: LazyCommonsService,
         private _loggedStatusService: LoggedStatusService,
@@ -63,6 +65,9 @@ export class AuthCompanyService {
                 this._localStorageService.save(StorageKeyType.USER_TOKEN, { access, refresh });
                 this._loggedStatusService.setLoggedUserData(true, AccountRole.COMPANY, { id, username, name });
                 this._authCommonsService.setLazyLoader(false);
+                this._router.navigate([ "/" ]).then(() => {
+                    this._toastMessageService.showToast("You has been successfully logged.", ToastType.INFO);
+                });
             }),
             catchError(err => this.onCatchError$(err)),
         );
