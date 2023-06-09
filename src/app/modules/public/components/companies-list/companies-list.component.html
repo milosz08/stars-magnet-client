@@ -58,7 +58,7 @@
                 <div class="card-body p-0 mt-3">
                     <div class="d-block d-sm-flex justify-content-between align-items-center">
                         <ul class="d-flex flex-wrap list-unstyled">
-                            <li *ngFor="let category of company.categories; trackBy: identifyCategory">
+                            <li *ngFor="let category of company.categories; trackBy: identifyCategory" class="mb-1">
                                 <a
                                     [routerLink]="[ '/category', category.id ]"
                                     [class.not-relevant]="category.name !== categoryName && !categoriesAreFullVisibled"
@@ -68,7 +68,7 @@
                                 </a>
                             </li>
                         </ul>
-                        <a class="btn btn-primary btn-sm" [routerLink]="[ '/company/', company.id ]">
+                        <a class="btn btn-primary btn-sm mt-2 company-link-button" [routerLink]="[ '/company/', company.id ]">
                             View ratings
                             <i class="bi bi-arrow-right ms-2"></i>
                         </a>

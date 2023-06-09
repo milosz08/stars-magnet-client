@@ -36,6 +36,7 @@ import { GradeStarsService } from "../../services/grade-stars/grade-stars.servic
 @Component({
     selector: "app-grade-stars",
     templateUrl: "./grade-stars.component.html",
+    styleUrls: [ "./grade-stars.component.scss" ],
 })
 export class GradeStarsComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 

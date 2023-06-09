@@ -1,8 +1,8 @@
 /*!
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: companies-list.component.scss
- * Last modified: 6/5/23, 12:04 AM
+ * File name: grade-stars.component.scss
+ * Last modified: 6/9/23, 4:40 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,18 +22,18 @@
  * or other dealings in the software.
  */
 
-.not-relevant {
-    opacity: .6;
+.stars-relative-font-size {
+    font-size: 1.7vw !important;
 }
 
-.company-link-button {
-    width: fit-content;
-    max-width: 100%;
-    min-width: 130px;
+@media only screen and (max-width: 991px) {
+    .stars-relative-font-size {
+        font-size: 1.5rem !important;
+    }
 }
 
-@media only screen and (max-width: 576px) {
-    .company-link-button {
-        width: 100%;
+@media only screen and (min-width: 1920px) {
+    .stars-relative-font-size {
+        font-size: 1.8rem !important;
     }
 }
