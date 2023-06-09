@@ -44,9 +44,11 @@
                         </h2>
                         <div ngbAccordionCollapse>
                             <div ngbAccordionBody>
-                                <app-category-companies-filter
-                                    (refrehDataEmit)="refreshCompanies()"
-                                ></app-category-companies-filter>
+                                <ng-template>
+                                    <app-category-companies-filter
+                                        (refrehDataEmit)="refreshCompanies()"
+                                    ></app-category-companies-filter>
+                                </ng-template>
                             </div>
                         </div>
                     </div>
