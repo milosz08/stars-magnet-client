@@ -46,7 +46,7 @@ export class LazyLoaderService {
             } else if (e instanceof RouteConfigLoadEnd) {
                 setTimeout(() => this._isLoading$.next(false), 1000);
             }
-        })
+        });
     };
 
     forcedActivateLoader(): void {
