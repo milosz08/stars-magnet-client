@@ -40,6 +40,7 @@ import { LazyPageLoaderComponent } from "./components/lazy-page-loader/lazy-page
 import { ToastMessageComponent } from "./components/toast-message/toast-message.component";
 import { PageableComponent } from "./components/pageable/pageable.component";
 import { GradeStarsComponent } from "./components/grade-stars/grade-stars.component";
+import { MultiselectInputComponent } from "./components/multiselect-input/multiselect-input.component";
 
 import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
 
@@ -58,6 +59,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         ToastMessageComponent,
         PageableComponent,
         GradeStarsComponent,
+        MultiselectInputComponent,
         // pipes
         OnlyFirstPipe,
     ],
@@ -87,6 +89,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         ToastMessageComponent,
         PageableComponent,
         GradeStarsComponent,
+        MultiselectInputComponent,
     ],
 })
 export class CommonsModule {
