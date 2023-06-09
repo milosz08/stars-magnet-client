@@ -22,5 +22,27 @@
   ~ or other dealings in the software.
   -->
 
-<p>public-company-page works!</p>
-{{ companyId }}
+<div class="row">
+    <div class="col-lg-8 mt-4">
+        <div class="row">
+            <a class="hstack gap-2 text-decoration-none text-secondary" routerLink="/companies">
+                <i class="bi bi-arrow-return-left"></i>
+                Return to all companies
+            </a>
+        </div>
+        <p class="text-secondary mb-1 mt-4">Company name:</p>
+        <h1 class="text-dark mb-5">Grontsmar</h1>
+        <div class="hstack gap-4">
+            <h4 class="text-black-50">Company opinions</h4>
+            <hr class="flex-fill">
+        </div>
+        opinions
+    </div>
+    <div class="col-lg-4 mb-4 d-flex">
+        <div class="col-lg w-100">
+            <div class="sticky-top panel-left-nav">
+                <app-company-details-left-card *ngIf="isLoaded"/>
+            </div>
+        </div>
+    </div>
+</div>

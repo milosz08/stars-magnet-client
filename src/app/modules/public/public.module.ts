@@ -41,6 +41,7 @@ import { CompaniesListComponent } from "./components/companies-list/companies-li
 import { HomeCategoriesComponent } from "./components/home-categories/home-categories.component";
 import { CompaniesSearchBarComponent } from "./components/companies-search-bar/companies-search-bar.component";
 import { CategoryCompaniesFilterComponent } from "./components/category-companies-filter/category-companies-filter.component";
+import { CompanyDetailsLeftCardComponent } from "./components/company-details-left-card/company-details-left-card.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -57,6 +58,7 @@ import { CategoryCompaniesFilterComponent } from "./components/category-companie
         HomeCategoriesComponent,
         CompaniesSearchBarComponent,
         CategoryCompaniesFilterComponent,
+        CompanyDetailsLeftCardComponent,
     ],
     imports: [
         CommonModule,

@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: public-company-page.component.ts
- * Last modified: 6/5/23, 5:25 AM
+ * File name: company-details-left-card.component.ts
+ * Last modified: 6/9/23, 5:31 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -24,48 +24,37 @@
 
 import { Component, OnDestroy, OnInit } from "@angular/core";
 
-import { takeUntil } from "rxjs";
+import { Observable, takeUntil } from "rxjs";
 
-import { TemplatePageTitleStrategy } from "../../../commons/strategies/template-page-title.strategy";
+import { ICompanyResDtoModel } from "../../models/company.model";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { SingleCompanyService } from "../../services/single-company/single-company.service";
-import { RouterHelperService } from "../../../commons/services/router-helper/router-helper.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 @Component({
-    selector: "app-public-company-page",
-    templateUrl: "./public-company-page.component.html",
-    styleUrls: [ "./public-company-page.component.scss" ],
-    providers: [ SingleCompanyService, RouterHelperService ],
+    selector: "app-company-details-left-card",
+    templateUrl: "./company-details-left-card.component.html",
+    styleUrls: [ "./company-details-left-card.component.scss" ],
 })
-export class PublicCompanyPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
+export class CompanyDetailsLeftCardComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
-    isLoaded = false;
-    companyId!: number;
+    companyDetails!: ICompanyResDtoModel;
+    starsStructure$: Observable<string[]> = this._singleCompanyService.starsStructure$;
 
     constructor(
-        private _routerHelperService: RouterHelperService,
         private _singleCompanyService: SingleCompanyService,
-        private _templatePageTitleStrategy: TemplatePageTitleStrategy,
     ) {
         super();
     };
 
     ngOnInit(): void {
-        this._routerHelperService.checkAndExtractParamId("companyId", "/companies",
-            companyId => this.loadContent(Number(companyId)));
+        this._singleCompanyService.companyDetails$.pipe(takeUntil(this._unsubscribe))
+            .subscribe(d => this.companyDetails = d!);
     };
 
     ngOnDestroy(): void {
         this.subjectCleanup();
-    };
-
-    private loadContent(companyId: number): void {
-        this._singleCompanyService.getCompanyDetails$(companyId).pipe(takeUntil(this._unsubscribe)).subscribe(d => {
-            this._templatePageTitleStrategy.createCustomTitle(d.name);
-            this.isLoaded = true;
-        });
     };
 }

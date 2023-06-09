@@ -31,7 +31,7 @@ import { environment } from "../../../../environments/environment";
 import { IPrePageableData } from "../../models/pagination.model";
 import { ICompanyFilterModel } from "../../models/company-filter.model";
 import { IAddCompanyReqDto, IPassCompanyResDto } from "../../models/company.model";
-import { ICompanysPageableResDtoModel } from "../../../public/models/company.model";
+import { ICompanyResDtoModel, ICompanysPageableResDtoModel } from "../../../public/models/company.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,6 +95,12 @@ export class CompanyHttpService {
             `${environment.httpBackendURI}/api/search`,
             filter,
             { params },
+        );
+    };
+
+    getSingleCompany$(companyId: number): Observable<ICompanyResDtoModel> {
+        return this._httpClient.get<ICompanyResDtoModel>(
+            `${environment.httpBackendURI}/api/company/${companyId}`,
         );
     };
 }
