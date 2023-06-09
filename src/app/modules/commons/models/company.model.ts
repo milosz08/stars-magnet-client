@@ -29,6 +29,7 @@ export interface IAddCompanyFormModel {
     password: string;
     confirmPassword: string;
     email: string;
+    categories: number[];
 }
 
 export interface IAddCompanyReqDto {
@@ -38,6 +39,7 @@ export interface IAddCompanyReqDto {
     password: string;
     confirm_password: string;
     email: string;
+    categories: number[];
 }
 
 export interface IResetTokenReqDto {

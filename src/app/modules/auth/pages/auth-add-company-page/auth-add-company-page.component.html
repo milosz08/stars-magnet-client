@@ -67,6 +67,14 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12 mb-3">
+                            <label for="categories" class="form-label">Categories:</label>
+                            <app-multiselect-input
+                                id="categories"
+                                [initialElements]="allCategories"
+                                (selectedChangesEmit)="handleChangeSelectedCategories($event)"
+                            ></app-multiselect-input>
+                        </div>
                     </ng-container>
                     <ng-container bottom>
                         <div class="col-12 mt-2">

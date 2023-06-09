@@ -30,6 +30,7 @@ import { environment } from "../../../../environments/environment";
 
 import { PageableCategories } from "../../../public/models/category.model";
 import { IPrePageableData } from "../../models/pagination.model";
+import { IMultiselectItemModel } from "../../models/multiselect-input.model";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -54,6 +55,12 @@ export class CategoriesHttpService {
         return this._httpClient.get<PageableCategories>(
             `${environment.httpBackendURI}/api/category`,
             { params },
+        );
+    };
+
+    getAllCategories$(): Observable<IMultiselectItemModel[]> {
+        return this._httpClient.get<IMultiselectItemModel[]>(
+            `${environment.httpBackendURI}/api/category/all`,
         );
     };
 }

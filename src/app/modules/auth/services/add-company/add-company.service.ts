@@ -29,11 +29,16 @@ import { BehaviorSubject, catchError, Observable, tap, throwError } from "rxjs";
 
 import { Utils } from "../../../commons/utils/utils";
 import { AlertType } from "../../../commons/utils/alert.type";
+import { ToastType } from "../../../commons/models/toast.model";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
+import { IMultiselectItemModel } from "../../../commons/models/multiselect-input.model";
 import { IAddCompanyFormModel, IAddCompanyReqDto, IPassCompanyResDto } from "../../../commons/models/company.model";
 
+import { LazyLoaderService } from "../../../commons/services/lazy-loader/lazy-loader.service";
 import { CompanyCredentialsService } from "../company-credentials/company-credentials.service";
+import { ToastMessageService } from "../../../commons/services/toast-message/toast-message.service";
 import { CompanyHttpService } from "../../../commons/http-services/company-http/company-http.service";
+import { CategoriesHttpService } from "../../../commons/http-services/categories-http/categories-http.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -47,7 +52,10 @@ export class AddCompanyService {
 
     constructor(
         private _router: Router,
+        private _lazyLoaderService: LazyLoaderService,
+        private _toastMessageService: ToastMessageService,
         private _addCompanyHttpService: CompanyHttpService,
+        private _categoriesHttpService: CategoriesHttpService,
         private _addedCompanyCredentialsService: CompanyCredentialsService,
     ) {
     };
@@ -55,6 +63,7 @@ export class AddCompanyService {
     addCompany$(formReq: IAddCompanyFormModel): Observable<IPassCompanyResDto> {
         this._suspenseSpinner$.next(true);
         const reqData: IAddCompanyReqDto = Utils.convertCamelToSnake(formReq);
+        reqData.categories = formReq.categories;
         return this._addCompanyHttpService.addCompany$(reqData).pipe(
             tap(res => {
                 this._addedCompanyCredentialsService.assignCredentials(res);
@@ -65,6 +74,23 @@ export class AddCompanyService {
                 this._suspenseSpinner$.next(false);
                 const resMessage = Utils.getFirstObjectErrorValue(err.error);
                 this._responseAlert$.next({ type: AlertType.ERROR, content: `${resMessage || "Unknow server error"}.` });
+                return throwError(err);
+            }),
+        );
+    };
+
+    getAllCategories$(): Observable<IMultiselectItemModel[]> {
+        this._lazyLoaderService.forcedActivateLoader();
+        return this._categoriesHttpService.getAllCategories$().pipe(
+            tap(res => {
+                this._lazyLoaderService.forcedInactivateLoader();
+                return res;
+            }),
+            catchError(err => {
+                this._router.navigate([ "/" ]).then(() => {
+                    this._lazyLoaderService.forcedInactivateLoader();
+                    this._toastMessageService.showToast(Utils.getGenericErr(err), ToastType.DANGER);
+                });
                 return throwError(err);
             }),
         );

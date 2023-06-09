@@ -22,13 +22,14 @@
  * or other dealings in the software.
  */
 
-import { Component, OnDestroy } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { FormControl, FormGroup, Validators } from "@angular/forms";
 
 import { first, Observable, takeUntil } from "rxjs";
 
 import { IAddCompanyFormModel } from "../../../commons/models/company.model";
 import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
+import { IMultiselectItemModel } from "../../../commons/models/multiselect-input.model";
 import { passwordMatchValidator } from "../../../commons/validators/password-match.validator";
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 import { REGEX_COMPANY_NAME, REGEX_EMAIL, REGEX_LINK, REGEX_LOGIN, REGEX_PASSWORD } from "../../../commons/validators/regex.constant";
@@ -43,9 +44,10 @@ import { FormHelperService } from "../../../commons/services/form-helper/form-he
     templateUrl: "./auth-add-company-page.component.html",
     providers: [ AddCompanyService ],
 })
-export class AuthAddCompanyPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
+export class AuthAddCompanyPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
     addCompanyForm: FormGroup;
+    allCategories: IMultiselectItemModel[] = [];
 
     suspenseSpinner$: Observable<boolean> = this._addCompanyService.suspenseSpinner$;
     responseAlert$: Observable<IResponseAlertModel> = this._addCompanyService.responseAlert$;
@@ -58,10 +60,18 @@ export class AuthAddCompanyPageComponent extends AbstractComponentReactiveProvid
         this.addCompanyForm = new FormGroup({
             name: new FormControl("", [ Validators.required, Validators.pattern(REGEX_COMPANY_NAME) ]),
             site: new FormControl("", [ Validators.required, Validators.pattern(REGEX_LINK) ]),
+            categories: new FormControl([], [ Validators.required ]),
             username: new FormControl("", [ Validators.required, Validators.pattern(REGEX_LOGIN) ]),
             email: new FormControl("", [ Validators.required, Validators.pattern(REGEX_EMAIL) ]),
             password: new FormControl("", [ Validators.required, Validators.pattern(REGEX_PASSWORD) ]),
             confirmPassword: new FormControl("", [ Validators.required, passwordMatchValidator ]),
+        });
+    };
+
+    ngOnInit(): void {
+        this._addCompanyService.getAllCategories$().pipe(takeUntil(this._unsubscribe)).subscribe(c => {
+            this.addCompanyForm.get("categories")?.patchValue(c);
+            this.allCategories = c;
         });
     };
 
@@ -82,5 +92,9 @@ export class AuthAddCompanyPageComponent extends AbstractComponentReactiveProvid
 
     validateField(fieldName: string): boolean {
         return this._formHelperService.validateField(this.addCompanyForm, fieldName);
+    };
+
+    handleChangeSelectedCategories(selectedCategories: number[]): void {
+        this.addCompanyForm.get("categories")?.patchValue(selectedCategories);
     };
 }
