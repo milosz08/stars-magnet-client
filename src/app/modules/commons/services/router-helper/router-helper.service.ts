@@ -28,6 +28,7 @@ import { ActivatedRoute, Router } from "@angular/router";
 import { takeUntil } from "rxjs";
 
 import { AbstractComponentReactiveProvider } from "../../utils/abstract-component-reactive-provider";
+import { LazyLoaderService } from "../lazy-loader/lazy-loader.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -37,24 +38,17 @@ export class RouterHelperService extends AbstractComponentReactiveProvider imple
     constructor(
         private _router: Router,
         private _route: ActivatedRoute,
+        private _lazyLoaderService: LazyLoaderService,
     ) {
         super();
     };
 
-    getIntFromRouteAndParse(paramName: string, redirectTo: string): number {
-        const paramValue = this._route.snapshot.paramMap.get(paramName);
-        if (!paramValue) {
-            this._router.navigate([ redirectTo ]).then(r => r);
-            return 0;
-        }
-        return Number(paramValue);
-    };
-
-    checkAndExtractCategoryId(callback: (categoryId: number) => void): void {
+    checkAndExtractParamId(id: string, returnTo: string, callback: (categoryId: number) => void): void {
+        this._lazyLoaderService.forcedActivateLoader();
         this._route.paramMap.pipe(takeUntil(this._unsubscribe)).subscribe((params: any) => {
-            const categoryId = params.get("categoryId");
+            const categoryId = params.get(id);
             if (!categoryId) {
-                this._router.navigate([ "/" ]).then(r => r);
+                this._router.navigate([ returnTo ]).then(r => r);
                 return;
             }
             callback(categoryId);

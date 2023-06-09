@@ -58,7 +58,8 @@ export class PublicCategoryPageComponent extends AbstractComponentReactiveProvid
     };
 
     ngOnInit(): void {
-        this._routerHelperService.checkAndExtractCategoryId(categoryId => this.loadContent(Number(categoryId)));
+        this._routerHelperService.checkAndExtractParamId("categoryId", "/",
+            categoryId => this.loadContent(Number(categoryId)));
     };
 
     ngOnDestroy(): void {
