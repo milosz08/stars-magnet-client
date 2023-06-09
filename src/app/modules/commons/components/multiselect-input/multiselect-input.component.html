@@ -25,7 +25,7 @@
 <div #selectContainer class="position-relative">
     <button type="button" class="form-select d-flex align-items-center" (click)="handleToggleScrolldownMenu()">
         <div class="hstack gap-2 flex-wrap flex-fill">
-            <ng-template *ngIf="selectedElements.length > 0; then someSelected; else noneSelected"></ng-template>
+            <ng-template *ngIf="selectedElements.length > 0; then someSelected; else noneSelected"/>
             <ng-template #someSelected>
                 <div
                     *ngFor="let selectedElement of selectedElements"

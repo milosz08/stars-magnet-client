@@ -22,9 +22,9 @@
   ~ or other dealings in the software.
   -->
 
-<ng-template *ngIf="(alertError$ | async)?.content; then showErrorAlert; else showInnerContent"></ng-template>
+<ng-template *ngIf="(alertError$ | async)?.content; then showErrorAlert; else showInnerContent"/>
 <ng-template #showErrorAlert>
-    <app-dimissible-alert [model]="(alertError$ | async)"></app-dimissible-alert>
+    <app-dimissible-alert [model]="(alertError$ | async)"/>
 </ng-template>
 <ng-template #showInnerContent>
     <div class="row my-2">
@@ -37,7 +37,7 @@
             </p>
         </div>
     </div>
-    <ng-template *ngIf="categories.length; then showCategoriesContent; else showNoContent"></ng-template>
+    <ng-template *ngIf="categories.length; then showCategoriesContent; else showNoContent"/>
     <ng-template #showNoContent>
         <div class="alert alert-warning mt-3">
             Not found any category.
@@ -71,7 +71,7 @@
                 </button>
             </div>
             <div class="container order-2 order-sm-1">
-                <ng-template *ngIf="(lazyLoader$ | async); then showLazyLoader; else showContent"></ng-template>
+                <ng-template *ngIf="(lazyLoader$ | async); then showLazyLoader; else showContent"/>
                 <ng-template #showLazyLoader>
                     <div class="d-flex justify-content-center align-items-center h-100">
                         <div class="spinner-border lazy-spinner-medium" role="status">

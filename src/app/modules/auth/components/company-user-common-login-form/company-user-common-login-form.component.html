@@ -23,7 +23,7 @@
   -->
 
 <ng-container [formGroup]="formGroup">
-    <ng-content select="[top]"></ng-content>
+    <ng-content select="[top]"/>
     <div class="mb-3">
         <label for="username" class="form-label">Username/email address:</label>
         <input
@@ -53,5 +53,5 @@
             </div>
         </app-password-toggler>
     </div>
-    <ng-content select="[bottom]"></ng-content>
+    <ng-content select="[bottom]"/>
 </ng-container>

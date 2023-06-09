@@ -24,7 +24,7 @@
 
 <div class="container d-flex justify-content-center align-items-center h-100">
     <div class="row form-width min mb-4">
-        <app-dimissible-alert [model]="(responseAlert$ | async)"></app-dimissible-alert>
+        <app-dimissible-alert [model]="(responseAlert$ | async)"/>
         <div class="card">
             <form [formGroup]="loginForm" (ngSubmit)="onLoginFormSubmit()" class="card-body" novalidate>
                 <h4 class="text-center mb-3">Login</h4>

@@ -33,9 +33,7 @@
                     </a>
                 </div>
                 <div class="d-none d-lg-block card border-0 shadow-sm mt-3 p-3">
-                    <app-category-companies-filter
-                        (refrehDataEmit)="refreshCompanies()"
-                    ></app-category-companies-filter>
+                    <app-category-companies-filter (refrehDataEmit)="refreshCompanies()"/>
                 </div>
                 <div ngbAccordion class="mt-3 d-block d-lg-none">
                     <div ngbAccordionItem>
@@ -45,9 +43,7 @@
                         <div ngbAccordionCollapse>
                             <div ngbAccordionBody>
                                 <ng-template>
-                                    <app-category-companies-filter
-                                        (refrehDataEmit)="refreshCompanies()"
-                                    ></app-category-companies-filter>
+                                    <app-category-companies-filter (refrehDataEmit)="refreshCompanies()"/>
                                 </ng-template>
                             </div>
                         </div>

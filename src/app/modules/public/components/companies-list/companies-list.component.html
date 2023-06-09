@@ -22,7 +22,7 @@
   ~ or other dealings in the software.
   -->
 
-<ng-template *ngIf="(lazyLoader$ | async); then showLazyLoader; else showLoadableContent"></ng-template>
+<ng-template *ngIf="(lazyLoader$ | async); then showLazyLoader; else showLoadableContent"/>
 <ng-template #showLazyLoader>
     <div class="d-flex justify-content-center mt-5">
         <div class="spinner-border lazy-spinner-medium" role="status">
@@ -31,15 +31,15 @@
     </div>
 </ng-template>
 <ng-template #showLoadableContent>
-    <ng-template *ngIf="(companies$ | async)?.length; then showActualContent; else notFoundAnyContent"></ng-template>
+    <ng-template *ngIf="(companies$ | async)?.length; then showActualContent; else notFoundAnyContent"/>
     <ng-template #showActualContent>
-        <ng-content select="[top]"></ng-content>
+        <ng-content select="[top]"/>
         <app-pageable
             [currentPage]="(currentPage$ | async)!"
             [pageable]="(pageable$ | async)!"
             (changePageEmitter)="onChangePageEmitter.emit($event)"
             (changeLimitEmitter)="onChangeLimit.emit()"
-        ></app-pageable>
+        />
         <ul class="list-unstyled pe-0">
             <li *ngFor="let company of (companies$ | async)" class="card border-0 shadow-sm mb-3 p-4">
                 <div class="card-title mb-0 d-flex justify-content-between">
@@ -81,11 +81,11 @@
             [pageable]="(pageable$ | async)!"
             (changePageEmitter)="onChangePageEmitter.emit($event)"
             (changeLimitEmitter)="onChangeLimit.emit()"
-        ></app-pageable>
+        />
     </ng-template>
     <ng-template #notFoundAnyContent>
         <div class="alert alert-warning mt-3">
-            <ng-content select="[alert]"></ng-content>
+            <ng-content select="[alert]"/>
         </div>
     </ng-template>
 </ng-template>

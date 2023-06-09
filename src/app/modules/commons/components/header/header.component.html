@@ -47,7 +47,7 @@
             <ul class="navbar-nav align-items-center">
                 <ng-container
                     *ngIf="(isLogged$ | async) && (loggedDetails$ | async); then isLoggedAuths; else isNonLoggedAuths"
-                ></ng-container>
+                />
                 <ng-template #isLoggedAuths>
                     <li ngbDropdown class="nav-item">
                         <button type="button" class="nav-link border-0 bg-transparent" id="userDropdown" ngbDropdownToggle>

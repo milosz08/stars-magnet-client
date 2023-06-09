@@ -30,7 +30,7 @@ import { Component } from "@angular/core";
     selector: "app-auth-root",
     template: `
         <div class="flex-fill">
-            <router-outlet></router-outlet>
+            <router-outlet/>
         </div>
     `,
     host: { class: "d-flex flex-column h-100" },
