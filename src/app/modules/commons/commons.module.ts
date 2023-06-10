@@ -41,6 +41,7 @@ import { ToastMessageComponent } from "./components/toast-message/toast-message.
 import { PageableComponent } from "./components/pageable/pageable.component";
 import { GradeStarsComponent } from "./components/grade-stars/grade-stars.component";
 import { MultiselectInputComponent } from "./components/multiselect-input/multiselect-input.component";
+import { CountableTextareaComponent } from "./components/countable-textarea/countable-textarea.component";
 
 import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
 
@@ -60,6 +61,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         PageableComponent,
         GradeStarsComponent,
         MultiselectInputComponent,
+        CountableTextareaComponent,
         // pipes
         OnlyFirstPipe,
     ],
@@ -90,6 +92,7 @@ import { OnlyFirstPipe } from "./pipes/only-first/only-first.pipe";
         PageableComponent,
         GradeStarsComponent,
         MultiselectInputComponent,
+        CountableTextareaComponent,
     ],
 })
 export class CommonsModule {

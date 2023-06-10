@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: user-home-page.component.spec.ts
- * Last modified: 24/05/2023, 12:03
+ * File name: countable-textarea.component.spec.ts
+ * Last modified: 6/10/23, 10:09 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -23,20 +23,20 @@
  */
 
 import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { UserHomePageComponent } from "./user-home-page.component";
+import { CountableTextareaComponent } from "./countable-textarea.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-describe("UserHomePageComponent", () => {
-    let component: UserHomePageComponent;
-    let fixture: ComponentFixture<UserHomePageComponent>;
+describe("CountableTextareaComponent", () => {
+    let component: CountableTextareaComponent;
+    let fixture: ComponentFixture<CountableTextareaComponent>;
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ UserHomePageComponent ]
+            declarations: [ CountableTextareaComponent ]
         }).compileComponents();
 
-        fixture = TestBed.createComponent(UserHomePageComponent);
+        fixture = TestBed.createComponent(CountableTextareaComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
