@@ -41,6 +41,7 @@ import { SearchCompanyBoxService } from "../../services/search-company-box/searc
 export class CompaniesSearchBarComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
     searchContent = "";
+    isInitialLoad = true;
     searchContent$: Observable<string> = this._searchCompanyBoxService.searchContent$;
 
     constructor(
@@ -54,16 +55,19 @@ export class CompaniesSearchBarComponent extends AbstractComponentReactiveProvid
     ngOnInit(): void {
         this._searchCompanyBoxService.getDebouncedSearchResult$(this._unsubscribe).subscribe(phrase => {
             this.searchContent = phrase;
+            if (this.isInitialLoad) return;
             this._searchCompanyService.loadPageable$().pipe(takeUntil(this._unsubscribe)).subscribe();
             this._searchCompanyService.loadFilteredCompanies$().pipe(takeUntil(this._unsubscribe)).subscribe();
         });
     };
 
     ngOnDestroy(): void {
+        this.isInitialLoad = true;
         this.subjectCleanup();
     };
 
     onSetNewParaphrase(phrase: string): void {
+        this.isInitialLoad = false;
         this._searchCompanyService.pushNewParaphrase(phrase);
     };
 }
