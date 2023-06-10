@@ -30,6 +30,7 @@ import { TemplatePageTitleStrategy } from "../../../commons/strategies/template-
 import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { SingleCompanyService } from "../../services/single-company/single-company.service";
+import { CompanyOpinionService } from "../../services/company-opinion/company-opinion.service";
 import { RouterHelperService } from "../../../commons/services/router-helper/router-helper.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -38,16 +39,18 @@ import { RouterHelperService } from "../../../commons/services/router-helper/rou
     selector: "app-public-company-page",
     templateUrl: "./public-company-page.component.html",
     styleUrls: [ "./public-company-page.component.scss" ],
-    providers: [ SingleCompanyService, RouterHelperService ],
+    providers: [ SingleCompanyService, CompanyOpinionService, RouterHelperService ],
 })
 export class PublicCompanyPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
 
     isLoaded = false;
     companyId!: number;
+    companyName = "";
 
     constructor(
         private _routerHelperService: RouterHelperService,
         private _singleCompanyService: SingleCompanyService,
+        private _companyOpinionsService: CompanyOpinionService,
         private _templatePageTitleStrategy: TemplatePageTitleStrategy,
     ) {
         super();
@@ -63,7 +66,11 @@ export class PublicCompanyPageComponent extends AbstractComponentReactiveProvide
     };
 
     private loadContent(companyId: number): void {
-        this._singleCompanyService.getCompanyDetails$(companyId).pipe(takeUntil(this._unsubscribe)).subscribe(d => {
+        this.companyId = companyId;
+        this._singleCompanyService.loadCompanyDetails$(companyId).pipe(takeUntil(this._unsubscribe)).subscribe(d => {
+            this._companyOpinionsService.loadPageable$(companyId).pipe(takeUntil(this._unsubscribe)).subscribe();
+            this._companyOpinionsService.loadOpinions$().pipe(takeUntil(this._unsubscribe)).subscribe();
+            this.companyName = d.name;
             this._templatePageTitleStrategy.createCustomTitle(d.name);
             this.isLoaded = true;
         });

@@ -31,12 +31,17 @@
             </a>
         </div>
         <p class="text-secondary mb-1 mt-4">Company name:</p>
-        <h1 class="text-dark mb-5">Grontsmar</h1>
-        <div class="hstack gap-4">
+        <h1 class="text-dark mb-4">{{ companyName }}</h1>
+        <div class="hstack gap-4 mb-2">
+            <h4 class="text-black-50">Add opinion</h4>
+            <hr class="flex-fill">
+        </div>
+        <app-create-opinion [companyId]="companyId"/>
+        <div class="hstack gap-4 mb-2 mt-4">
             <h4 class="text-black-50">Company opinions</h4>
             <hr class="flex-fill">
         </div>
-        opinions
+        <app-opinins-list [companyId]="companyId"/>
     </div>
     <div class="col-lg-4 mb-4 d-flex">
         <div class="col-lg w-100">
