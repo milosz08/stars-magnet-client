@@ -72,4 +72,17 @@ export class Utils {
     static getGenericErr(err: any): string {
         return err.message || "Unknow server error.";
     };
+
+    static generateStarsStructure(avgRating: string): string[] {
+        const grade = parseFloat(avgRating.replace(',', '.'));
+        const starsArray = Array.from({ length: 10 }).fill("bi-star") as string[];
+        for (let i = 1; i <= starsArray.length; i++) {
+            if (grade < i && grade > i - 1) {
+                starsArray[i - 1] += '-half';
+            } else if (grade >= i) {
+                starsArray[i - 1] += '-fill';
+            }
+        }
+        return starsArray;
+    };
 }

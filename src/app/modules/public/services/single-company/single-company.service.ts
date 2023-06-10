@@ -25,7 +25,7 @@
 import { Injectable } from "@angular/core";
 import { Router } from "@angular/router";
 
-import { BehaviorSubject, catchError, map, Observable, throwError } from "rxjs";
+import { BehaviorSubject, catchError, map, Observable, tap, throwError } from "rxjs";
 
 import { Utils } from "../../../commons/utils/utils";
 import { ToastType } from "../../../commons/models/toast.model";
@@ -42,6 +42,7 @@ export class SingleCompanyService {
 
     private _companyDetails$: BehaviorSubject<ICompanyResDtoModel | null> = new BehaviorSubject<ICompanyResDtoModel | null>(null);
     private _starsStructure$: BehaviorSubject<string[]> = new BehaviorSubject<string[]>([]);
+    private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
     constructor(
         private _router: Router,
@@ -51,43 +52,52 @@ export class SingleCompanyService {
     ) {
     };
 
-    getCompanyDetails$(companyId: number): Observable<ICompanyResDtoModel> {
+    loadCompanyDetails$(companyId: number): Observable<ICompanyResDtoModel> {
         this._lazyLoaderService.forcedActivateLoader();
         return this._companyHttpService.getSingleCompany$(companyId).pipe(
             map(res => {
-                const avgRatings = String(res.avgRatings);
-                res.avgRatings = avgRatings.replaceAll(".", ",");
-                if (/^\d+$/.test(avgRatings)) {
-                    res.avgRatings += ",0";
-                }
+                const parsedRes = this.parseCompanyDetails(res);
                 this._companyDetails$.next(res);
-                this.generateStarsStructure(res.avgRatings);
+                this._starsStructure$.next(Utils.generateStarsStructure(String(parsedRes.avgRatings)));
                 this._lazyLoaderService.forcedInactivateLoader();
                 return res;
             }),
-            catchError(err => {
-                this._router.navigate([ "/companies" ]).then(() => {
-                    this._lazyLoaderService.forcedInactivateLoader();
-                    this._toastMessageService.showToast(Utils.getGenericErr(err), ToastType.DANGER);
-                });
-                return throwError(err);
-            }),
+            catchError(err => this.onCatchError(err)),
         );
     };
 
-    private generateStarsStructure(avgRating: string) {
-        const grade = parseFloat(avgRating.replace(',', '.'));
-        const starsArray = Array.from({ length: 10 }).fill("bi-star") as string[];
-        for (let i = 1; i <= starsArray.length; i++) {
-            if (grade < i && grade > i - 1) {
-                starsArray[i - 1] += '-half';
-            } else if (grade >= i) {
-                starsArray[i - 1] += '-fill';
-            }
-        }
-        this._starsStructure$.next(starsArray);
+    refreshCompanyDetails$(companyId: number): Observable<any> {
+        this._lazyLoader$.next(true);
+        return this._companyHttpService.getSingleCompany$(companyId).pipe(
+            tap(res => {
+                const parsedRes = this.parseCompanyDetails(res);
+                this._companyDetails$.next(res);
+                this._starsStructure$.next(Utils.generateStarsStructure(String(parsedRes.avgRatings)))
+                this._lazyLoader$.next(false);
+            }),
+            catchError(err => this.onCatchError(err)),
+        );
     };
+
+    private parseCompanyDetails(res: ICompanyResDtoModel): ICompanyResDtoModel {
+        const avgRatings = String(res.avgRatings);
+        res.avgRatings = avgRatings.replaceAll(".", ",");
+        if (/^\d+$/.test(avgRatings)) {
+            res.avgRatings += ",0";
+        }
+        return res;
+    };
+
+    private onCatchError(err: any): Observable<any> {
+        this._lazyLoader$.next(false);
+        this._router.navigate([ "/companies" ]).then(() => {
+            this._lazyLoaderService.forcedInactivateLoader();
+            this._toastMessageService.showToast(Utils.getGenericErr(err), ToastType.DANGER);
+        });
+        return throwError(err);
+    }
 
     get companyDetails$(): Observable<ICompanyResDtoModel | null> { return this._companyDetails$.asObservable(); };
     get starsStructure$(): Observable<string[]> { return this._starsStructure$.asObservable(); };
+    get lazyLoader$(): Observable<boolean> { return this._lazyLoader$.asObservable(); };
 }
