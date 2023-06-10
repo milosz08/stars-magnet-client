@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: user.module.ts
- * Last modified: 24/05/2023, 13:48
+ * File name: persist-response-opinion.service.spec.ts
+ * Last modified: 6/10/23, 9:28 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,26 +22,20 @@
  * or other dealings in the software.
  */
 
-import { NgModule } from "@angular/core";
-import { CommonModule } from "@angular/common";
-
-import { UserRootComponent } from "./user-root.component";
-import { UserRoutingModule } from "./user-routing.module";
-
-import { UserHomePageComponent } from "./pages/user-home-page/user-home-page.component";
+import { TestBed } from "@angular/core/testing";
+import { PersistResponseOpinionService } from "./persist-response-opinion.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@NgModule({
-    declarations: [
-        UserRootComponent,
-        // pages
-        UserHomePageComponent,
-    ],
-    imports: [
-        CommonModule,
-        UserRoutingModule,
-    ],
-})
-export class UserModule {
-}
+describe("PersistResponseOpinionService", () => {
+    let service: PersistResponseOpinionService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(PersistResponseOpinionService);
+    });
+
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
+});
