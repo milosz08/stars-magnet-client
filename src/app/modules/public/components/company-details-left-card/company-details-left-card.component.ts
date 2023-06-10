@@ -42,6 +42,7 @@ export class CompanyDetailsLeftCardComponent extends AbstractComponentReactivePr
 
     companyDetails!: ICompanyResDtoModel;
     starsStructure$: Observable<string[]> = this._singleCompanyService.starsStructure$;
+    lazyLoader$: Observable<boolean>= this._singleCompanyService.lazyLoader$;
 
     constructor(
         private _singleCompanyService: SingleCompanyService,

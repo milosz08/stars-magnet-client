@@ -24,49 +24,59 @@
 
 <div class="card border-0 shadow-sm mt-3 p-3">
     <p class="fs-6 text-secondary mb-3 lh-sm">Company details:</p>
-    <a href="{{ companyDetails.site }}" class="btn btn-secondary mb-3 w-100">
-        Company website
-        <i class="bi bi-box-arrow-up-right ms-2"></i>
-    </a>
-    <div class="alert alert-warning">
-        <h3 class="fs-5 mb-3">Average rating:</h3>
-        <div class="hstack gap-3 align-items-center">
-            <p class="fs-1 fw-bold lh-1 mb-0 py-3 px-2">
-                {{ companyDetails.avgRatings === 'null' ? '?' : companyDetails.avgRatings }}
-            </p>
-            <div class="vr text-dark"></div>
-            <div>
-                <div class="mb-0">
-                    <i
-                        *ngFor="let star of (starsStructure$ | async)"
-                        [ngClass]="[ 'bi', star, 'stars-relative-font-size' ]"
-                    ></i>
-                </div>
-                <ng-template *ngIf="companyDetails.opinionsCount === 0; then noOpinions; else haveOpitions"/>
-                <ng-template #noOpinions>
-                    <p class="fs-xsm mb-0">Company don't have any opinion yet.</p>
-                </ng-template>
-                <ng-template #haveOpitions>
-                    <p class="fs-xsm mb-0">
-                        based on <strong>({{ companyDetails.opinionsCount }})</strong> opinions
-                    </p>
-                </ng-template>
+    <ng-template *ngIf="(lazyLoader$ | async); then loadingContent; else showContent"/>
+    <ng-template #loadingContent>
+        <div class="d-flex justify-content-center my-5">
+            <div class="spinner-border lazy-spinner-medium" role="status">
+                <span class="visually-hidden">Loading...</span>
             </div>
         </div>
-        <p class="lh-sm mt-2 mb-0 fs-xsm">
-            All opinions are verified by <strong>Stars Magnet</strong> team. For additional
-            informations, send message at <a class="alert-link" href="mailto:info@starsmagnet.com">info@starsmagnet.com</a>
-        </p>
-    </div>
-    <p class="fs-6 text-secondary mb-2 lh-sm">Company categories:</p>
-    <ul class="d-flex flex-wrap list-unstyled">
-        <li *ngFor="let category of companyDetails.categories" class="mb-1">
-            <a
-                [routerLink]="[ '/category', category.id ]"
-                class="text-decoration-none bg-primary py-1 px-2 rounded-3 text-light me-2 mb-2 lh-sm fs-xsm"
-            >
-                {{ category.name }}
-            </a>
-        </li>
-    </ul>
+    </ng-template>
+    <ng-template #showContent>
+        <a href="{{ companyDetails.site }}" class="btn btn-secondary mb-3 w-100">
+            Company website
+            <i class="bi bi-box-arrow-up-right ms-2"></i>
+        </a>
+        <div class="alert alert-warning">
+            <h3 class="fs-5 mb-3">Average rating:</h3>
+            <div class="hstack gap-3 align-items-center">
+                <p class="fs-1 fw-bold lh-1 mb-0 py-3 px-2">
+                    {{ companyDetails.avgRatings === 'null' ? '?' : companyDetails.avgRatings }}
+                </p>
+                <div class="vr text-dark"></div>
+                <div>
+                    <div class="mb-0">
+                        <i
+                            *ngFor="let star of (starsStructure$ | async)"
+                            [ngClass]="[ 'bi', star, 'stars-relative-font-size' ]"
+                        ></i>
+                    </div>
+                    <ng-template *ngIf="companyDetails.opinionsCount === 0; then noOpinions; else haveOpitions"/>
+                    <ng-template #noOpinions>
+                        <p class="fs-xsm mb-0">Company don't have any opinion yet.</p>
+                    </ng-template>
+                    <ng-template #haveOpitions>
+                        <p class="fs-xsm mb-0">
+                            based on <strong>({{ companyDetails.opinionsCount }})</strong> opinions
+                        </p>
+                    </ng-template>
+                </div>
+            </div>
+            <p class="lh-sm mt-2 mb-0 fs-xsm">
+                All opinions are verified by <strong>Stars Magnet</strong> team. For additional
+                informations, send message at <a class="alert-link" href="mailto:info@starsmagnet.com">info@starsmagnet.com</a>
+            </p>
+        </div>
+        <p class="fs-6 text-secondary mb-2 lh-sm">Company categories:</p>
+        <ul class="d-flex flex-wrap list-unstyled">
+            <li *ngFor="let category of companyDetails.categories" class="mb-1">
+                <a
+                    [routerLink]="[ '/category', category.id ]"
+                    class="text-decoration-none bg-primary py-1 px-2 rounded-3 text-light me-2 mb-2 lh-sm fs-xsm"
+                >
+                    {{ category.name }}
+                </a>
+            </li>
+        </ul>
+    </ng-template>
 </div>
