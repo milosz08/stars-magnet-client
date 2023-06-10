@@ -39,7 +39,7 @@ const routes: Routes = [
         { path: "", component: PublicStartPageComponent, title: "Home", pathMatch: "full" },
         { path: "category/:categoryId",     component: PublicCategoryPageComponent },
         { path: "company/:companyId",       component: PublicCompanyPageComponent },
-        { path: "companies",                component: PublicFilteredCompaniesPageComponent },
+        { path: "companies",                component: PublicFilteredCompaniesPageComponent, title: "Companies" },
     ]},
 ];
 
