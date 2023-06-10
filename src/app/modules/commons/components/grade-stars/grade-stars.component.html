@@ -22,7 +22,7 @@
   ~ or other dealings in the software.
   -->
 
-<ul class="hstack list-unstyled" (mouseleave)="handleClearAllStars()">
+<ul class="hstack list-unstyled mb-0" (mouseleave)="handleClearAllStars()">
     <li
         *ngFor="let star of (stars$ | async)"
         (click)="handleSelectStar(star.id)"

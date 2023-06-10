@@ -43,7 +43,7 @@
         (selectStarEmit)="handleChangeStar($event)"
         (currentSelectedStarsEmit)="handleCurrentSelectedStars($event)"
     />
-    <p class="fs-6 text-secondary mb-2 lh-sm">Sort by:</p>
+    <p class="fs-6 text-secondary mb-2 mt-3 lh-sm">Sort by:</p>
     <select class="form-select mb-3" [(ngModel)]="filter.sortBy" name="selectedSortBy">
         <option value="alphabetically">alphabetically (company name)</option>
         <option value="gradesCount">by count of grades</option>

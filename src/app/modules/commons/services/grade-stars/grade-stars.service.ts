@@ -97,7 +97,7 @@ export class GradeStarsService {
             star.mode = GradeType.HOLLOW;
         }
         this._currentSelectedStars$.next(0);
-        this._selectedStars$.next(0);
+        if (this._lockedAtPosition) this._selectedStars$.next(0);
         this._lockedAtPosition = null;
         this._stars$.next(this._stars);
     };

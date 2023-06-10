@@ -40,11 +40,12 @@
             Page
             <span class="fw-bold text-dark">{{ currentPage }}</span>
             of
-            <span class="fw-bold text-dark">{{ pageable!.countAllPages }}</span>
+            <span *ngIf="pageable" class="fw-bold text-dark">{{ pageable.countAllPages }}</span>
         </p>
     </div>
     <div class="col-md-4 d-flex justify-content-center justify-content-md-end align-items-center">
         <ngb-pagination
+            *ngIf="pageable"
             [collectionSize]="pageable.countAll"
             [pageSize]="(selectedLimit$ | async)!"
             [page]="currentPage"

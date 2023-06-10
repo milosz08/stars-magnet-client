@@ -47,7 +47,7 @@ export class CategoryCompaniesFilterComponent extends AbstractComponentReactiveP
     @Output() refrehDataEmit: EventEmitter<void> = new EventEmitter<void>();
 
     constructor(
-        private _gradeStarsSerice: GradeStarsService,
+        private _gradeStarsService: GradeStarsService,
         private _companyFilterService: CompanyFilterService,
     ) {
         super();
@@ -76,7 +76,7 @@ export class CategoryCompaniesFilterComponent extends AbstractComponentReactiveP
 
     handleClearFilters(): void {
         this.selectedStars = 0;
-        this._gradeStarsSerice.forcedClearAllStars();
+        this._gradeStarsService.forcedClearAllStars();
         this._companyFilterService.setFilter(DEF_FILTER);
         this.refrehDataEmit.emit();
     };

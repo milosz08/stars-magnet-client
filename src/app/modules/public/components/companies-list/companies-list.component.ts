@@ -22,14 +22,13 @@
  * or other dealings in the software.
  */
 
-import { Component, EventEmitter, Input, OnDestroy, Output } from "@angular/core";
+import { Component, EventEmitter, Input, Output } from "@angular/core";
 
 import { Observable } from "rxjs";
 
 import { ICategoryModel } from "../../models/category.model";
 import { ICompanyResDtoModel } from "../../models/company.model";
 import { IPrePageableData } from "../../../commons/models/pagination.model";
-import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
 
 import { RouterHelperService } from "../../../commons/services/router-helper/router-helper.service";
 import { PageableLimitService } from "../../../commons/services/pageable-limit/pageable-limit.service";
@@ -43,7 +42,7 @@ import { PageableCompaniesService } from "../../services/pageable-companies/page
     styleUrls: [ "./companies-list.component.scss" ],
     providers: [ RouterHelperService ],
 })
-export class CompaniesListComponent extends AbstractComponentReactiveProvider implements OnDestroy {
+export class CompaniesListComponent {
 
     @Input() categoryName = "";
     @Input() categoriesAreFullVisibled = false;
@@ -61,11 +60,6 @@ export class CompaniesListComponent extends AbstractComponentReactiveProvider im
         private _pageableLimitService: PageableLimitService,
         private _pageableCompanyService: PageableCompaniesService,
     ) {
-        super();
-    };
-
-    ngOnDestroy(): void {
-        this.subjectCleanup();
     };
 
     identifyCategory(_: number, category: ICategoryModel): number {
