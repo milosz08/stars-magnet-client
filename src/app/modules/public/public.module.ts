@@ -24,7 +24,7 @@
 
 import { NgModule } from "@angular/core";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import * as NgbBts from "@ng-bootstrap/ng-bootstrap";
 
@@ -42,6 +42,9 @@ import { HomeCategoriesComponent } from "./components/home-categories/home-categ
 import { CompaniesSearchBarComponent } from "./components/companies-search-bar/companies-search-bar.component";
 import { CategoryCompaniesFilterComponent } from "./components/category-companies-filter/category-companies-filter.component";
 import { CompanyDetailsLeftCardComponent } from "./components/company-details-left-card/company-details-left-card.component";
+import { CreateOpinionComponent } from "./components/create-opinion/create-opinion.component";
+import { OpinionsListComponent } from "./components/opinions-list/opinions-list.component";
+import { ResponseToOpinionComponent } from "./components/response-to-opinion/response-to-opinion.component";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -59,6 +62,9 @@ import { CompanyDetailsLeftCardComponent } from "./components/company-details-le
         CompaniesSearchBarComponent,
         CategoryCompaniesFilterComponent,
         CompanyDetailsLeftCardComponent,
+        CreateOpinionComponent,
+        OpinionsListComponent,
+        ResponseToOpinionComponent,
     ],
     imports: [
         CommonModule,
@@ -74,6 +80,7 @@ import { CompanyDetailsLeftCardComponent } from "./components/company-details-le
         NgbBts.NgbDropdown,
         NgbBts.NgbDropdownToggle,
         NgbBts.NgbDropdownMenu,
+        ReactiveFormsModule,
     ],
 })
 export class PublicModule {
