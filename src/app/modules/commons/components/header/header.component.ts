@@ -41,6 +41,7 @@ import { LoggedStatusService } from "../../services/logged-status/logged-status.
 export class HeaderComponent {
 
     isNavbarCollapsed = true;
+    companyRole = AccountRole.COMPANY;
 
     isLogged$: Observable<boolean> = this._loggedStatusService.isLogged$;
     loggedRole$: Observable<AccountRole> = this._loggedStatusService.loggedRole$;

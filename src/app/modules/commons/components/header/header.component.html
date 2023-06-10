@@ -40,9 +40,7 @@
                 </li>
             </ul>
             <ul class="navbar-nav align-items-center">
-                <ng-container
-                    *ngIf="(isLogged$ | async) && (loggedDetails$ | async); then isLoggedAuths; else isNonLoggedAuths"
-                />
+                <ng-template *ngIf="(isLogged$ | async) && (loggedDetails$ | async); then isLoggedAuths; else isNonLoggedAuths"/>
                 <ng-template #isLoggedAuths>
                     <li ngbDropdown class="nav-item">
                         <button type="button" class="nav-link border-0 bg-transparent" id="userDropdown" ngbDropdownToggle>
@@ -51,6 +49,15 @@
                         </button>
                         <div ngbDropdownMenu aria-labelledby="userDropdown">
                             <div class="px-3 mt-1">{{ (loggedDetails$ | async)?.username }}</div>
+                            <div class="px-3 mt-1">
+                                <a
+                                    *ngIf="(loggedRole$ | async) === companyRole"
+                                    [routerLink]="[ '/company/', (loggedDetails$ | async)?.id ]"
+                                    class="text-secondary"
+                                >
+                                    Company website
+                                </a>
+                            </div>
                             <hr/>
                             <button (click)="onLogout()" ngbDropdownItem>Logout</button>
                         </div>
