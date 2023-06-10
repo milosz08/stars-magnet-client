@@ -23,6 +23,6 @@
  */
 
 export const environment = {
-    production: true,
+    production: false,
     httpBackendURI: "http://127.0.0.1:8000",
 };

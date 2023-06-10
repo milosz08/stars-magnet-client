@@ -23,6 +23,6 @@
  */
 
 export const environment = {
-    production: false,
-    httpBackendURI: "http://127.0.0.1:8000",
+    production: true,
+    httpBackendURI: "https://api.starsmagnet.com",
 };
