@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: regex.constant.ts
- * Last modified: 24/05/2023, 00:07
+ * File name: create-opinion.component.spec.ts
+ * Last modified: 6/9/23, 9:28 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,10 +22,26 @@
  * or other dealings in the software.
  */
 
-export const REGEX_NAME = /^.{2,70}$/;
-export const REGEX_LOGIN = /^[a-z\d]{3,30}$/;
-export const REGEX_EMAIL = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-export const REGEX_PASSWORD = /^(?=.*\d)(?=.*[!@#$%^&*])(?=.*[a-z])(?=.*[A-Z]).{8,50}$/;
-export const REGEX_COMPANY_NAME = /^.{2,80}$/;
-export const REGEX_LINK = /^https:\/\/[^ "]{7,200}$/;
-export const REGEX_COMMENT = /^.{10,1000}$/;
+import { ComponentFixture, TestBed } from "@angular/core/testing";
+import { CreateOpinionComponent } from "./create-opinion.component";
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+describe("CreateOpinionComponent", () => {
+    let component: CreateOpinionComponent;
+    let fixture: ComponentFixture<CreateOpinionComponent>;
+
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            declarations: [ CreateOpinionComponent ]
+        }).compileComponents();
+
+        fixture = TestBed.createComponent(CreateOpinionComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it("should create", () => {
+        expect(component).toBeTruthy();
+    });
+});

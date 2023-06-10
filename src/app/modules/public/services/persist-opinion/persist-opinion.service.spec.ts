@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: user-root.component.ts
- * Last modified: 24/05/2023, 13:53
+ * File name: persist-opinion.service.spec.ts
+ * Last modified: 6/10/23, 5:59 AM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,18 +22,20 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
+import { TestBed } from "@angular/core/testing";
+import { PersistOpinionService } from "./persist-opinion.service";
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-@Component({
-    selector: "app-user-root",
-    template: `
-        <div class="flex-fill">
-            <router-outlet></router-outlet>
-        </div>
-    `,
-    host: { class: "d-flex flex-column h-100" },
-})
-export class UserRootComponent {
-}
+describe("PersistOpinionService", () => {
+    let service: PersistOpinionService;
+
+    beforeEach(() => {
+        TestBed.configureTestingModule({});
+        service = TestBed.inject(PersistOpinionService);
+    });
+
+    it("should be created", () => {
+        expect(service).toBeTruthy();
+    });
+});

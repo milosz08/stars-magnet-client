@@ -1,0 +1,80 @@
+<!--
+  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+  ~
+  ~ File name: create-opinion.component.html
+  ~ Last modified: 6/9/23, 9:28 PM
+  ~ Project name: stars-magnet-client
+  ~
+  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
+  ~
+  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
+  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
+  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
+  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
+  ~
+  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
+  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
+  ~
+  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
+  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
+  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
+  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
+  ~ or other dealings in the software.
+  -->
+
+<ng-template *ngIf="(isLogged$ | async) && (loggedAccount$ | async) === userRole; then addOpinion; else unauthorised"/>
+<ng-template #addOpinion>
+    <ng-template *ngIf="(alreadyAdded$ | async) || alreadyAddedOpinion; then alreadyAdded; else persistOpinion"/>
+    <ng-template #alreadyAdded>
+        <div class="alert alert-warning">
+            You already added opinion for this company. To add opinion for another company,
+            <a class="alert-link" routerLink="/companies">click here</a>. To send request for remove opinion, mail to
+            <a class="alert-link" href="mailto:info@starsmagnet.com">info@starsmagnet.com</a>.
+        </div>
+    </ng-template>
+    <ng-template #persistOpinion>
+        <form [formGroup]="opinionForm" (ngSubmit)="onSubmitCreateOpinion()" class="card border-0 shadow-sm mb-3 p-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="mb-3">
+                        <app-countable-textarea
+                            controlName="comment"
+                            placeholder="This is a very nice company..."
+                            [formGroup]="opinionForm"
+                        >
+                            <ng-container labelC>Insert here your comment:</ng-container>
+                            <ng-container requiredC>Comment field is required.</ng-container>
+                            <ng-container patternC>Comment field must contains at least 10 characters.</ng-container>
+                        </app-countable-textarea>
+                    </div>
+                </div>
+                <div class="col-md">
+                    <app-grade-stars
+                        [selectedStars]="selectedStars"
+                        (selectStarEmit)="handleChangeStar($event)"
+                        (currentSelectedStarsEmit)="handleCurrentSelectedStars($event)"
+                    />
+                    <div *ngIf="(opinionForm.get('rating')!.errors | onlyFirst) === 'min'" class="text-danger mb-2">
+                        Rating is required.
+                    </div>
+                    <div class="fs-xsm">{{ selectedStars }}/10</div>
+                </div>
+                <div class="col-md-3">
+                    <button
+                        [disabled]="!opinionForm.valid"
+                        class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
+                    >
+                        <div *ngIf="lazyLoader$ | async" class="spinner-border spinner-border-sm text-light"></div>
+                        Submit
+                    </button>
+                </div>
+            </div>
+        </form>
+    </ng-template>
+</ng-template>
+<ng-template #unauthorised>
+    <div class="alert alert-warning">
+        To be able to add opinion you must be logged into a user account. To go to the login form,
+        <a class="alert-link" routerLink="/auth/login">click here</a>.
+    </div>
+</ng-template>
