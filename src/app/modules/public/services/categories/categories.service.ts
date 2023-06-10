@@ -28,6 +28,7 @@ import { BehaviorSubject, catchError, map, Observable, of, throwError } from "rx
 
 import { ICategoryModel } from "../../models/category.model";
 
+import { IPrePageableData } from "../../../commons/models/pagination.model";
 import { LazyLoaderService } from "../../../commons/services/lazy-loader/lazy-loader.service";
 import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
 import { CategoriesHttpService } from "../../../commons/http-services/categories-http/categories-http.service";
@@ -53,7 +54,7 @@ export class CategoriesService {
     ) {
     };
 
-    loadPageable$(): Observable<any> {
+    loadPageable$(): Observable<IPrePageableData> {
         this._lazyLoaderService.forcedActivateLoader();
         return this._categoriesHttpService.getPageableData$(this._fixedPageableLimit).pipe(
             map(res => {
@@ -72,7 +73,7 @@ export class CategoriesService {
         );
     };
 
-    loadCategories$(): Observable<ICategoryModel[] | any> {
+    loadCategories$(): Observable<ICategoryModel[]> {
         this._lazyCommonsService.setLazyLoader(true);
         const offset = (this._currentPage - 1) * this._fixedPageableLimit;
         return this._categoriesHttpService.getCategories$(this._fixedPageableLimit, offset).pipe(
@@ -89,13 +90,13 @@ export class CategoriesService {
         );
     };
 
-    gotoNextPage$(): Observable<ICategoryModel[] | any> {
+    gotoNextPage$(): Observable<ICategoryModel[] | null> {
         if (this._currentPage++ >= this._allPages) return of(null);
         this.updatePrevNextDisabledButtons();
         return this.loadCategories$();
     };
 
-    gotoPreviousPage$(): Observable<ICategoryModel[] | any> {
+    gotoPreviousPage$(): Observable<ICategoryModel[] | null> {
         if (this._currentPage-- <= 1) return of(null);
         this.updatePrevNextDisabledButtons();
         return this.loadCategories$();

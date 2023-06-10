@@ -78,7 +78,7 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         this._searchCompanyBoxSerivce.pushNewParaphrase(paraphrase);
     };
 
-    loadPageable$(isRefresh = false): Observable<any> {
+    loadPageable$(isRefresh = false): Observable<IPrePageableData> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         if (isRefresh) {
             this._currentPage = 1;
@@ -90,7 +90,7 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         );
     };
 
-    loadFilteredCompanies$(): Observable<any> {
+    loadFilteredCompanies$(): Observable<ICompanyResDtoModel[]> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         const offset = (this._currentPage - 1) * this._pageableLimit;
         return this._companyHttpService
@@ -104,7 +104,7 @@ export class SearchCompanyService extends AbstractComponentReactiveProvider impl
         );
     };
 
-    moveToPage$(pageNumber: number): Observable<ICompanyResDtoModel[] | any> {
+    moveToPage$(pageNumber: number): Observable<ICompanyResDtoModel[] | null> {
         if (pageNumber < 0 || pageNumber > this._allPages) {
             return of(null);
         }

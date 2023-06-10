@@ -70,7 +70,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         this.subjectCleanup();
     };
 
-    loadPageable$(categoryId: number): Observable<any> {
+    loadPageable$(categoryId: number): Observable<IPrePageableData> {
         this._lazyLoaderService.forcedActivateLoader();
         this._categoryId = categoryId;
         return this._companyHttpService.getPageableData$(categoryId, this._pageableLimit, this._filter).pipe(
@@ -82,7 +82,7 @@ export class CompaniesCategoryService extends AbstractComponentReactiveProvider 
         );
     };
 
-    refreshPageable$(): Observable<any> {
+    refreshPageable$(): Observable<IPrePageableData> {
         this._pageableCompaniesService.toggleLazyLoader(true);
         this._currentPage = 1;
         this._pageableCompaniesService.setCurrentPage(1);

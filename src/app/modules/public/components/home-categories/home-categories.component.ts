@@ -71,10 +71,10 @@ export class HomeCategoriesComponent extends AbstractComponentReactiveProvider i
     };
 
     onPreviousCategoriesPage(): void {
-        this._categoriesService.gotoPreviousPage$().pipe(takeUntil(this._unsubscribe)).subscribe(c => this.categories = c);
+        this._categoriesService.gotoPreviousPage$().pipe(takeUntil(this._unsubscribe)).subscribe(c => this.categories = c!);
     };
 
     onNextCategoriesPage(): void {
-        this._categoriesService.gotoNextPage$().pipe(takeUntil(this._unsubscribe)).subscribe(c => this.categories = c);
+        this._categoriesService.gotoNextPage$().pipe(takeUntil(this._unsubscribe)).subscribe(c => this.categories = c!);
     };
 }
