@@ -1,8 +1,8 @@
 /*
  * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
  *
- * File name: user-home-page.component.ts
- * Last modified: 24/05/2023, 12:03
+ * File name: opinion.model.ts
+ * Last modified: 6/9/23, 9:46 PM
  * Project name: stars-magnet-client
  *
  * Licensed under the MIT license; you may not use this file except in compliance with the License.
@@ -22,15 +22,44 @@
  * or other dealings in the software.
  */
 
-import { Component } from "@angular/core";
+export interface IAddOpinionReqDtoModel {
+    companyId: number;
+    comment: string;
+    rating: number;
+}
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+export interface IAddOpinionFormModel {
+    comment: string;
+    rating: number;
+}
 
-@Component({
-    selector: "app-user-home-page",
-    templateUrl: "./user-home-page.component.html",
-    styleUrls: [ "./user-home-page.component.scss" ],
-    host: { class: "d-flex flex-column h-100" },
-})
-export class UserHomePageComponent {
+export interface IOpinionResDtoModel {
+    userId: number;
+    opinionId: number;
+    fullname: string;
+    countOfReviews: number;
+    rating: number;
+    ratingDate: Date;
+    comment: string;
+    commentDate: Date;
+    companyResponse: string | null;
+    responseDate: Date | null;
+}
+
+export interface IOpinionsPageableResDtoModel {
+    count: number;
+    category: string;
+    next: string | null;
+    previous: string | null;
+    results: IOpinionResDtoModel[];
+}
+
+export interface IAddOpinionResDtoModel {
+    response: string;
+    newOpinion: IOpinionResDtoModel;
+}
+
+export interface IAddResponseOpinionReqDtoModel {
+    companyResponse: string;
+    userId: number;
 }
