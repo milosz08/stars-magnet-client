@@ -64,7 +64,7 @@ export class Utils {
 
     static convertCompaniesDotsToCommas(result: ICompanyResDtoModel[]): ICompanyResDtoModel[] {
         return result.map(comp => {
-            comp.avgRatings = comp.avgRatings ? comp.avgRatings.toString().replaceAll(".", ",") : "-"
+            comp.avgRatings = comp.avgRatings ? comp.avgRatings.toString().replaceAll(".", ",") : "?"
             return comp;
         });
     };

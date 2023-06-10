@@ -38,11 +38,6 @@
                 <li class="nav-item text-center">
                     <a class="nav-link" routerLink="/companies" routerLinkActive="active">Companies</a>
                 </li>
-                <ng-container *ngIf="(isLogged$ | async)">
-                    <li class="nav-item text-center">
-                        <a class="nav-link" routerLink="/user/home" routerLinkActive="active">My account</a>
-                    </li>
-                </ng-container>
             </ul>
             <ul class="navbar-nav align-items-center">
                 <ng-container
@@ -57,7 +52,6 @@
                         <div ngbDropdownMenu aria-labelledby="userDropdown">
                             <div class="px-3 mt-1">{{ (loggedDetails$ | async)?.username }}</div>
                             <hr/>
-                            <a routerLink="/user/home" ngbDropdownItem>My account</a>
                             <button (click)="onLogout()" ngbDropdownItem>Logout</button>
                         </div>
                     </li>

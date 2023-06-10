@@ -62,7 +62,7 @@ export class CompaniesListComponent {
     ) {
     };
 
-    identifyCategory(_: number, category: ICategoryModel): number {
-        return category.id;
+    identifyCompany(_: number, company: ICompanyResDtoModel): number {
+        return company.id;
     };
 }

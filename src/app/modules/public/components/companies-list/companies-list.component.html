@@ -41,11 +41,11 @@
             (changeLimitEmitter)="onChangeLimit.emit()"
         />
         <ul class="list-unstyled pe-0">
-            <li *ngFor="let company of (companies$ | async)" class="card border-0 shadow-sm mb-3 p-4">
+            <li *ngFor="let company of (companies$ | async); trackBy: identifyCompany" class="card border-0 shadow-sm mb-3 p-4">
                 <div class="card-title mb-0 d-flex justify-content-between">
                     <div class="hstack gap-3 align-items-center">
                         <h4 class="fw-normal mb-0">{{ company.name }}</h4>
-                        <span class="text-warning">
+                        <span class="stars-color">
                             <i class="bi bi-star-fill"></i>
                             {{ company.avgRatings }}
                             <span class="text-secondary">({{ company.opinionsCount }})</span>
@@ -58,15 +58,25 @@
                 <div class="card-body p-0 mt-3">
                     <div class="d-block d-sm-flex justify-content-between align-items-center">
                         <ul class="d-flex flex-wrap list-unstyled">
-                            <li *ngFor="let category of company.categories; trackBy: identifyCategory" class="mb-1">
-                                <a
-                                    [routerLink]="[ '/category', category.id ]"
-                                    [class.not-relevant]="category.name !== categoryName && !categoriesAreFullVisibled"
-                                    class="text-decoration-none bg-secondary py-1 px-2 rounded-3 text-light me-2 mb-2 lh-sm fs-xsm"
-                                >
-                                    {{ category.name }}
-                                </a>
-                            </li>
+                            <ng-template *ngIf="company.categories.length > 0; then showCategories; else alternateCategory"/>
+                            <ng-template #showCategories>
+                                <li *ngFor="let category of company.categories" class="mb-1">
+                                    <a
+                                        [routerLink]="[ '/category', category.id ]"
+                                        [class.not-relevant]="category.name !== categoryName && !categoriesAreFullVisibled"
+                                        class="text-decoration-none bg-secondary py-1 px-2 rounded-3 text-light me-2 mb-2 lh-sm fs-xsm"
+                                    >
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            </ng-template>
+                            <ng-template #alternateCategory>
+                                <li class="mb-1">
+                                    <span class="text-decoration-none bg-secondary py-1 px-2 rounded-3 text-light me-2 mb-2 lh-sm fs-xsm not-relevant">
+                                        Empty categories
+                                    </span>
+                                </li>
+                            </ng-template>
                         </ul>
                         <a class="btn btn-primary btn-sm mt-2 company-link-button" [routerLink]="[ '/company/', company.id ]">
                             View ratings
