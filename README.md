@@ -51,7 +51,7 @@ The build artifacts will be stored in the `dist/` directory.
 
 <a name="tech-stack"></a>
 ## Tech stack
-* Angular
+* Angular 1.15.0
 * TypeScript
 * NodeJS 18.16.0
 * Bootstrap (with Angular Bootstrap)
