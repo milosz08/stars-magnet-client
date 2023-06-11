@@ -1,27 +1,69 @@
-# StarsMagnetClient
+# Stars Magnet Client
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.1.5.
+![](https://img.shields.io/badge/Made%20in-Angular%201.15.0-1abc.svg)
+&nbsp;&nbsp;
+![](https://img.shields.io/badge/Using%20-Node%2018.16.0-green.svg)
+&nbsp;&nbsp;
+![](https://img.shields.io/badge/Packages%20manager-npm-brown.svg)
+&nbsp;&nbsp;
 
-## Development server
+> More info about this project you will find [on my personal website](https://miloszgilga.pl/project/stars-magnet-client)
+> <br>
+> See project at [starsmagnet.com](https://starsmagnet.com)
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+Client for [Stars Magnet](https://github.com/Lettulouz/StarsMagnet) Django rest API. This application allows you to register/log in and create
+new company accounts. Each company can be rated only once by a logged-in user (this rating is included in the average). Based on these values,
+it is possible to filter companies with the highest level of trust. The company also has the option to respond to comments.
 
-## Code scaffolding
+I didn't have much influence on the business solutions in the application. My task was only to create the visual layer. To a lesser extent,
+I made improvements to the server and was in constant contact with the backend developers.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+## Table of content
+* [Clone script](#clone-script)
+* [Prepare and run](#prepare-and-run)
+* [Tech stack](#tech-stack)
+* [Author](#author)
+* [Project status](#project-status)
+* [License](#license)
 
-## Build
+<a name="clone-script"></a>
+## Clone script
+To install the program on your computer use the command (or use the built-in GIT system in your IDE environment):
+```
+$ git clone https://github.com/Milosz08/stars-magnet-client
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+<a name="prepare-and-run"></a>
+## Prepare and run
+* Install all dependencies via:
+```
+$ npm install
+```
+* Run development server via (available on `http://localhost:4200/`):
+```
+$ ng serve
+```
+* Create optimized production build bundle via:
+```
+$ ng build
+```
+The build artifacts will be stored in the `dist/` directory.
 
-## Running unit tests
+<a name="tech-stack"></a>
+## Tech stack
+* Angular
+* TypeScript
+* NodeJS 18.16.0
+* Bootstrap (with Angular Bootstrap)
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+<a name="author"></a>
+## Author
+Created by Miłosz Gilga. If you have any questions about this application, send message: [personal@miloszgilga.pl](mailto:personal@miloszgilga.pl).
 
-## Running end-to-end tests
+<a name="project-status"></a>
+## Project status
+Project is finished.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+<a name="license"></a>
+## License
+This application is on MIT License.
