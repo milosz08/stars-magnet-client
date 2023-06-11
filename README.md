@@ -1,6 +1,6 @@
 # Stars Magnet Client
 
-![](https://img.shields.io/badge/Made%20in-Angular%201.15.0-1abc.svg)
+![](https://img.shields.io/badge/Made%20in-Angular%2015.1.0-1abc.svg)
 &nbsp;&nbsp;
 ![](https://img.shields.io/badge/Using%20-Node%2018.16.0-green.svg)
 &nbsp;&nbsp;
@@ -51,7 +51,7 @@ The build artifacts will be stored in the `dist/` directory.
 
 <a name="tech-stack"></a>
 ## Tech stack
-* Angular 1.15.0
+* Angular 15.1.0
 * TypeScript
 * NodeJS 18.16.0
 * Bootstrap (with Angular Bootstrap)
