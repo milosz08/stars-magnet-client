@@ -21,6 +21,7 @@ I made improvements to the server and was in constant contact with the backend d
 ## Table of content
 * [Clone script](#clone-script)
 * [Prepare and run](#prepare-and-run)
+* [Run from docker container](#run-from-docker-container)
 * [Tech stack](#tech-stack)
 * [Author](#author)
 * [Project status](#project-status)
@@ -48,6 +49,13 @@ $ ng serve
 $ ng build
 ```
 The build artifacts will be stored in the `dist/` directory.
+
+<a name="run-from-docker-container"></a>
+## Run from docker container
+* To run from docker container, type:
+```
+$ docker compose up stars-magnet-client
+```
 
 <a name="tech-stack"></a>
 ## Tech stack
