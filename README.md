@@ -63,6 +63,7 @@ $ docker compose up stars-magnet-client
 * TypeScript
 * NodeJS 18.16.0
 * Bootstrap (with Angular Bootstrap)
+* Docker technology
 
 <a name="author"></a>
 ## Author
