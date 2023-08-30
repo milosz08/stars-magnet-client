@@ -1,12 +1,11 @@
 FROM node:18.16.0 AS build
 
-WORKDIR /app
+WORKDIR /stars-magnet-client
 
-COPY package*.json ./
 COPY . .
 
-RUN npm install
-RUN npm run build --prod
+RUN yarn install
+RUN yarn run build
 
 FROM ubuntu:20.04
 
@@ -20,8 +19,11 @@ RUN chown root:root /var/www/html
 RUN chmod 755 /var/www/html
 
 RUN rm /var/www/html/index.html
-COPY --from=build /app/dist/stars-magnet-client/ /var/www/html
+COPY --from=build /stars-magnet-client/dist/ /var/www/html
 COPY .htaccess /var/www/html
 
+COPY entrypoint.sh /usr/local/bin/entrypoint.sh
+RUN chmod +x /usr/local/bin/entrypoint.sh
+
 EXPOSE 80
-CMD apache2ctl -DFOREGROUND
+ENTRYPOINT [ "/usr/local/bin/entrypoint.sh" ]
