@@ -1,0 +1,23 @@
+{
+  "recommendations": [
+    "angular.ng-template",
+    "johnpapa.angular2",
+    "cyrilletuzi.angular-schematics",
+    "ms-azuretools.vscode-docker",
+    "digitalbrainstem.javascript-ejs-support",
+    "visualstudioexptteam.vscodeintellicode",
+    "visualstudioexptteam.intellicode-api-usage-examples",
+    "k--kato.intellij-idea-keybindings",
+    "brennondenny.vsc-jetbrains-icons-enhanced",
+    "yzhang.markdown-all-in-one",
+    "trabpukcip.vscode-npm-scripts",
+    "eserozvataf.one-dark-pro-monokai-darker",
+    "esbenp.prettier-vscode",
+    "psioniq.psi-header",
+    "christian-kohler.npm-intellisense",
+    "dbaeumer.vscode-eslint",
+    "naumovs.color-highlight",
+    "ecmel.vscode-html-css",
+    "oderwat.indent-rainbow"
+  ]
+}
