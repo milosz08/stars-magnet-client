@@ -1,97 +1,123 @@
 <!--
-  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
-  ~
-  ~ File name: auth-add-company-page.component.html
-  ~ Last modified: 6/4/23, 3:52 PM
-  ~ Project name: stars-magnet-client
-  ~
-  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
-  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
-  ~
-  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
-  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
-  ~
-  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
-  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
-  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
-  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
-  ~ or other dealings in the software.
-  -->
+ ~ Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ ~ Silesian University of Technology
+ ~ 
+ ~   File name: auth-add-company-page.component.html
+ ~   Created at: 2023-06-04, 15:52:43
+ ~   Last updated at: 2023-08-30, 23:00:44
+ ~   Project name: stars-magnet-client
+ ~ 
+ ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ ~ file except in compliance with the License. You may obtain a copy of the License at
+ ~ 
+ ~   <http://www.apache.org/license/LICENSE-2.0>
+ ~ 
+ ~ Unless required by applicable law or agreed to in writing, software distributed under
+ ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ ~ OF ANY KIND, either express or implied. See the License for the specific language
+ ~ governing permissions and limitations under the license.
+ -->
 
 <div class="container d-flex justify-content-center align-items-center h-100">
-    <div class="row form-width max mb-4">
-        <app-dimissible-alert [model]="(responseAlert$ | async)"/>
-        <div class="card">
-            <form [formGroup]="addCompanyForm" (ngSubmit)="onAddCompanySubmitForm()" class="card-body" novalidate>
-                <h4 class="text-center mb-3">Add company</h4>
-                <hr/>
-                <app-company-user-common-signup-form [formGroup]="addCompanyForm">
-                    <ng-container top>
-                        <div class="col-md-12 mb-3">
-                            <label for="name" class="form-label">Company name:</label>
-                            <div class="input-group has-validation">
-                                <input
-                                    type="text" class="form-control" id="name" placeholder="Grontsmar"
-                                    formControlName="name" maxlength="80"
-                                    [class.is-invalid]="validateField('name')"
-                                />
-                                <div class="invalid-feedback">
-                                    <div *ngIf="(addCompanyForm.get('name')!.errors | onlyFirst) === 'required'">
-                                        Company name is required.
-                                    </div>
-                                    <div *ngIf="(addCompanyForm.get('name')!.errors | onlyFirst) === 'pattern'">
-                                        Company name length must be lower or equal than 80 and greater or equal than 2.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="site" class="form-label">Company website link:</label>
-                            <div class="input-group has-validation">
-                                <input
-                                    type="text" class="form-control" id="site" placeholder="https://www.grontsmar.com"
-                                    formControlName="site" maxlength="150"
-                                    [class.is-invalid]="validateField('site')"
-                                />
-                                <div class="invalid-feedback">
-                                    <div *ngIf="(addCompanyForm.get('site')!.errors | onlyFirst) === 'required'">
-                                        Company site is required.
-                                    </div>
-                                    <div *ngIf="(addCompanyForm.get('site')!.errors | onlyFirst) === 'pattern'">
-                                        Company site must be valid 'https://' url address.
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-12 mb-3">
-                            <label for="categories" class="form-label">Categories:</label>
-                            <app-multiselect-input
-                                id="categories"
-                                [initialElements]="allCategories"
-                                (selectedChangesEmit)="handleChangeSelectedCategories($event)"
-                            />
-                        </div>
-                    </ng-container>
-                    <ng-container bottom>
-                        <div class="col-12 mt-2">
-                            <button
-                                [disabled]="!addCompanyForm.valid"
-                                class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
-                            >
-                                <div *ngIf="suspenseSpinner$ | async" class="spinner-border spinner-border-sm text-light"></div>
-                                Add company
-                            </button>
-                        </div>
-                        <div class="col-12 mt-3 text-center">
-                            Already have an company account? <a routerLink="/auth/company-login">Company login</a>
-                        </div>
-                    </ng-container>
-                </app-company-user-common-signup-form>
-            </form>
-        </div>
+  <div class="row form-width max mb-4">
+    <app-dimissible-alert [model]="responseAlert$ | async" />
+    <div class="card">
+      <form
+        [formGroup]="addCompanyForm"
+        (ngSubmit)="onAddCompanySubmitForm()"
+        class="card-body"
+        novalidate>
+        <h4 class="text-center mb-3">Add company</h4>
+        <hr />
+        <app-company-user-common-signup-form [formGroup]="addCompanyForm">
+          <ng-container top>
+            <div class="col-md-12 mb-3">
+              <label for="name" class="form-label">Company name:</label>
+              <div class="input-group has-validation">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name"
+                  placeholder="Grontsmar"
+                  formControlName="name"
+                  maxlength="80"
+                  [class.is-invalid]="validateField('name')" />
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      (addCompanyForm.get('name')!.errors | onlyFirst) ===
+                      'required'
+                    ">
+                    Company name is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      (addCompanyForm.get('name')!.errors | onlyFirst) ===
+                      'pattern'
+                    ">
+                    Company name length must be lower or equal than 80 and
+                    greater or equal than 2.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="site" class="form-label">Company website link:</label>
+              <div class="input-group has-validation">
+                <input
+                  type="text"
+                  class="form-control"
+                  id="site"
+                  placeholder="https://www.grontsmar.com"
+                  formControlName="site"
+                  maxlength="150"
+                  [class.is-invalid]="validateField('site')" />
+                <div class="invalid-feedback">
+                  <div
+                    *ngIf="
+                      (addCompanyForm.get('site')!.errors | onlyFirst) ===
+                      'required'
+                    ">
+                    Company site is required.
+                  </div>
+                  <div
+                    *ngIf="
+                      (addCompanyForm.get('site')!.errors | onlyFirst) ===
+                      'pattern'
+                    ">
+                    Company site must be valid 'https://' url address.
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-12 mb-3">
+              <label for="categories" class="form-label">Categories:</label>
+              <app-multiselect-input
+                id="categories"
+                [initialElements]="allCategories"
+                (selectedChangesEmit)="
+                  handleChangeSelectedCategories($event)
+                " />
+            </div>
+          </ng-container>
+          <ng-container bottom>
+            <div class="col-12 mt-2">
+              <button
+                [disabled]="!addCompanyForm.valid"
+                class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2">
+                <div
+                  *ngIf="suspenseSpinner$ | async"
+                  class="spinner-border spinner-border-sm text-light"></div>
+                Add company
+              </button>
+            </div>
+            <div class="col-12 mt-3 text-center">
+              Already have an company account?
+              <a routerLink="/auth/company-login">Company login</a>
+            </div>
+          </ng-container>
+        </app-company-user-common-signup-form>
+      </form>
     </div>
+  </div>
 </div>

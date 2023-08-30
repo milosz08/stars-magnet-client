@@ -1,78 +1,78 @@
 /*
- * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+ * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ * Silesian University of Technology
  *
- * File name: opinions-http.service.ts
- * Last modified: 6/9/23, 9:48 PM
- * Project name: stars-magnet-client
+ *   File name: opinions-http.service.ts
+ *   Created at: 2023-06-09, 21:48:55
+ *   Last updated at: 2023-08-30, 22:45:43
+ *   Project name: stars-magnet-client
  *
- * Licensed under the MIT license; you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *   <http://www.apache.org/license/LICENSE-2.0>
  *
- * THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
- * SUBSTANTIAL PORTIONS OF THE SOFTWARE.
- *
- * The software is provided "as is", without warranty of any kind, express or implied, including but not limited
- * to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
- * shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
- * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
- * or other dealings in the software.
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the license.
  */
-
-import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
-
-import { Observable } from "rxjs";
-import { environment } from "../../../../environments/environment";
-
-import { IPrePageableData } from "../../models/pagination.model";
+import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
 import {
-    IAddOpinionResDtoModel, IAddResponseOpinionReqDtoModel, IAddOpinionReqDtoModel, IOpinionsPageableResDtoModel
-} from "../../models/opinion.model";
+  AddOpinionReqDtoModel,
+  AddOpinionResDtoModel,
+  AddResponseOpinionReqDtoModel,
+  OpinionsPageableResDtoModel,
+} from '~/app-commons/models/opinion.model';
+import { PrePageableData } from '~/app-commons/models/pagination.model';
+import { environment } from '~/app/environments/environment';
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-@Injectable({ providedIn: "root" })
+@Injectable({ providedIn: 'root' })
 export class OpinionsHttpService {
+  constructor(private readonly _httpClient: HttpClient) {}
 
-    constructor(
-        private _httpClient: HttpClient,
-    ) {
-    };
+  addOpinion$(
+    reqDto: AddOpinionReqDtoModel
+  ): Observable<AddOpinionResDtoModel> {
+    return this._httpClient.post<AddOpinionResDtoModel>(
+      `${environment.httpBackendURI}/api/opinion`,
+      reqDto
+    );
+  }
 
-    addOpinion$(reqDto: IAddOpinionReqDtoModel): Observable<IAddOpinionResDtoModel> {
-        return this._httpClient.post<IAddOpinionResDtoModel>(
-            `${environment.httpBackendURI}/api/opinion`,
-            reqDto,
-        );
-    };
+  reponseToOpinion$(
+    reqDto: AddResponseOpinionReqDtoModel
+  ): Observable<AddOpinionResDtoModel> {
+    return this._httpClient.post<AddOpinionResDtoModel>(
+      `${environment.httpBackendURI}/api/opinion/company`,
+      reqDto
+    );
+  }
 
-    reponseToOpinion$(reqDto: IAddResponseOpinionReqDtoModel): Observable<IAddOpinionResDtoModel> {
-        return this._httpClient.post<IAddOpinionResDtoModel>(
-            `${environment.httpBackendURI}/api/opinion/company`,
-            reqDto,
-        );
-    };
+  getAllOpinionsPageable$(
+    companyId: number,
+    fixedLimit: number
+  ): Observable<PrePageableData> {
+    const params = new HttpParams().set('fixedLimit', fixedLimit);
+    return this._httpClient.get<PrePageableData>(
+      `${environment.httpBackendURI}/api/opinion/list/company/${companyId}/pageable`,
+      { params }
+    );
+  }
 
-    getAllOpinionsPageable$(companyId: number, fixedLimit: number): Observable<IPrePageableData> {
-        const params = new HttpParams()
-            .set("fixedLimit", fixedLimit);
-        return this._httpClient.get<IPrePageableData>(
-            `${environment.httpBackendURI}/api/opinion/list/company/${companyId}/pageable`,
-            { params },
-        );
-    };
-
-    getAllOpinions$(companyId: number, fixedLimit: number, offset: number): Observable<IOpinionsPageableResDtoModel> {
-        const params = new HttpParams()
-            .set("limit", fixedLimit)
-            .set("offset", offset);
-        return this._httpClient.get<IOpinionsPageableResDtoModel>(
-            `${environment.httpBackendURI}/api/opinion/list/company/${companyId}`,
-            { params },
-        );
-    };
+  getAllOpinions$(
+    companyId: number,
+    fixedLimit: number,
+    offset: number
+  ): Observable<OpinionsPageableResDtoModel> {
+    const params = new HttpParams()
+      .set('limit', fixedLimit)
+      .set('offset', offset);
+    return this._httpClient.get<OpinionsPageableResDtoModel>(
+      `${environment.httpBackendURI}/api/opinion/list/company/${companyId}`,
+      { params }
+    );
+  }
 }

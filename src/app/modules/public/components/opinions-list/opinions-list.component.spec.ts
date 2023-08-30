@@ -1,47 +1,44 @@
 /*
- * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+ * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ * Silesian University of Technology
  *
- * File name: opinions-list.component.spec.ts
- * Last modified: 6/9/23, 9:32 PM
- * Project name: stars-magnet-client
+ *   File name: opinions-list.component.spec.ts
+ *   Created at: 2023-06-09, 21:29:26
+ *   Last updated at: 2023-08-30, 22:28:11
+ *   Project name: stars-magnet-client
  *
- * Licensed under the MIT license; you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *   <http://www.apache.org/license/LICENSE-2.0>
  *
- * THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
- * SUBSTANTIAL PORTIONS OF THE SOFTWARE.
- *
- * The software is provided "as is", without warranty of any kind, express or implied, including but not limited
- * to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
- * shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
- * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
- * or other dealings in the software.
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the license.
  */
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { PublicModule } from '~/app-public/public.module';
+import { CompanyOpinionService } from '~/app-public/services/company-opinion/company-opinion.service';
+import { AppModule } from '~/app/app.module';
+import { OpinionsListComponent } from './opinions-list.component';
 
-import { ComponentFixture, TestBed } from "@angular/core/testing";
-import { OpinionsListComponent } from "./opinions-list.component";
+describe('OpininsListComponent', () => {
+  let component: OpinionsListComponent;
+  let fixture: ComponentFixture<OpinionsListComponent>;
 
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [AppModule, PublicModule],
+      providers: [CompanyOpinionService],
+    }).compileComponents();
 
-describe("OpininsListComponent", () => {
-    let component: OpinionsListComponent;
-    let fixture: ComponentFixture<OpinionsListComponent>;
+    fixture = TestBed.createComponent(OpinionsListComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
 
-    beforeEach(async () => {
-        await TestBed.configureTestingModule({
-            declarations: [ OpinionsListComponent ]
-        }).compileComponents();
-
-        fixture = TestBed.createComponent(OpinionsListComponent);
-        component = fixture.componentInstance;
-        fixture.detectChanges();
-    });
-
-    it("should create", () => {
-        expect(component).toBeTruthy();
-    });
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
 });

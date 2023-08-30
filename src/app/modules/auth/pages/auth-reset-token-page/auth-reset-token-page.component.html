@@ -1,76 +1,82 @@
 <!--
-  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
-  ~
-  ~ File name: auth-reset-token-page.component.html
-  ~ Last modified: 6/8/23, 12:40 AM
-  ~ Project name: stars-magnet-client
-  ~
-  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
-  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
-  ~
-  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
-  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
-  ~
-  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
-  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
-  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
-  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
-  ~ or other dealings in the software.
-  -->
+ ~ Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ ~ Silesian University of Technology
+ ~ 
+ ~   File name: auth-reset-token-page.component.html
+ ~   Created at: 2023-06-08, 00:40:40
+ ~   Last updated at: 2023-08-30, 23:04:11
+ ~   Project name: stars-magnet-client
+ ~ 
+ ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ ~ file except in compliance with the License. You may obtain a copy of the License at
+ ~ 
+ ~   <http://www.apache.org/license/LICENSE-2.0>
+ ~ 
+ ~ Unless required by applicable law or agreed to in writing, software distributed under
+ ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ ~ OF ANY KIND, either express or implied. See the License for the specific language
+ ~ governing permissions and limitations under the license.
+ -->
 
 <div class="container d-flex justify-content-center align-items-center h-100">
-    <div class="row form-width max mb-4">
-        <app-dimissible-alert [model]="(responseAlert$ | async)"/>
-        <div class="card">
-            <form [formGroup]="resetTokenForm" (ngSubmit)="onResetTokenFormSubmit()" class="card-body row" novalidate>
-                <h4 class="text-center mb-3">Reset token</h4>
-                <hr/>
-                <div class="col-md-12 mb-3">
-                    <label for="user" class="form-label">Username/email address:</label>
-                    <input
-                        type="text"
-                        id="user"
-                        formControlName="user"
-                        class="form-control"
-                        maxlength="70"
-                        [class.is-invalid]="validateField('user')"
-                    />
-                    <div class="invalid-feedback">
-                        <div *ngIf="(resetTokenForm.get('user')!.errors | onlyFirst) === 'required'">
-                            Username/email address field is required.
-                        </div>
-                    </div>
-                </div>
-                <div *ngFor="let control of wordsInputs; let i = index" class="col-md-6 mb-3 form-group">
-                    <label for="user" class="form-label">{{ i + 1 }} secure word:</label>
-                    <input
-                        type="text"
-                        [id]="'word' + i"
-                        [formControl]="control"
-                        class="form-control"
-                        maxlength="100"
-                        [class.is-invalid]="control.invalid && (control.dirty || control.touched)"
-                    />
-                    <div class="invalid-feedback">
-                        <div *ngIf="someWordsAreInvalid">
-                            You must provide {{ i + 1 }} secure word.
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 mt-2">
-                    <button
-                        [disabled]="!resetTokenForm.valid"
-                        class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2"
-                    >
-                        <div *ngIf="suspenseSpinner$ | async" class="spinner-border spinner-border-sm text-light"></div>
-                        Reset token
-                    </button>
-                </div>
-            </form>
+  <div class="row form-width max mb-4">
+    <app-dimissible-alert [model]="responseAlert$ | async" />
+    <div class="card">
+      <form
+        [formGroup]="resetTokenForm"
+        (ngSubmit)="onResetTokenFormSubmit()"
+        class="card-body row"
+        novalidate>
+        <h4 class="text-center mb-3">Reset token</h4>
+        <hr />
+        <div class="col-md-12 mb-3">
+          <label for="user" class="form-label">Username/email address:</label>
+          <input
+            type="text"
+            id="user"
+            formControlName="user"
+            class="form-control"
+            maxlength="70"
+            [class.is-invalid]="validateField('user')" />
+          <div class="invalid-feedback">
+            <div
+              *ngIf="
+                (resetTokenForm.get('user')!.errors | onlyFirst) === 'required'
+              ">
+              Username/email address field is required.
+            </div>
+          </div>
         </div>
+        <div
+          *ngFor="let control of wordsInputs; let i = index"
+          class="col-md-6 mb-3 form-group">
+          <label for="user" class="form-label">{{ i + 1 }} secure word:</label>
+          <input
+            type="text"
+            [id]="'word' + i"
+            [formControl]="control"
+            class="form-control"
+            maxlength="100"
+            [class.is-invalid]="
+              control.invalid && (control.dirty || control.touched)
+            " />
+          <div class="invalid-feedback">
+            <div *ngIf="someWordsAreInvalid">
+              You must provide {{ i + 1 }} secure word.
+            </div>
+          </div>
+        </div>
+        <div class="col-12 mt-2">
+          <button
+            [disabled]="!resetTokenForm.valid"
+            class="btn btn-primary w-100 d-flex justify-content-center align-items-center gap-2">
+            <div
+              *ngIf="suspenseSpinner$ | async"
+              class="spinner-border spinner-border-sm text-light"></div>
+            Reset token
+          </button>
+        </div>
+      </form>
     </div>
+  </div>
 </div>

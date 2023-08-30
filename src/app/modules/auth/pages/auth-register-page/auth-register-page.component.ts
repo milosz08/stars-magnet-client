@@ -1,88 +1,107 @@
 /*
- * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+ * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ * Silesian University of Technology
  *
- * File name: auth-register-page.component.ts
- * Last modified: 23/05/2023, 09:51
- * Project name: stars-magnet-client
+ *   File name: auth-register-page.component.ts
+ *   Created at: 2023-05-29, 02:09:50
+ *   Last updated at: 2023-08-30, 23:03:40
+ *   Project name: stars-magnet-client
  *
- * Licensed under the MIT license; you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *   <http://www.apache.org/license/LICENSE-2.0>
  *
- * THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
- * SUBSTANTIAL PORTIONS OF THE SOFTWARE.
- *
- * The software is provided "as is", without warranty of any kind, express or implied, including but not limited
- * to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
- * shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
- * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
- * or other dealings in the software.
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the license.
  */
-
-import { Component, OnDestroy } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-
-import { first, Observable, takeUntil } from "rxjs";
-
-import { IRegisterFormModel } from "../../../commons/models/register.model";
-import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
-import { passwordMatchValidator } from "../../../commons/validators/password-match.validator";
-import { REGEX_EMAIL, REGEX_LOGIN, REGEX_NAME, REGEX_PASSWORD } from "../../../commons/validators/regex.constant";
-
-import { AuthService } from "../../services/auth/auth.service";
-import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
-import { LazyCommonsService } from "../../../commons/services/lazy-commons/lazy-commons.service";
-import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import { Component, OnDestroy } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, first, takeUntil } from 'rxjs';
+import { AuthService } from '~/app-auth/services/auth/auth.service';
+import { RegisterFormModel } from '~/app-commons/models/register.model';
+import { ResponseAlertModel } from '~/app-commons/models/response-alert.model';
+import { FormHelperService } from '~/app-commons/services/form-helper/form-helper.service';
+import { LazyCommonsService } from '~/app-commons/services/lazy-commons/lazy-commons.service';
+import { AbstractComponentReactiveProvider } from '~/app-commons/utils/abstract-component-reactive-provider';
+import { passwordMatchValidator } from '~/app-commons/validators/password-match.validator';
+import {
+  REGEX_EMAIL,
+  REGEX_LOGIN,
+  REGEX_NAME,
+  REGEX_PASSWORD,
+} from '~/app-commons/validators/regex.constant';
 
 @Component({
-    selector: "app-auth-register-page",
-    templateUrl: "./auth-register-page.component.html",
-    providers: [ AuthService, LazyCommonsService ],
+  selector: 'app-auth-register-page',
+  templateUrl: './auth-register-page.component.html',
+  providers: [AuthService, LazyCommonsService],
 })
-export class AuthRegisterPageComponent extends AbstractComponentReactiveProvider implements OnDestroy {
+export class AuthRegisterPageComponent
+  extends AbstractComponentReactiveProvider
+  implements OnDestroy
+{
+  registerForm: FormGroup;
 
-    registerForm: FormGroup;
+  suspenseSpinner$: Observable<boolean> = this._authCommonsService.lazyLoader$;
+  responseAlert$: Observable<ResponseAlertModel> =
+    this._authCommonsService.responseAlert$;
 
-    suspenseSpinner$: Observable<boolean> = this._authCommonsService.lazyLoader$;
-    responseAlert$: Observable<IResponseAlertModel> = this._authCommonsService.responseAlert$;
+  constructor(
+    private readonly _authService: AuthService,
+    private readonly _formHelperService: FormHelperService,
+    private readonly _authCommonsService: LazyCommonsService
+  ) {
+    super();
+    this.registerForm = new FormGroup({
+      firstName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_NAME),
+      ]),
+      lastName: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_NAME),
+      ]),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_LOGIN),
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_EMAIL),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_PASSWORD),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        passwordMatchValidator,
+      ]),
+    });
+  }
 
-    constructor(
-        private _authService: AuthService,
-        private _formHelperService: FormHelperService,
-        private _authCommonsService: LazyCommonsService,
-    ) {
-        super();
-        this.registerForm = new FormGroup({
-            firstName: new FormControl("", [ Validators.required, Validators.pattern(REGEX_NAME) ]),
-            lastName: new FormControl("", [ Validators.required, Validators.pattern(REGEX_NAME) ]),
-            username: new FormControl("", [ Validators.required, Validators.pattern(REGEX_LOGIN) ]),
-            email: new FormControl("", [ Validators.required, Validators.pattern(REGEX_EMAIL) ]),
-            password: new FormControl("", [ Validators.required, Validators.pattern(REGEX_PASSWORD) ]),
-            confirmPassword: new FormControl("", [ Validators.required, passwordMatchValidator ]),
-        });
-    };
+  ngOnDestroy(): void {
+    this.subjectCleanup();
+  }
 
-    ngOnDestroy(): void {
-        this.subjectCleanup();
-    };
+  onRegisterFormSubmit(): void {
+    const data: RegisterFormModel = this.registerForm.getRawValue();
+    this._authService
+      .register$(data)
+      .pipe(first(), takeUntil(this._unsubscribe))
+      .subscribe({
+        next: () => this.registerForm.reset(),
+        error: () => {
+          this.registerForm.get('password')?.reset();
+          this.registerForm.get('confirmPassword')?.reset();
+        },
+      });
+  }
 
-    onRegisterFormSubmit(): void {
-        const data: IRegisterFormModel = this.registerForm.getRawValue();
-        this._authService.register$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
-            next: () => this.registerForm.reset(),
-            error: () => {
-                this.registerForm.get("password")?.reset();
-                this.registerForm.get("confirmPassword")?.reset();
-            },
-        });
-    };
-
-    validateField(fieldName: string): boolean {
-        return this._formHelperService.validateField(this.registerForm, fieldName);
-    };
+  validateField(fieldName: string): boolean {
+    return this._formHelperService.validateField(this.registerForm, fieldName);
+  }
 }

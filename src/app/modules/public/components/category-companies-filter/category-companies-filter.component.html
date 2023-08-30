@@ -1,58 +1,67 @@
 <!--
-  ~ Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
-  ~
-  ~ File name: category-companies-filter.component.html
-  ~ Last modified: 6/5/23, 12:03 AM
-  ~ Project name: stars-magnet-client
-  ~
-  ~ Licensed under the MIT license; you may not use this file except in compliance with the License.
-  ~
-  ~ Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
-  ~ documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
-  ~ rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
-  ~ permit persons to whom the Software is furnished to do so, subject to the following conditions:
-  ~
-  ~ THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
-  ~ SUBSTANTIAL PORTIONS OF THE SOFTWARE.
-  ~
-  ~ The software is provided "as is", without warranty of any kind, express or implied, including but not limited
-  ~ to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
-  ~ shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
-  ~ action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
-  ~ or other dealings in the software.
-  -->
+ ~ Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ ~ Silesian University of Technology
+ ~ 
+ ~   File name: category-companies-filter.component.html
+ ~   Created at: 2023-06-05, 00:03:38
+ ~   Last updated at: 2023-08-30, 22:22:35
+ ~   Project name: stars-magnet-client
+ ~ 
+ ~ Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ ~ file except in compliance with the License. You may obtain a copy of the License at
+ ~ 
+ ~   <http://www.apache.org/license/LICENSE-2.0>
+ ~ 
+ ~ Unless required by applicable law or agreed to in writing, software distributed under
+ ~ the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ ~ OF ANY KIND, either express or implied. See the License for the specific language
+ ~ governing permissions and limitations under the license.
+ -->
 
 <form (ngSubmit)="handleFilterCompanies()">
-    <button class="btn btn-secondary mb-3 w-100" type="button" (click)="handleClearFilters()">
-        Clear filter
-    </button>
-    <p class="fs-6 text-secondary mb-2 lh-sm">Filter company's results:</p>
-    <div class="form-check form-switch">
-        <input
-            class="form-check-input" type="checkbox" role="switch" id="hasGrades"
-            name="hasAnyGrade" [(ngModel)]="filter.hasGrades"
-        />
-        <label class="form-check-label" for="hasGrades">Only with grades</label>
-    </div>
-    <div class="d-flex justify-content-between">
-        <p class="fs-6 text-secondary mb-0 mt-4 lh-sm">Grades:</p>
-        <p *ngIf="selectedStars" class="fs-6 text-secondary mb-0 mt-4 lh-sm">{{selectedStars}}/10</p>
-    </div>
-    <app-grade-stars
-        [selectedStars]="filter.avgGrade"
-        (selectStarEmit)="handleChangeStar($event)"
-        (currentSelectedStarsEmit)="handleCurrentSelectedStars($event)"
-    />
-    <p class="fs-6 text-secondary mb-2 mt-3 lh-sm">Sort by:</p>
-    <select class="form-select mb-3" [(ngModel)]="filter.sortBy" name="selectedSortBy">
-        <option value="alphabetically">alphabetically (company name)</option>
-        <option value="gradesCount">by count of grades</option>
-        <option value="gradesLevel">by rating (stars)</option>
-    </select>
-    <p class="fs-6 text-secondary mb-2 lh-sm">Sort direction:</p>
-    <select class="form-select mb-3" [(ngModel)]="filter.sortDir" name="selectedSortDir">
-        <option value="ASC">ascending</option>
-        <option value="DESC">descending</option>
-    </select>
-    <button class="btn btn-primary w-100">Filter</button>
+  <button
+    class="btn btn-secondary mb-3 w-100"
+    type="button"
+    (click)="handleClearFilters()">
+    Clear filter
+  </button>
+  <p class="fs-6 text-secondary mb-2 lh-sm">Filter company's results:</p>
+  <div class="form-check form-switch">
+    <input
+      class="form-check-input"
+      type="checkbox"
+      role="switch"
+      id="hasGrades"
+      name="hasAnyGrade"
+      [(ngModel)]="filter.hasGrades" />
+    <label class="form-check-label" for="hasGrades">Only with grades</label>
+  </div>
+  <div class="d-flex justify-content-between">
+    <p class="fs-6 text-secondary mb-0 mt-4 lh-sm">Grades:</p>
+    <p *ngIf="selectedStars" class="fs-6 text-secondary mb-0 mt-4 lh-sm">
+      {{ selectedStars }}/10
+    </p>
+  </div>
+  <app-grade-stars
+    [selectedStars]="filter.avgGrade"
+    (selectStarEmit)="handleChangeStar($event)"
+    (currentSelectedStarsEmit)="handleCurrentSelectedStars($event)" />
+  <p class="fs-6 text-secondary mb-2 mt-3 lh-sm">Sort by:</p>
+  <select
+    class="form-select mb-3"
+    [(ngModel)]="filter.sortBy"
+    name="selectedSortBy">
+    <option value="alphabetically">alphabetically (company name)</option>
+    <option value="gradesCount">by count of grades</option>
+    <option value="gradesLevel">by rating (stars)</option>
+  </select>
+  <p class="fs-6 text-secondary mb-2 lh-sm">Sort direction:</p>
+  <select
+    class="form-select mb-3"
+    [(ngModel)]="filter.sortDir"
+    name="selectedSortDir">
+    <option value="ASC">ascending</option>
+    <option value="DESC">descending</option>
+  </select>
+  <button class="btn btn-primary w-100">Filter</button>
 </form>

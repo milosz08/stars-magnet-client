@@ -1,83 +1,90 @@
 /*
- * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+ * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ * Silesian University of Technology
  *
- * File name: multiselect-input.component.ts
- * Last modified: 6/9/23, 2:29 AM
- * Project name: stars-magnet-client
+ *   File name: multiselect-input.component.ts
+ *   Created at: 2023-06-09, 02:29:27
+ *   Last updated at: 2023-08-30, 22:40:11
+ *   Project name: stars-magnet-client
  *
- * Licensed under the MIT license; you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *   <http://www.apache.org/license/LICENSE-2.0>
  *
- * THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
- * SUBSTANTIAL PORTIONS OF THE SOFTWARE.
- *
- * The software is provided "as is", without warranty of any kind, express or implied, including but not limited
- * to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
- * shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
- * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
- * or other dealings in the software.
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the license.
  */
-
-import { Component, ElementRef, EventEmitter, HostListener, Input, Output, ViewChild } from "@angular/core";
-
-import { IMultiselectItemModel } from "../../models/multiselect-input.model";
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import {
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostListener,
+  Input,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { MultiselectItemModel } from '~/app-commons/models/multiselect-input.model';
 
 @Component({
-    selector: "app-multiselect-input",
-    templateUrl: "./multiselect-input.component.html",
-    styleUrls: [ "./multiselect-input.component.scss" ],
+  selector: 'app-multiselect-input',
+  templateUrl: './multiselect-input.component.html',
+  styleUrls: ['./multiselect-input.component.scss'],
 })
 export class MultiselectInputComponent {
+  scrolldownMenuActive = false;
+  selectedElements: MultiselectItemModel[] = [];
 
-    scrolldownMenuActive = false;
-    selectedElements: IMultiselectItemModel[] = [];
+  @ViewChild('selectContainer') selectContainer!: ElementRef;
 
-    @ViewChild("selectContainer") selectContainer!: ElementRef;
+  @Input() initialElements: MultiselectItemModel[] = [];
+  @Output() selectedChangesEmit: EventEmitter<number[]> = new EventEmitter<
+    number[]
+  >();
 
-    @Input() initialElements: IMultiselectItemModel[] = [];
-    @Output() selectedChangesEmit: EventEmitter<number[]> = new EventEmitter<number[]>();
-
-    @HostListener("document:click", [ "$event" ])
-    onClick(event: MouseEvent): void {
-        const clickedInside = this.selectContainer.nativeElement.contains(event.target);
-        if (!clickedInside) {
-            this.scrolldownMenuActive = false;
-        }
+  @HostListener('document:click', ['$event'])
+  onClick(event: MouseEvent): void {
+    const clickedInside = this.selectContainer.nativeElement.contains(
+      event.target
+    );
+    if (!clickedInside) {
+      this.scrolldownMenuActive = false;
     }
+  }
 
-    handleToggleScrolldownMenu(): void {
-        this.scrolldownMenuActive = !this.scrolldownMenuActive;
-    };
+  handleToggleScrolldownMenu(): void {
+    this.scrolldownMenuActive = !this.scrolldownMenuActive;
+  }
 
-    handleClickOnCategory(event: Event, element: IMultiselectItemModel): void {
-        const isChecked = (event.target as HTMLInputElement).checked;
-        if (isChecked) {
-            this.selectedElements.push(element);
-        } else {
-            this.selectedElements = this.selectedElements.filter(el => el.id !== element.id);
-        }
-        this.selectedChangesEmit.emit(this.selectedElements.map(i => i.id));
-    };
+  handleClickOnCategory(event: Event, element: MultiselectItemModel): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.selectedElements.push(element);
+    } else {
+      this.selectedElements = this.selectedElements.filter(
+        el => el.id !== element.id
+      );
+    }
+    this.selectedChangesEmit.emit(this.selectedElements.map(i => i.id));
+  }
 
-    handleRemoveElement(event: Event, element: IMultiselectItemModel): void {
-        event.stopImmediatePropagation();
-        this.selectedElements = this.selectedElements.filter(el => el.id !== element.id);
-        this.selectedChangesEmit.emit(this.selectedElements.map(i => i.id));
-    };
+  handleRemoveElement(event: Event, element: MultiselectItemModel): void {
+    event.stopImmediatePropagation();
+    this.selectedElements = this.selectedElements.filter(
+      el => el.id !== element.id
+    );
+    this.selectedChangesEmit.emit(this.selectedElements.map(i => i.id));
+  }
 
-    handleSelectAllElements(event: Event): void {
-        const isChecked = (event.target as HTMLInputElement).checked;
-        if (isChecked) {
-            this.selectedElements = this.initialElements;
-        } else {
-            this.selectedElements = [];
-        }
-        this.selectedChangesEmit.emit(this.selectedElements.map(i => i.id));
-    };
+  handleSelectAllElements(event: Event): void {
+    const isChecked = (event.target as HTMLInputElement).checked;
+    if (isChecked) {
+      this.selectedElements = this.initialElements;
+    } else {
+      this.selectedElements = [];
+    }
+    this.selectedChangesEmit.emit(this.selectedElements.map(i => i.id));
+  }
 }

@@ -1,78 +1,81 @@
 /*
- * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+ * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ * Silesian University of Technology
  *
- * File name: public-company-page.component.ts
- * Last modified: 6/5/23, 5:25 AM
- * Project name: stars-magnet-client
+ *   File name: public-company-page.component.ts
+ *   Created at: 2023-06-05, 05:25:01
+ *   Last updated at: 2023-08-30, 22:19:27
+ *   Project name: stars-magnet-client
  *
- * Licensed under the MIT license; you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *   <http://www.apache.org/license/LICENSE-2.0>
  *
- * THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
- * SUBSTANTIAL PORTIONS OF THE SOFTWARE.
- *
- * The software is provided "as is", without warranty of any kind, express or implied, including but not limited
- * to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
- * shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
- * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
- * or other dealings in the software.
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the license.
  */
-
-import { Component, OnDestroy, OnInit } from "@angular/core";
-
-import { takeUntil } from "rxjs";
-
-import { TemplatePageTitleStrategy } from "../../../commons/strategies/template-page-title.strategy";
-import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
-
-import { SingleCompanyService } from "../../services/single-company/single-company.service";
-import { CompanyOpinionService } from "../../services/company-opinion/company-opinion.service";
-import { RouterHelperService } from "../../../commons/services/router-helper/router-helper.service";
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { takeUntil } from 'rxjs';
+import { RouterHelperService } from '~/app-commons/services/router-helper/router-helper.service';
+import { TemplatePageTitleStrategy } from '~/app-commons/strategies/template-page-title.strategy';
+import { AbstractComponentReactiveProvider } from '~/app-commons/utils/abstract-component-reactive-provider';
+import { CompanyOpinionService } from '~/app-public/services/company-opinion/company-opinion.service';
+import { SingleCompanyService } from '~/app-public/services/single-company/single-company.service';
 
 @Component({
-    selector: "app-public-company-page",
-    templateUrl: "./public-company-page.component.html",
-    styleUrls: [ "./public-company-page.component.scss" ],
-    providers: [ SingleCompanyService, CompanyOpinionService, RouterHelperService ],
+  selector: 'app-public-company-page',
+  templateUrl: './public-company-page.component.html',
+  providers: [SingleCompanyService, CompanyOpinionService, RouterHelperService],
 })
-export class PublicCompanyPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
+export class PublicCompanyPageComponent
+  extends AbstractComponentReactiveProvider
+  implements OnInit, OnDestroy
+{
+  isLoaded = false;
+  companyId!: number;
+  companyName = '';
 
-    isLoaded = false;
-    companyId!: number;
-    companyName = "";
+  constructor(
+    private readonly _routerHelperService: RouterHelperService,
+    private readonly _singleCompanyService: SingleCompanyService,
+    private readonly _companyOpinionsService: CompanyOpinionService,
+    private readonly _templatePageTitleStrategy: TemplatePageTitleStrategy
+  ) {
+    super();
+  }
 
-    constructor(
-        private _routerHelperService: RouterHelperService,
-        private _singleCompanyService: SingleCompanyService,
-        private _companyOpinionsService: CompanyOpinionService,
-        private _templatePageTitleStrategy: TemplatePageTitleStrategy,
-    ) {
-        super();
-    };
+  ngOnInit(): void {
+    this._routerHelperService.checkAndExtractParamId(
+      'companyId',
+      '/companies',
+      companyId => this.loadContent(Number(companyId))
+    );
+  }
 
-    ngOnInit(): void {
-        this._routerHelperService.checkAndExtractParamId("companyId", "/companies",
-            companyId => this.loadContent(Number(companyId)));
-    };
+  ngOnDestroy(): void {
+    this.subjectCleanup();
+  }
 
-    ngOnDestroy(): void {
-        this.subjectCleanup();
-    };
-
-    private loadContent(companyId: number): void {
-        this.companyId = companyId;
-        this._singleCompanyService.loadCompanyDetails$(companyId).pipe(takeUntil(this._unsubscribe)).subscribe(d => {
-            this._companyOpinionsService.loadPageable$(companyId).pipe(takeUntil(this._unsubscribe)).subscribe();
-            this._companyOpinionsService.loadOpinions$().pipe(takeUntil(this._unsubscribe)).subscribe();
-            this.companyName = d.name;
-            this._templatePageTitleStrategy.createCustomTitle(d.name);
-            this.isLoaded = true;
-        });
-    };
+  private loadContent(companyId: number): void {
+    this.companyId = companyId;
+    this._singleCompanyService
+      .loadCompanyDetails$(companyId)
+      .pipe(takeUntil(this._unsubscribe))
+      .subscribe(d => {
+        this._companyOpinionsService
+          .loadPageable$(companyId)
+          .pipe(takeUntil(this._unsubscribe))
+          .subscribe();
+        this._companyOpinionsService
+          .loadOpinions$()
+          .pipe(takeUntil(this._unsubscribe))
+          .subscribe();
+        this.companyName = d.name;
+        this._templatePageTitleStrategy.createCustomTitle(d.name);
+        this.isLoaded = true;
+      });
+  }
 }

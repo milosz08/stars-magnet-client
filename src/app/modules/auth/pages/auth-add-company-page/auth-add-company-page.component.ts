@@ -1,100 +1,127 @@
 /*
- * Copyright (c) 2023 by MILOSZ GILGA <http://miloszgilga.pl>
+ * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
+ * Silesian University of Technology
  *
- * File name: auth-add-company-page.component.ts
- * Last modified: 6/4/23, 3:52 PM
- * Project name: stars-magnet-client
+ *   File name: auth-add-company-page.component.ts
+ *   Created at: 2023-06-04, 15:52:43
+ *   Last updated at: 2023-08-30, 23:00:56
+ *   Project name: stars-magnet-client
  *
- * Licensed under the MIT license; you may not use this file except in compliance with the License.
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
+ * file except in compliance with the License. You may obtain a copy of the License at
  *
- * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated
- * documentation files (the "Software"), to deal in the Software without restriction, including without limitation the
- * rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to
- * permit persons to whom the Software is furnished to do so, subject to the following conditions:
+ *   <http://www.apache.org/license/LICENSE-2.0>
  *
- * THE ABOVE COPYRIGHT NOTICE AND THIS PERMISSION NOTICE SHALL BE INCLUDED IN ALL COPIES OR
- * SUBSTANTIAL PORTIONS OF THE SOFTWARE.
- *
- * The software is provided "as is", without warranty of any kind, express or implied, including but not limited
- * to the warranties of merchantability, fitness for a particular purpose and noninfringement. In no event
- * shall the authors or copyright holders be liable for any claim, damages or other liability, whether in an
- * action of contract, tort or otherwise, arising from, out of or in connection with the software or the use
- * or other dealings in the software.
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the license.
  */
-
-import { Component, OnDestroy, OnInit } from "@angular/core";
-import { FormControl, FormGroup, Validators } from "@angular/forms";
-
-import { first, Observable, takeUntil } from "rxjs";
-
-import { IAddCompanyFormModel } from "../../../commons/models/company.model";
-import { IResponseAlertModel } from "../../../commons/models/response-alert.model";
-import { IMultiselectItemModel } from "../../../commons/models/multiselect-input.model";
-import { passwordMatchValidator } from "../../../commons/validators/password-match.validator";
-import { AbstractComponentReactiveProvider } from "../../../commons/utils/abstract-component-reactive-provider";
-import { REGEX_COMPANY_NAME, REGEX_EMAIL, REGEX_LINK, REGEX_LOGIN, REGEX_PASSWORD } from "../../../commons/validators/regex.constant";
-
-import { AddCompanyService } from "../../services/add-company/add-company.service";
-import { FormHelperService } from "../../../commons/services/form-helper/form-helper.service";
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { Observable, first, takeUntil } from 'rxjs';
+import { AddCompanyService } from '~/app-auth/services/add-company/add-company.service';
+import { AddCompanyFormModel } from '~/app-commons/models/company.model';
+import { MultiselectItemModel } from '~/app-commons/models/multiselect-input.model';
+import { ResponseAlertModel } from '~/app-commons/models/response-alert.model';
+import { FormHelperService } from '~/app-commons/services/form-helper/form-helper.service';
+import { AbstractComponentReactiveProvider } from '~/app-commons/utils/abstract-component-reactive-provider';
+import { passwordMatchValidator } from '~/app-commons/validators/password-match.validator';
+import {
+  REGEX_COMPANY_NAME,
+  REGEX_EMAIL,
+  REGEX_LINK,
+  REGEX_LOGIN,
+  REGEX_PASSWORD,
+} from '~/app-commons/validators/regex.constant';
 
 @Component({
-    selector: "app-auth-add-company-page",
-    templateUrl: "./auth-add-company-page.component.html",
-    providers: [ AddCompanyService ],
+  selector: 'app-auth-add-company-page',
+  templateUrl: './auth-add-company-page.component.html',
+  providers: [AddCompanyService],
 })
-export class AuthAddCompanyPageComponent extends AbstractComponentReactiveProvider implements OnInit, OnDestroy {
+export class AuthAddCompanyPageComponent
+  extends AbstractComponentReactiveProvider
+  implements OnInit, OnDestroy
+{
+  addCompanyForm: FormGroup;
+  allCategories: MultiselectItemModel[] = [];
 
-    addCompanyForm: FormGroup;
-    allCategories: IMultiselectItemModel[] = [];
+  suspenseSpinner$: Observable<boolean> =
+    this._addCompanyService.suspenseSpinner$;
+  responseAlert$: Observable<ResponseAlertModel> =
+    this._addCompanyService.responseAlert$;
 
-    suspenseSpinner$: Observable<boolean> = this._addCompanyService.suspenseSpinner$;
-    responseAlert$: Observable<IResponseAlertModel> = this._addCompanyService.responseAlert$;
+  constructor(
+    private readonly _addCompanyService: AddCompanyService,
+    private readonly _formHelperService: FormHelperService
+  ) {
+    super();
+    this.addCompanyForm = new FormGroup({
+      name: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_COMPANY_NAME),
+      ]),
+      site: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_LINK),
+      ]),
+      categories: new FormControl([], [Validators.required]),
+      username: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_LOGIN),
+      ]),
+      email: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_EMAIL),
+      ]),
+      password: new FormControl('', [
+        Validators.required,
+        Validators.pattern(REGEX_PASSWORD),
+      ]),
+      confirmPassword: new FormControl('', [
+        Validators.required,
+        passwordMatchValidator,
+      ]),
+    });
+  }
 
-    constructor(
-        private _addCompanyService: AddCompanyService,
-        private _formHelperService: FormHelperService,
-    ) {
-        super();
-        this.addCompanyForm = new FormGroup({
-            name: new FormControl("", [ Validators.required, Validators.pattern(REGEX_COMPANY_NAME) ]),
-            site: new FormControl("", [ Validators.required, Validators.pattern(REGEX_LINK) ]),
-            categories: new FormControl([], [ Validators.required ]),
-            username: new FormControl("", [ Validators.required, Validators.pattern(REGEX_LOGIN) ]),
-            email: new FormControl("", [ Validators.required, Validators.pattern(REGEX_EMAIL) ]),
-            password: new FormControl("", [ Validators.required, Validators.pattern(REGEX_PASSWORD) ]),
-            confirmPassword: new FormControl("", [ Validators.required, passwordMatchValidator ]),
-        });
-    };
+  ngOnInit(): void {
+    this._addCompanyService
+      .getAllCategories$()
+      .pipe(takeUntil(this._unsubscribe))
+      .subscribe(c => {
+        this.addCompanyForm.get('categories')?.patchValue(c);
+        this.allCategories = c;
+      });
+  }
 
-    ngOnInit(): void {
-        this._addCompanyService.getAllCategories$().pipe(takeUntil(this._unsubscribe)).subscribe(c => {
-            this.addCompanyForm.get("categories")?.patchValue(c);
-            this.allCategories = c;
-        });
-    };
+  ngOnDestroy(): void {
+    this.subjectCleanup();
+  }
 
-    ngOnDestroy(): void {
-        this.subjectCleanup();
-    };
+  onAddCompanySubmitForm(): void {
+    const data: AddCompanyFormModel = this.addCompanyForm.getRawValue();
+    this._addCompanyService
+      .addCompany$(data)
+      .pipe(first(), takeUntil(this._unsubscribe))
+      .subscribe({
+        next: () => this.addCompanyForm.reset(),
+        error: () => {
+          this.addCompanyForm.get('password')?.reset();
+          this.addCompanyForm.get('confirmPassword')?.reset();
+        },
+      });
+  }
 
-    onAddCompanySubmitForm(): void {
-        const data: IAddCompanyFormModel = this.addCompanyForm.getRawValue();
-        this._addCompanyService.addCompany$(data).pipe(first(), takeUntil(this._unsubscribe)).subscribe({
-            next: () => this.addCompanyForm.reset(),
-            error: () => {
-                this.addCompanyForm.get("password")?.reset();
-                this.addCompanyForm.get("confirmPassword")?.reset();
-            },
-        });
-    };
+  validateField(fieldName: string): boolean {
+    return this._formHelperService.validateField(
+      this.addCompanyForm,
+      fieldName
+    );
+  }
 
-    validateField(fieldName: string): boolean {
-        return this._formHelperService.validateField(this.addCompanyForm, fieldName);
-    };
-
-    handleChangeSelectedCategories(selectedCategories: number[]): void {
-        this.addCompanyForm.get("categories")?.patchValue(selectedCategories);
-    };
+  handleChangeSelectedCategories(selectedCategories: number[]): void {
+    this.addCompanyForm.get('categories')?.patchValue(selectedCategories);
+  }
 }
