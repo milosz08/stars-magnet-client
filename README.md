@@ -38,7 +38,7 @@ $ git clone https://github.com/Milosz08/stars-magnet-client
 ## Prepare and run
 * Install all dependencies via:
 ```
-$ npm install
+$ yarn install
 ```
 * Run development server via (available on `http://localhost:4200/`):
 ```
