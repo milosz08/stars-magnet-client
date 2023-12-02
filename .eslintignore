@@ -1,9 +1,8 @@
 node_modules/
 dist/
 .husky/
-.htaccess
+nginx.conf
 Dockerfile
-entrypoint.sh
 LICENSE
 README.md
 package.json

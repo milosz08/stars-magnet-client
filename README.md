@@ -19,13 +19,13 @@ I didn't have much influence on the business solutions in the application. My ta
 I made improvements to the server and was in constant contact with the backend developers.
 
 ## Table of content
-* [Clone script](#clone-script)
-* [Prepare and run](#prepare-and-run)
-* [Run from docker container](#run-from-docker-container)
-* [Tech stack](#tech-stack)
-* [Author](#author)
-* [Project status](#project-status)
-* [License](#license)
+- [Clone script](#clone-script)
+- [Prepare and run](#prepare-and-run)
+- [Build docker container](#build-docker-container)
+- [Tech stack](#tech-stack)
+- [Author](#author)
+- [Project status](#project-status)
+- [License](#license)
 
 <a name="clone-script"></a>
 ## Clone script
@@ -50,12 +50,31 @@ $ ng build
 ```
 The build artifacts will be stored in the `dist/` directory.
 
-<a name="run-from-docker-container"></a>
-## Run from docker container
-* To run from docker container, type:
+<a name="build-docker-container"></a>
+## Build docker container
+* To build image go to root project directory and type:
 ```
-$ docker compose up stars-magnet-client
+$ docker build -t stars-magnet-client:1.0.0 .
 ```
+* If you want use docker compose file to run container, your compose file may look like this:
+```yml
+version: '3.8'
+
+services:
+  stars-magnet-client:
+    container_name: stars-magnet-client
+    ports:
+      - '4200:80'
+    build:
+      context: .
+      dockerfile: Dockerfile
+```
+* To run container via composer file, type:
+```
+$ docker-compose up -d
+```
+> NOTE: By default, application will run on NGINX http server. You can modify options in nginx.conf file (ex. change
+> to reverse proxy server in production environment).
 
 <a name="tech-stack"></a>
 ## Tech stack
