@@ -1,12 +1,5 @@
 # Stars Magnet Client
 
-![](https://img.shields.io/badge/Made%20in-Angular%2015.1.0-1abc.svg)
-&nbsp;&nbsp;
-![](https://img.shields.io/badge/Using%20-Node%2018.16.0-green.svg)
-&nbsp;&nbsp;
-![](https://img.shields.io/badge/Packages%20manager-npm-brown.svg)
-&nbsp;&nbsp;
-
 > More info about this project you will find [on my personal website](https://miloszgilga.pl/project/stars-magnet-client)
 > <br>
 > See project at [starsmagnet.com](https://starsmagnet.com)
