@@ -1,8 +1,6 @@
 # Stars Magnet Client
 
 > More info about this project you will find [on my personal website](https://miloszgilga.pl/project/stars-magnet-client)
-> <br>
-> See project at [starsmagnet.com](https://starsmagnet.com)
 
 Client for [Stars Magnet](https://github.com/Lettulouz/StarsMagnet) Django rest API. This application allows you to register/log in and create
 new company accounts. Each company can be rated only once by a logged-in user (this rating is included in the average). Based on these values,
