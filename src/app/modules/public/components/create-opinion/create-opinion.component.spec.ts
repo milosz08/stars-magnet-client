@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { LoggedStatusService } from '~/app-commons/services/logged-status/logged-status.service';
 import { PublicModule } from '~/app-public/public.module';

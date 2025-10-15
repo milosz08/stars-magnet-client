@@ -1,11 +1,7 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes, TitleStrategy } from '@angular/router';
-import { NotFoundPageComponent } from './modules/commons/pages/not-found-page/not-found-page.component';
-import { TemplatePageTitleStrategy } from './modules/commons/strategies/template-page-title.strategy';
+import { NotFoundPageComponent } from '~/app-commons/pages/not-found-page/not-found-page.component';
+import { TemplatePageTitleStrategy } from '~/app-commons/strategies/template-page-title.strategy';
 
 const routes: Routes = [
   {

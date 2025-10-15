@@ -1,8 +1,3 @@
-<!--
- ~ Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- ~ For check application license, check LICENSE file.
- -->
-
 <div class="row justify-content-between align-items-center">
   <div
     ngbDropdown
@@ -24,9 +19,9 @@
       Page
       <span class="fw-bold text-dark">{{ currentPage }}</span>
       of
-      <span *ngIf="pageable" class="fw-bold text-dark">{{
-        pageable.countAllPages
-      }}</span>
+      <span *ngIf="pageable" class="fw-bold text-dark"
+        >{{ pageable.countAllPages }}</span
+      >
     </p>
   </div>
   <div

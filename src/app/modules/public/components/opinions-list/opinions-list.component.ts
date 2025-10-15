@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { Component, Input, OnDestroy } from '@angular/core';
 import { Observable, takeUntil } from 'rxjs';
 import { OpinionResDtoModel } from '~/app-commons/models/opinion.model';
@@ -11,7 +7,7 @@ import { Utils } from '~/app-commons/utils/utils';
 import { CompanyOpinionService } from '~/app-public/services/company-opinion/company-opinion.service';
 
 @Component({
-  selector: 'app-opinins-list',
+  selector: 'app-opinions-list',
   templateUrl: './opinions-list.component.html',
 })
 export class OpinionsListComponent

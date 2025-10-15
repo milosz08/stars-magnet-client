@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { snakeCase } from 'lodash';
 import { CompanyResDtoModel } from '~/app-public/models/company.model';
 

@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
@@ -9,7 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import * as NgbBts from '@ng-bootstrap/ng-bootstrap';
 import { CountableTextareaComponent } from './components/countable-textarea/countable-textarea.component';
-import { DimissibleAlertComponent } from './components/dimissible-alert/dimissible-alert.component';
+import { DismissibleAlertComponent } from './components/dimissible-alert/dismissible-alert.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { GradeStarsComponent } from './components/grade-stars/grade-stars.component';
 import { HeaderComponent } from './components/header/header.component';
@@ -24,7 +20,7 @@ import { OnlyFirstPipe } from './pipes/only-first/only-first.pipe';
 @NgModule({
   declarations: [
     CountableTextareaComponent,
-    DimissibleAlertComponent,
+    DismissibleAlertComponent,
     FooterComponent,
     GradeStarsComponent,
     HeaderComponent,
@@ -54,7 +50,7 @@ import { OnlyFirstPipe } from './pipes/only-first/only-first.pipe';
   ],
   exports: [
     CountableTextareaComponent,
-    DimissibleAlertComponent,
+    DismissibleAlertComponent,
     FooterComponent,
     GradeStarsComponent,
     HeaderComponent,

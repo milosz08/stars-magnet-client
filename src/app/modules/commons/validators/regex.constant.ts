@@ -1,8 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
-
 export const REGEX_NAME = /^.{2,70}$/;
 
 export const REGEX_LOGIN = /^[a-z\d]{3,30}$/;

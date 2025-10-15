@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { SearchCompanyBoxService } from '~/app-public/services/search-company-box/search-company-box.service';

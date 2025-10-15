@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import {
   Component,
   EventEmitter,
@@ -30,7 +26,7 @@ export class CategoryCompaniesFilterComponent
   filter!: CompanyFilterModel;
   selectedStars = 0;
 
-  @Output() refrehDataEmit: EventEmitter<void> = new EventEmitter<void>();
+  @Output() refreshDataEmit: EventEmitter<void> = new EventEmitter<void>();
 
   constructor(
     private readonly _gradeStarsService: GradeStarsService,
@@ -59,13 +55,13 @@ export class CategoryCompaniesFilterComponent
 
   handleFilterCompanies(): void {
     this._companyFilterService.setFilter(this.filter);
-    this.refrehDataEmit.emit();
+    this.refreshDataEmit.emit();
   }
 
   handleClearFilters(): void {
     this.selectedStars = 0;
     this._gradeStarsService.forcedClearAllStars();
     this._companyFilterService.setFilter(DEF_FILTER);
-    this.refrehDataEmit.emit();
+    this.refreshDataEmit.emit();
   }
 }

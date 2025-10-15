@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { Component } from '@angular/core';
 import { Observable } from 'rxjs';
 import { LoginDetailsModel } from '~/app-commons/models/login.model';

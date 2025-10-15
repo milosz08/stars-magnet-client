@@ -1,12 +1,8 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Subject, first, takeUntil } from 'rxjs';
-import { LazyLoaderService } from './modules/commons/services/lazy-loader/lazy-loader.service';
-import { LoggedStatusService } from './modules/commons/services/logged-status/logged-status.service';
-import { AbstractComponentReactiveProvider } from './modules/commons/utils/abstract-component-reactive-provider';
+import { LazyLoaderService } from '~/app-commons/services/lazy-loader/lazy-loader.service';
+import { LoggedStatusService } from '~/app-commons/services/logged-status/logged-status.service';
+import { AbstractComponentReactiveProvider } from '~/app-commons/utils/abstract-component-reactive-provider';
 
 @Component({
   selector: 'app-root',

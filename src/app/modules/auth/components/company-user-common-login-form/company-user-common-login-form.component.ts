@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { Component, Input } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { FormHelperService } from '~/app-commons/services/form-helper/form-helper.service';

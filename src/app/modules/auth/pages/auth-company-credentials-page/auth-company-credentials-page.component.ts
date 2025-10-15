@@ -1,7 +1,3 @@
-/*
- * Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- * For check application license, check LICENSE file.
- */
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { takeUntil } from 'rxjs';
 import { CompanyCredentialsService } from '~/app-auth/services/company-credentials/company-credentials.service';

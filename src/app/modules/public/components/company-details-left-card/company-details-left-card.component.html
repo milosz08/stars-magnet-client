@@ -1,8 +1,3 @@
-<!--
- ~ Copyright (c) 2023 by MILOSZ GILGA <https://miloszgilga.pl>
- ~ For check application license, check LICENSE file.
- -->
-
 <div class="card border-0 shadow-sm mt-3 p-3">
   <p class="fs-6 text-secondary mb-3 lh-sm">Company details:</p>
   <ng-template
@@ -23,11 +18,8 @@
       <h3 class="fs-5 mb-3">Average rating:</h3>
       <div class="hstack gap-3 align-items-center">
         <p class="fs-1 fw-bold lh-1 mb-0 py-3 px-2">
-          {{
-            companyDetails?.avgRatings === 'null'
-              ? '?'
-              : companyDetails?.avgRatings
-          }}
+          {{ companyDetails?.avgRatings === 'null' ? '?' :
+          companyDetails?.avgRatings }}
         </p>
         <div class="vr text-dark"></div>
         <div>
