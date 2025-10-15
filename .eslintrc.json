@@ -20,7 +20,8 @@
             "style": "camelCase"
           }
         ],
-        "@angular-eslint/no-host-metadata-property": ["off"]
+        "@angular-eslint/no-host-metadata-property": ["off"],
+        "@typescript-eslint/no-explicit-any": "off"
       }
     },
     {
@@ -37,7 +38,6 @@
     }
   ],
   "rules": {
-    "@typescript-eslint/no-explicit-any": "off",
     "prettier/prettier": [
       "error",
       {
