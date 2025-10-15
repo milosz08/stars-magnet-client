@@ -12,7 +12,7 @@ export class CategoriesHttpService {
 
   getPageableData$(fixedLimit: number): Observable<PrePageableData> {
     return this._httpClient.get<PrePageableData>(
-      `${environment.httpBackendURI}/api/category/pageable/${fixedLimit}`
+      `${environment.httpBackendURI}/category/pageable/${fixedLimit}`
     );
   }
 
@@ -24,14 +24,14 @@ export class CategoriesHttpService {
       .set('limit', fixedLimit)
       .set('offset', offset);
     return this._httpClient.get<PageableCategories>(
-      `${environment.httpBackendURI}/api/category`,
+      `${environment.httpBackendURI}/category`,
       { params }
     );
   }
 
   getAllCategories$(): Observable<MultiselectItemModel[]> {
     return this._httpClient.get<MultiselectItemModel[]>(
-      `${environment.httpBackendURI}/api/category/all`
+      `${environment.httpBackendURI}/category/all`
     );
   }
 }

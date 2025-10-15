@@ -18,7 +18,7 @@ export class OpinionsHttpService {
     reqDto: AddOpinionReqDtoModel
   ): Observable<AddOpinionResDtoModel> {
     return this._httpClient.post<AddOpinionResDtoModel>(
-      `${environment.httpBackendURI}/api/opinion`,
+      `${environment.httpBackendURI}/opinion`,
       reqDto
     );
   }
@@ -27,7 +27,7 @@ export class OpinionsHttpService {
     reqDto: AddResponseOpinionReqDtoModel
   ): Observable<AddOpinionResDtoModel> {
     return this._httpClient.post<AddOpinionResDtoModel>(
-      `${environment.httpBackendURI}/api/opinion/company`,
+      `${environment.httpBackendURI}/opinion/company`,
       reqDto
     );
   }
@@ -38,7 +38,7 @@ export class OpinionsHttpService {
   ): Observable<PrePageableData> {
     const params = new HttpParams().set('fixedLimit', fixedLimit);
     return this._httpClient.get<PrePageableData>(
-      `${environment.httpBackendURI}/api/opinion/list/company/${companyId}/pageable`,
+      `${environment.httpBackendURI}/opinion/list/company/${companyId}/pageable`,
       { params }
     );
   }
@@ -52,7 +52,7 @@ export class OpinionsHttpService {
       .set('limit', fixedLimit)
       .set('offset', offset);
     return this._httpClient.get<OpinionsPageableResDtoModel>(
-      `${environment.httpBackendURI}/api/opinion/list/company/${companyId}`,
+      `${environment.httpBackendURI}/opinion/list/company/${companyId}`,
       { params }
     );
   }

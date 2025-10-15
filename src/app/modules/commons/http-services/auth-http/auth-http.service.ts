@@ -24,42 +24,42 @@ export class AuthHttpService {
 
   login$(reqDto: LoginFormModel): Observable<LoginResponseDto> {
     return this._httpClient.post<LoginResponseDto>(
-      `${environment.httpBackendURI}/api/login`,
+      `${environment.httpBackendURI}/login`,
       reqDto
     );
   }
 
   companyLogin$(reqDto: CompanyLoginFormModel): Observable<LoginResponseDto> {
     return this._httpClient.post<LoginResponseDto>(
-      `${environment.httpBackendURI}/api/company/login`,
+      `${environment.httpBackendURI}/company/login`,
       reqDto
     );
   }
 
   companyResetToken$(reqDto: ResetTokenReqDto): Observable<PassCompanyResDto> {
     return this._httpClient.post<PassCompanyResDto>(
-      `${environment.httpBackendURI}/api/token/reset`,
+      `${environment.httpBackendURI}/token/reset`,
       reqDto
     );
   }
 
   register$(reqDto: RegisterReqDto): Observable<any> {
     return this._httpClient.post<any>(
-      `${environment.httpBackendURI}/api/register`,
+      `${environment.httpBackendURI}/register`,
       reqDto
     );
   }
 
   refresh$(reqDto: RefreshModelReqDto): Observable<RefreshModelResDto> {
     return this._httpClient.post<RefreshModelResDto>(
-      `${environment.httpBackendURI}/api/token/refresh`,
+      `${environment.httpBackendURI}/token/refresh`,
       reqDto
     );
   }
 
   autoLogin$(reqDto: RefreshModelReqDto): Observable<AutoLoginResponseDto> {
     return this._httpClient.post<AutoLoginResponseDto>(
-      `${environment.httpBackendURI}/api/login/auto`,
+      `${environment.httpBackendURI}/login/auto`,
       reqDto
     );
   }

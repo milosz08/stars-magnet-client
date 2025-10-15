@@ -19,7 +19,7 @@ export class CompanyHttpService {
 
   addCompany$(reqDto: AddCompanyReqDto): Observable<PassCompanyResDto> {
     return this._httpClient.post<PassCompanyResDto>(
-      `${environment.httpBackendURI}/api/company`,
+      `${environment.httpBackendURI}/company`,
       reqDto
     );
   }
@@ -33,7 +33,7 @@ export class CompanyHttpService {
       .set('category', categoryId)
       .set('fixedLimit', fixedLimit);
     return this._httpClient.post<PrePageableData>(
-      `${environment.httpBackendURI}/api/category/company/pageable`,
+      `${environment.httpBackendURI}/category/company/pageable`,
       filter,
       { params }
     );
@@ -48,7 +48,7 @@ export class CompanyHttpService {
       .set('query', query)
       .set('fixedLimit', fixedLimit);
     return this._httpClient.post<PrePageableData>(
-      `${environment.httpBackendURI}/api/company/pageable`,
+      `${environment.httpBackendURI}/company/pageable`,
       filter,
       { params }
     );
@@ -65,7 +65,7 @@ export class CompanyHttpService {
       .set('offset', offset)
       .set('category', categoryId);
     return this._httpClient.post<CompanysPageableResDtoModel>(
-      `${environment.httpBackendURI}/api/category/company`,
+      `${environment.httpBackendURI}/category/company`,
       filter,
       { params }
     );
@@ -82,7 +82,7 @@ export class CompanyHttpService {
       .set('offset', offset)
       .set('query', query);
     return this._httpClient.post<CompanysPageableResDtoModel>(
-      `${environment.httpBackendURI}/api/search`,
+      `${environment.httpBackendURI}/search`,
       filter,
       { params }
     );
@@ -90,7 +90,7 @@ export class CompanyHttpService {
 
   getSingleCompany$(companyId: number): Observable<CompanyResDtoModel> {
     return this._httpClient.get<CompanyResDtoModel>(
-      `${environment.httpBackendURI}/api/company/${companyId}`
+      `${environment.httpBackendURI}/company/${companyId}`
     );
   }
 }
