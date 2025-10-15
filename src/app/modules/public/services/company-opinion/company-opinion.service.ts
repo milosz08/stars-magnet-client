@@ -29,16 +29,12 @@ export class CompanyOpinionService
   extends AbstractComponentReactiveProvider
   implements OnDestroy
 {
-  private _pageable$: BehaviorSubject<PrePageableData | null> =
-    new BehaviorSubject<PrePageableData | null>(null);
-  private _opinions$: BehaviorSubject<OpinionResDtoModel[]> =
-    new BehaviorSubject<OpinionResDtoModel[]>([]);
-  private _alreadyAdded$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _pageable$ = new BehaviorSubject<PrePageableData | null>(null);
+  private _opinions$ = new BehaviorSubject<OpinionResDtoModel[]>([]);
+  private _alreadyAdded$ = new BehaviorSubject(false);
 
-  private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private _currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(
-    1
-  );
+  private _lazyLoader$ = new BehaviorSubject(false);
+  private _currentPage$ = new BehaviorSubject<number>(1);
 
   private _userId!: number;
   private _allPages = 0;

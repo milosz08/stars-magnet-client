@@ -10,8 +10,7 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class SearchCompanyBoxService {
-  private _searchContent$: BehaviorSubject<string> =
-    new BehaviorSubject<string>('');
+  private _searchContent$ = new BehaviorSubject<string>('');
 
   pushNewParaphrase(paraphrase: string): void {
     this._searchContent$.next(paraphrase);

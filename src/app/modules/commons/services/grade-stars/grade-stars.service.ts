@@ -9,15 +9,9 @@ export class GradeStarsService {
     (_, i): IGradeModel => ({ id: i + 1, mode: GradeType.HOLLOW })
   );
 
-  private _stars$: BehaviorSubject<IGradeModel[]> = new BehaviorSubject<
-    IGradeModel[]
-  >(this._stars);
-
-  private _currentSelectedStars$: BehaviorSubject<number> =
-    new BehaviorSubject<number>(0);
-
-  private _selectedStars$: BehaviorSubject<number> =
-    new BehaviorSubject<number>(0);
+  private _stars$ = new BehaviorSubject<IGradeModel[]>(this._stars);
+  private _currentSelectedStars$ = new BehaviorSubject<number>(0);
+  private _selectedStars$ = new BehaviorSubject<number>(0);
 
   setLockedAtPosition(selectedStars: number): void {
     if (selectedStars < 1) return;

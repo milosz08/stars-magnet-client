@@ -6,14 +6,11 @@ import { Utils } from '~/app-commons/utils/utils';
 
 @Injectable()
 export class LazyCommonsService {
-  private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-  private _responseAlert$: BehaviorSubject<ResponseAlertModel> =
-    new BehaviorSubject<ResponseAlertModel>({
-      type: AlertType.ERROR,
-      content: '',
-    });
+  private _lazyLoader$ = new BehaviorSubject<boolean>(false);
+  private _responseAlert$ = new BehaviorSubject<ResponseAlertModel>({
+    type: AlertType.ERROR,
+    content: '',
+  });
 
   setLazyLoader(isActive: boolean): void {
     this._lazyLoader$.next(isActive);

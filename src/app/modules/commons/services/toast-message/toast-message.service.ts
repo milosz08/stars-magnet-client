@@ -5,9 +5,7 @@ import { ToastModel, ToastType } from '~/app-commons/models/toast.model';
 @Injectable({ providedIn: 'root' })
 export class ToastMessageService {
   private _toasts: ToastModel[] = [];
-  private _toasts$: BehaviorSubject<ToastModel[]> = new BehaviorSubject<
-    ToastModel[]
-  >([]);
+  private _toasts$ = new BehaviorSubject<ToastModel[]>([]);
 
   showToast(message: string, type: ToastType): void {
     this._toasts.push({ enabled: true, content: message, type });

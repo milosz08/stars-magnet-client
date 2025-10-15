@@ -7,8 +7,9 @@ import {
 
 @Injectable({ providedIn: 'root' })
 export class PageableLimitService {
-  private _pageableLimit$: BehaviorSubject<PageableLimitsUnion> =
-    new BehaviorSubject<PageableLimitsUnion>(pageableLimits[0]);
+  private _pageableLimit$ = new BehaviorSubject<PageableLimitsUnion>(
+    pageableLimits[0]
+  );
 
   setPageableLimit(limit: PageableLimitsUnion): void {
     this._pageableLimit$.next(limit);

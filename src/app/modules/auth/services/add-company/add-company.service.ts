@@ -19,13 +19,11 @@ import { CompanyCredentialsService } from '../company-credentials/company-creden
 
 @Injectable()
 export class AddCompanyService {
-  private _suspenseSpinner$: BehaviorSubject<boolean> =
-    new BehaviorSubject<boolean>(false);
-  private _responseAlert$: BehaviorSubject<ResponseAlertModel> =
-    new BehaviorSubject<ResponseAlertModel>({
-      type: AlertType.ERROR,
-      content: '',
-    });
+  private _suspenseSpinner$ = new BehaviorSubject<boolean>(false);
+  private _responseAlert$ = new BehaviorSubject<ResponseAlertModel>({
+    type: AlertType.ERROR,
+    content: '',
+  });
 
   constructor(
     private readonly _router: Router,

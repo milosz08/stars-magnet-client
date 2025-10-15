@@ -11,7 +11,7 @@ import { Utils } from '~/app-commons/utils/utils';
 
 @Injectable()
 export class PersistOpinionService {
-  private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject(false);
+  private _lazyLoader$ = new BehaviorSubject(false);
 
   constructor(
     private readonly _opinionsHttpService: OpinionsHttpService,

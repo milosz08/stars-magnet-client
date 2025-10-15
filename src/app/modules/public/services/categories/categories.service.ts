@@ -15,13 +15,9 @@ import { CategoryModel } from '~/app-public/models/category.model';
 
 @Injectable()
 export class CategoriesService {
-  private _currentPage$: BehaviorSubject<number> = new BehaviorSubject(1);
-  private _isPrevDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(
-    true
-  );
-  private _isNextDisabled$: BehaviorSubject<boolean> = new BehaviorSubject(
-    false
-  );
+  private _currentPage$ = new BehaviorSubject(1);
+  private _isPrevDisabled$ = new BehaviorSubject(true);
+  private _isNextDisabled$ = new BehaviorSubject(false);
 
   private _currentPage: number = 1;
   private _allPages: number = 1;

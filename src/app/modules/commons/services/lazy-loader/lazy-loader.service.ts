@@ -8,9 +8,7 @@ import { BehaviorSubject } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class LazyLoaderService {
-  private _isLoading$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    true
-  );
+  private _isLoading$ = new BehaviorSubject<boolean>(true);
 
   constructor(private readonly _router: Router) {}
 

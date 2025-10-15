@@ -22,13 +22,9 @@ import { ToastMessageService } from '../toast-message/toast-message.service';
 
 @Injectable({ providedIn: 'root' })
 export class LoggedStatusService {
-  private _isLogged$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
-  );
-  private _loggedRole$: BehaviorSubject<AccountRole> =
-    new BehaviorSubject<AccountRole>(AccountRole.USER);
-  private _loggedDetails$: BehaviorSubject<LoginDetailsModel | null> =
-    new BehaviorSubject<LoginDetailsModel | null>(null);
+  private _isLogged$ = new BehaviorSubject<boolean>(false);
+  private _loggedRole$ = new BehaviorSubject<AccountRole>(AccountRole.USER);
+  private _loggedDetails$ = new BehaviorSubject<LoginDetailsModel | null>(null);
 
   constructor(
     private readonly _router: Router,

@@ -5,18 +5,12 @@ import { CompanyResDtoModel } from '~/app-public/models/company.model';
 
 @Injectable()
 export class PageableCompaniesService {
-  private _pageable$: BehaviorSubject<PrePageableData | null> =
-    new BehaviorSubject<PrePageableData | null>(null);
-  private _companies$: BehaviorSubject<CompanyResDtoModel[]> =
-    new BehaviorSubject<CompanyResDtoModel[]>([]);
+  private _pageable$ = new BehaviorSubject<PrePageableData | null>(null);
+  private _companies$ = new BehaviorSubject<CompanyResDtoModel[]>([]);
 
-  private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  private _totalCount$: BehaviorSubject<number> = new BehaviorSubject<number>(
-    0
-  );
-  private _currentPage$: BehaviorSubject<number> = new BehaviorSubject<number>(
-    1
-  );
+  private _lazyLoader$ = new BehaviorSubject(false);
+  private _totalCount$ = new BehaviorSubject<number>(0);
+  private _currentPage$ = new BehaviorSubject<number>(1);
 
   toggleLazyLoader(value: boolean): void {
     this._lazyLoader$.next(value);

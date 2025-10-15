@@ -25,8 +25,7 @@ import { StorageKeyType } from '~/app-commons/types/storage-key.type';
 @Injectable()
 export class JwtRefreshInterceptor implements HttpInterceptor {
   private _isRefreshing = false;
-  private _refreshTokenSubject$: BehaviorSubject<any> =
-    new BehaviorSubject<any>(null);
+  private _refreshTokenSubject$ = new BehaviorSubject<any>(null);
 
   private readonly TOKEN_HEADER_KEY = 'Authorization';
   private readonly TOKEN_PREFIX = 'Bearer';

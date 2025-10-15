@@ -17,14 +17,11 @@ import { CompanyResDtoModel } from '~/app-public/models/company.model';
 
 @Injectable()
 export class SingleCompanyService {
-  private _companyDetails$: BehaviorSubject<CompanyResDtoModel | null> =
-    new BehaviorSubject<CompanyResDtoModel | null>(null);
-  private _starsStructure$: BehaviorSubject<string[]> = new BehaviorSubject<
-    string[]
-  >([]);
-  private _lazyLoader$: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(
-    false
+  private _companyDetails$ = new BehaviorSubject<CompanyResDtoModel | null>(
+    null
   );
+  private _starsStructure$ = new BehaviorSubject<string[]>([]);
+  private _lazyLoader$ = new BehaviorSubject<boolean>(false);
 
   constructor(
     private readonly _router: Router,
