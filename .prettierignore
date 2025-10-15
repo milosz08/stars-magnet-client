@@ -1,8 +1,11 @@
-node_modules/
-dist/
-.husky/
-nginx.conf
+.angular
+.husky
+.idea
+node_modules
+dist
+
 Dockerfile
+Dockerfile.pipeline
 LICENSE
 README.md
 yarn.lock
