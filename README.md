@@ -24,7 +24,7 @@ To a lesser extent, I made improvements to the server and was in constant contac
 1. Clone repository on your local machine via:
 
 ```bash
-git clone https://github.com/milosz08/stars-magnet-client
+$ git clone https://github.com/milosz08/stars-magnet-client
 ```
 
 2. Run with Docker via:
