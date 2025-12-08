@@ -75,6 +75,3 @@ jobs:
           file: ./Dockerfile.pipeline
           push: true
           tags: milosz08/stars-magnet-client:latest
-
-      - name: Logout from Docker Hub
-        run: docker logout
